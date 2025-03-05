@@ -3,12 +3,15 @@ package com.javaee.nodebot.config;
 /**
  * @author Hyun
  */
+import io.github.cdimascio.dotenv.Dotenv;
+
 public class APIKEY {
 
     private String key;
 
     public APIKEY() {
-        key = System.getenv("RAPIDAPI_API_KEY"); // Lấy API key từ biến môi trường
+        Dotenv dotenv = Dotenv.load();
+        key = dotenv.get("RAPIDAPI_API_KEY");
     }
 
     public String getKey() {
