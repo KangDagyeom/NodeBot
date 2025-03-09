@@ -1,7 +1,8 @@
 package com.javaee.test1;
 
-import java.io.IOException;
 import javafx.fxml.FXML;
+
+import java.io.IOException;
 
 public class SecondaryController {
 
