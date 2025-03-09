@@ -8,23 +8,20 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="665.0"
-            prefWidth="1150.0" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javaee.test1.PrimaryController">
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="665.0" prefWidth="1150.0" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javaee.test1.PrimaryController">
     <center>
         <AnchorPane BorderPane.alignment="CENTER">
             <children>
-                <ImageView fitHeight="673.0" fitWidth="856.0" layoutX="330.0" layoutY="-2.0" pickOnBounds="true"
-                           preserveRatio="true">
+                <ImageView fitHeight="673.0" fitWidth="856.0" layoutX="330.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../../img/Main-background.png"/>
+                        <Image url="@../../../img/Main-background.png" />
                     </image>
                 </ImageView>
-                <VBox layoutX="2.0" layoutY="-2.0" prefHeight="676.0" prefWidth="327.0" styleClass="gray-background"/>
-                <TextField fx:id="inputField" layoutX="486.0" layoutY="222.0"/>
-                <Button fx:id="submitButton" layoutX="652.0" layoutY="222.0" mnemonicParsing="false"
-                        onAction="#handleSubmit" text="test"/>
-                <Label fx:id="resultLabel" layoutX="486.0" layoutY="262.0" text="wait" textFill="WHITE"/>
+                <VBox layoutX="2.0" layoutY="-2.0" prefHeight="676.0" prefWidth="327.0" styleClass="gray-background" />
+                <TextField fx:id="inputField" layoutX="486.0" layoutY="222.0" />
+                <Button fx:id="submitButton" layoutX="652.0" layoutY="222.0" mnemonicParsing="false" onAction="#handleSubmit" text="test" />
+                <Label fx:id="resultLabel" layoutX="486.0" layoutY="262.0" text="wait" textFill="WHITE" />
 
             </children>
         </AnchorPane>
