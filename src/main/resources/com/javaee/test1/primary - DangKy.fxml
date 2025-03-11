@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="732.0" prefWidth="429.0" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javaee.test1.PrimaryController">
+    <center>
+        <AnchorPane BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="733.0" fitWidth="430.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../../../Downloads/DACM/ảnh%20dacm/Đăng%20ký.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="103.0" layoutY="24.0" prefHeight="58.0" prefWidth="223.0" text="Log in node" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Label>
+            <Label layoutX="133.0" layoutY="82.0" prefHeight="47.0" prefWidth="163.0" text="Get Start Free" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="125.0" layoutY="130.0" prefHeight="47.0" prefWidth="179.0" text="Free Forever. No Credit Card Needed" textFill="#c4bcbc">
+               <font>
+                  <Font name="System Bold" size="10.0" />
+               </font>
+            </Label>
+            <Label layoutX="60.0" layoutY="235.0" prefHeight="16.0" prefWidth="66.0" text="Email Adress" textFill="#c4bcbc">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+            <Label layoutX="60.0" layoutY="336.0" prefHeight="16.0" prefWidth="66.0" text="Password" textFill="#c4bcbc">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+            <Label layoutX="59.0" layoutY="436.0" prefHeight="16.0" prefWidth="87.0" text="Confirm Password" textFill="#c4bcbc">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+            <Label layoutX="103.0" layoutY="275.0" prefHeight="16.0" prefWidth="106.0" text="yourname@gmail.com" textFill="#c4bcbc">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+            <Label layoutX="103.0" layoutY="373.0" prefHeight="16.0" prefWidth="106.0" text="Password" textFill="#c4bcbc">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+            <Label layoutX="103.0" layoutY="476.0" prefHeight="16.0" prefWidth="106.0" text="Confirm Password" textFill="#c4bcbc">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+            <Label layoutX="166.0" layoutY="541.0" prefHeight="47.0" prefWidth="85.0" text="Sign in" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="179.0" layoutY="619.0" prefHeight="16.0" prefWidth="71.0" text="Or sign up with" textFill="#c4bcbc">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+         </children>
+        </AnchorPane>
+    </center>
+</BorderPane>
