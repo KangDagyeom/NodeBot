@@ -1,15 +1,22 @@
 package com.javaee.test1;
 
 import javafx.animation.ScaleTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class PrimaryController {
 
@@ -42,26 +49,20 @@ public class PrimaryController {
     private Button sendButton;
 
     @FXML
-    public void initialize() {
-        VBox.setVgrow(scrollPane, Priority.ALWAYS);
-        // Sự kiện tự điều chỉnh kích thước khi nhập văn bản
-        inputField.textProperty().addListener((obs, oldText, newText) -> adjustInputHeight());
+    private ScrollPane scrollPane2;
 
-        // Sự kiện khi nhấn Enter sẽ gửi tin nhắn
-        inputField.setOnKeyPressed(event -> {
-            switch (event.getCode()) {
-                case ENTER:
-                    event.consume(); // Ngăn xuống dòng mặc định
-                    sendMessage();
-                    break;
-                default:
-                    break;
-            }
+
+    @FXML
+    public void initialize() {
+        // Đảm bảo VBox mở rộng tự động theo nội dung
+        chatBox.heightProperty().addListener((obs, oldVal, newVal) -> {
+            scrollPane.setVvalue(1.0); // Luôn cuộn xuống dưới cùng khi có tin nhắn mới
         });
     }
 
+
     private void adjustInputHeight() {
-        double minHeight = 40; // Chiều cao tối thiểu
+        double minHeight = 80; // Chiều cao tối thiểu
         double maxHeight = 120; // Chiều cao tối đa
         double newHeight = inputField.getText().split("\n").length * 20 + minHeight;
 
@@ -74,22 +75,53 @@ public class PrimaryController {
     @FXML
     private void sendMessage() {
         String message = inputField.getText().trim();
-        if (!message.isEmpty()) {
-            // Tạo nhãn tin nhắn
+
+        if (!message.isEmpty()) { // Kiểm tra chặn spam
+
+            // Lấy thời gian hiện tại
+            String timestamp = new SimpleDateFormat("HH:mm").format(new Date());
+
+            // Tạo VBox chứa tin nhắn + thời gian
+            VBox messageContainer = new VBox();
+            messageContainer.setMaxWidth(300);
+            messageContainer.setStyle("-fx-background-color: #2f2f2f; " + "-fx-padding: 10px; " + "-fx-border-radius: 10px; " + "-fx-background-radius: 10px;");
+
+            // Label tin nhắn
             Label messageLabel = new Label(message);
+            messageLabel.setMaxHeight(Region.USE_PREF_SIZE);
+            scrollPane.vvalueProperty().bind(chatBox.heightProperty());
             messageLabel.setWrapText(true);
-            messageLabel.setStyle("-fx-background-color: #E1FFC7; -fx-padding: 8px; -fx-background-radius: 10;");
 
-            // Thêm tin nhắn vào chatBox
-            chatBox.getChildren().add(messageLabel);
 
-            // Xóa nội dung nhập vào và đặt lại chiều cao
+            messageLabel.setTextFill(Color.WHITE);
+
+
+            // Label thời gian
+            Label timeLabel = new Label(timestamp);
+            timeLabel.setStyle("-fx-text-fill: #aaaaaa; -fx-font-size: 10px;"); // Màu xám
+            timeLabel.setAlignment(Pos.CENTER_RIGHT);
+
+            // Thêm vào VBox
+            messageContainer.getChildren().addAll(messageLabel, timeLabel);
+            VBox.setMargin(messageContainer, new Insets(5, 10, 5, 10));
+
+            // Thêm vào chatBox
+            chatBox.getChildren().add(messageContainer);
+            chatBox.layout();
+
+            Platform.runLater(() -> {
+                scrollPane.vvalueProperty().unbind();
+                scrollPane.setVvalue(1.0);
+            });
+
+
+            // Xóa input
             inputField.clear();
-            adjustInputHeight();
 
-            // Cuộn xuống tin nhắn mới nhất
-            scrollPane.layout();
-            scrollPane.setVvalue(1.0);
+
         }
+
     }
+
+
 }
