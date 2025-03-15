@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 
 import java.text.SimpleDateFormat;
@@ -54,73 +55,60 @@ public class PrimaryController {
 
     @FXML
     public void initialize() {
-        // Đảm bảo VBox mở rộng tự động theo nội dung
+        scrollPane.setFitToWidth(true);
+
+        // Đảm bảo VBox mở rộng theo nội dung
+        chatBox.setMinHeight(Region.USE_PREF_SIZE);
+        chatBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
+        chatBox.setFillWidth(true);
+
         chatBox.heightProperty().addListener((obs, oldVal, newVal) -> {
-            scrollPane.setVvalue(1.0); // Luôn cuộn xuống dưới cùng khi có tin nhắn mới
+            Platform.runLater(() -> {
+                scrollPane.setVvalue(1.0); // Cuộn xuống dòng cuối cùng
+            });
         });
     }
 
 
-    private void adjustInputHeight() {
-        double minHeight = 80; // Chiều cao tối thiểu
-        double maxHeight = 120; // Chiều cao tối đa
-        double newHeight = inputField.getText().split("\n").length * 20 + minHeight;
-
-        // Giới hạn chiều cao tối đa
-        if (newHeight > maxHeight) newHeight = maxHeight;
-
-        inputField.setPrefHeight(newHeight);
-    }
-
     @FXML
     private void sendMessage() {
         String message = inputField.getText().trim();
-
-        if (!message.isEmpty()) { // Kiểm tra chặn spam
-
-            // Lấy thời gian hiện tại
+        if (!message.isEmpty()) {
             String timestamp = new SimpleDateFormat("HH:mm").format(new Date());
 
-            // Tạo VBox chứa tin nhắn + thời gian
+            // Container chứa tin nhắn
             VBox messageContainer = new VBox();
             messageContainer.setMaxWidth(300);
-            messageContainer.setStyle("-fx-background-color: #2f2f2f; " + "-fx-padding: 10px; " + "-fx-border-radius: 10px; " + "-fx-background-radius: 10px;");
+            messageContainer.setStyle("-fx-background-color: #2f2f2f; -fx-padding: 10px; -fx-border-radius: 10px; -fx-background-radius: 10px;");
 
-            // Label tin nhắn
+
             Label messageLabel = new Label(message);
-            messageLabel.setMaxHeight(Region.USE_PREF_SIZE);
-            scrollPane.vvalueProperty().bind(chatBox.heightProperty());
             messageLabel.setWrapText(true);
-
-
             messageLabel.setTextFill(Color.WHITE);
+            messageLabel.setMaxWidth(280);
 
+            TextFlow textFlow = new TextFlow(messageLabel);
 
-            // Label thời gian
+            textFlow.setMaxWidth(280);
+
+            // Nhãn thời gian
             Label timeLabel = new Label(timestamp);
-            timeLabel.setStyle("-fx-text-fill: #aaaaaa; -fx-font-size: 10px;"); // Màu xám
+            timeLabel.setStyle("-fx-text-fill: #aaaaaa; -fx-font-size: 10px;");
             timeLabel.setAlignment(Pos.CENTER_RIGHT);
 
-            // Thêm vào VBox
-            messageContainer.getChildren().addAll(messageLabel, timeLabel);
+            messageContainer.getChildren().addAll(textFlow, timeLabel);
             VBox.setMargin(messageContainer, new Insets(5, 10, 5, 10));
 
-            // Thêm vào chatBox
             chatBox.getChildren().add(messageContainer);
-            chatBox.layout();
 
+            // ⚡ Ép VBox mở rộng để chứa nội dung
             Platform.runLater(() -> {
-                scrollPane.vvalueProperty().unbind();
-                scrollPane.setVvalue(1.0);
+                chatBox.requestLayout();
+                scrollPane.setVvalue(1.0); // Cuộn xuống tin nhắn mới nhất
             });
 
-
-            // Xóa input
             inputField.clear();
-
-
         }
-
     }
 
 
