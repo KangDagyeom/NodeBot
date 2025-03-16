@@ -17,7 +17,7 @@
     <center>
         <AnchorPane BorderPane.alignment="CENTER">
             <children>
-                <ScrollPane fx:id="scrollPane" fitToWidth="true" layoutX="325.0" layoutY="1.0" prefHeight="671.0" prefWidth="845.0">
+                <ScrollPane fitToWidth="true" layoutX="325.0" layoutY="1.0" prefHeight="671.0" prefWidth="845.0">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="629.0" prefWidth="897.0">
                             <children>
@@ -31,11 +31,15 @@
                                         <Image url="@../../../img/Main-container.png" />
                                     </image>
                                 </ImageView>
-                        <ScrollPane fx:id="scrollPane" layoutX="24.0" layoutY="24.0" prefHeight="519.0" prefWidth="781.0" styleClass="inputField">
-                           <content>
-                                          <VBox fx:id="chatBox" prefHeight="506.0" prefWidth="391.0" viewOrder="0" />
-                           </content>
-                        </ScrollPane>
+                                <ScrollPane fx:id="scrollPane" layoutX="24.0" layoutY="24.0" prefHeight="519.0" prefWidth="781.0" styleClass="inputField">
+                                    <content>
+                                        <VBox fx:id="chatBox" prefHeight="506.0" prefWidth="749.0" viewOrder="0">
+                                            <children>
+                                                <HBox prefHeight="514.0" prefWidth="749.0" />
+                                            </children>
+                                        </VBox>
+                                    </content>
+                                </ScrollPane>
 
                             </children>
                         </AnchorPane>
