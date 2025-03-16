@@ -17,17 +17,33 @@ import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class PrimaryController {
 
     @FXML
     private Label resultLabel;
+    @FXML
+    private VBox chatBox;
+    @FXML
+    private ScrollPane scrollPane;
+    @FXML
+    private TextArea inputField;
+    @FXML
+    private Button sendButton;
+    @FXML
+    private ScrollPane scrollPane2;
+    private List<String> responseChunks = new ArrayList<>();
 
     @FXML
     private void handleMouseEnter(MouseEvent event) {
@@ -46,19 +62,6 @@ public class PrimaryController {
     }
 
     @FXML
-    private VBox chatBox;
-    @FXML
-    private ScrollPane scrollPane;
-    @FXML
-    private TextArea inputField;
-    @FXML
-    private Button sendButton;
-
-    @FXML
-    private ScrollPane scrollPane2;
-
-
-    @FXML
     public void initialize() {
         scrollPane.setFitToWidth(true);
 
@@ -73,7 +76,6 @@ public class PrimaryController {
             });
         });
     }
-
 
     @FXML
     private void sendMessage() {
@@ -113,27 +115,21 @@ public class PrimaryController {
             });
 
             inputField.clear();
-            sendResponse();
+            sendResponse(message);
         }
     }
 
     @FXML
-    private void sendResponse() {
-        String message = inputField.getText().trim();
-        if (!message.isEmpty()) {
-            String timestamp = new SimpleDateFormat("HH:mm").format(new Date());
+    private void sendResponse(String userMessage) {
+        String timestamp = new SimpleDateFormat("HH:mm").format(new Date());
 
-            // Gửi yêu cầu API
-            String botResponse = callOllamaAPI(message);
-
-            // Hiển thị tin nhắn người dùng
-            addMessageToChat(message, timestamp, true);
+        // Gửi yêu cầu API chạy trên một luồng khác để không bị treo giao diện
+        new Thread(() -> {
+            String botResponse = callOllamaAPI(userMessage);
 
             // Hiển thị phản hồi từ AI
-            addMessageToChat(botResponse, timestamp, false);
-
-            inputField.clear();
-        }
+            Platform.runLater(() -> addMessageToChat(botResponse, timestamp, false));
+        }).start();
     }
 
     // Hàm gọi API Ollama
@@ -146,40 +142,73 @@ public class PrimaryController {
 
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:11434/api/generate")).header("Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(json.toString())).build();
 
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<InputStream> response = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response.body()));
 
-            JSONObject jsonResponse = new JSONObject(response.body());
-            return jsonResponse.getString("response");  // Trích xuất phản hồi từ API
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println("API Response: " + line);
+                JSONObject jsonResponse = new JSONObject(line);
+
+                if (jsonResponse.has("response")) {
+                    responseChunks.add(jsonResponse.getString("response"));
+                }
+
+                if (jsonResponse.optBoolean("done", false)) {
+                    String fullMessage = String.join("", responseChunks);
+                    responseChunks.clear();
+                    return fullMessage;
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return "Lỗi khi gọi API!";
         }
+        return "Bot không có phản hồi!";
     }
 
-    // Hàm hiển thị tin nhắn lên giao diện
+
     private void addMessageToChat(String message, String timestamp, boolean isUser) {
         VBox messageContainer = new VBox();
-        messageContainer.setMaxWidth(300);
-        messageContainer.setStyle("-fx-background-color: " + (isUser ? "#2f2f2f" : "#1e1e1e") + "; -fx-padding: 10px; -fx-border-radius: 10px; -fx-background-radius: 10px;");
+        messageContainer.setMaxWidth(700);
+        messageContainer.setPadding(new Insets(10));
+        messageContainer.setStyle("-fx-background-color: transparent;");
 
-        Label messageLabel = new Label(message);
-        messageLabel.setWrapText(true);
-        messageLabel.setTextFill(Color.WHITE);
-        messageLabel.setMaxWidth(280);
+        // Tạo Label chứa text
+        Label textLabel = new Label();
+        textLabel.setWrapText(true);
+        textLabel.setMaxWidth(700);
+        textLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: white;");
 
-        TextFlow textFlow = new TextFlow(messageLabel);
-        textFlow.setMaxWidth(280);
+        if (message.startsWith("```") && message.endsWith("```")) {
+            // Tạo code block
+            String codeContent = message.substring(3, message.length() - 3).trim();
 
-        Label timeLabel = new Label(timestamp);
-        timeLabel.setStyle("-fx-text-fill: #aaaaaa; -fx-font-size: 10px;");
-        timeLabel.setAlignment(Pos.CENTER_RIGHT);
+            VBox codeContainer = new VBox();
+            codeContainer.setStyle("-fx-background-color: #171717; -fx-padding: 10px; -fx-border-radius: 8px;");
 
-        chatBox.getChildren().addAll(textFlow, timeLabel);
-        VBox.setMargin(messageContainer, new Insets(5, 10, 5, 10));
+            TextArea codeArea = new TextArea(codeContent);
+            codeArea.setEditable(false);
+            codeArea.setWrapText(false);
+            codeArea.setMaxWidth(580);
+            codeArea.setStyle("-fx-font-family: 'Consolas'; -fx-font-size: 14px; -fx-background-color: #171717; -fx-text-fill: white;");
 
+            ScrollPane scrollPane = new ScrollPane(codeArea);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setPrefHeight(200);
+            scrollPane.setStyle("-fx-background: #171717; -fx-padding: 10px;");
+
+            codeContainer.getChildren().add(scrollPane);
+            messageContainer.getChildren().add(codeContainer);
+        } else {
+            textLabel.setText(message);
+            messageContainer.getChildren().add(textLabel);
+        }
+
+
+        // 🎯 Thêm tin nhắn vào giao diện
         Platform.runLater(() -> {
             chatBox.getChildren().add(messageContainer);
-            chatBox.requestLayout();
             scrollPane.setVvalue(1.0);
         });
     }
