@@ -31,15 +31,11 @@
                                         <Image url="@../../../img/Main-container.png" />
                                     </image>
                                 </ImageView>
-                                <ScrollPane layoutX="12.0" layoutY="12.0" prefHeight="532.0" prefWidth="798.0">
-                                    <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="534.0" prefWidth="408.0">
-                                            <children>
-                                                <VBox fx:id="chatBox" layoutX="472.0" layoutY="-4.0" prefHeight="539.0" prefWidth="314.0" viewOrder="0" />
-                                            </children>
-                                        </AnchorPane>
-                                    </content>
-                                </ScrollPane>
+                        <ScrollPane fx:id="scrollPane" layoutX="24.0" layoutY="24.0" prefHeight="519.0" prefWidth="781.0" styleClass="inputField">
+                           <content>
+                                          <VBox fx:id="chatBox" prefHeight="506.0" prefWidth="391.0" viewOrder="0" />
+                           </content>
+                        </ScrollPane>
 
                             </children>
                         </AnchorPane>

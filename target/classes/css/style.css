@@ -20,7 +20,16 @@
     -fx-focus-color: transparent; /* Xóa hiệu ứng khi focus */
     -fx-faint-focus-color: transparent;
 }
-
+.scroll-pane{
+    -fx-background-color: transparent;
+}
+.scroll-bar .thumb {
+    -fx-background-color: #666; /* Màu của thanh kéo */
+    -fx-background-radius: 5px;
+}
+.scroll-bar .thumb:hover {
+    -fx-background-color: #999;
+}
 /* Làm nền nội dung bên trong trong suốt */
 .inputField .content {
     -fx-background-color: transparent;
