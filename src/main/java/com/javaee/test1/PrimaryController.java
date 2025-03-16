@@ -15,7 +15,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
+import org.json.JSONObject;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -101,14 +106,82 @@ public class PrimaryController {
 
             chatBox.getChildren().add(messageContainer);
 
-            // ⚡ Ép VBox mở rộng để chứa nội dung
+
             Platform.runLater(() -> {
                 chatBox.requestLayout();
-                scrollPane.setVvalue(1.0); // Cuộn xuống tin nhắn mới nhất
+                scrollPane.setVvalue(1.0);
             });
 
             inputField.clear();
+            sendResponse();
         }
+    }
+
+    @FXML
+    private void sendResponse() {
+        String message = inputField.getText().trim();
+        if (!message.isEmpty()) {
+            String timestamp = new SimpleDateFormat("HH:mm").format(new Date());
+
+            // Gửi yêu cầu API
+            String botResponse = callOllamaAPI(message);
+
+            // Hiển thị tin nhắn người dùng
+            addMessageToChat(message, timestamp, true);
+
+            // Hiển thị phản hồi từ AI
+            addMessageToChat(botResponse, timestamp, false);
+
+            inputField.clear();
+        }
+    }
+
+    // Hàm gọi API Ollama
+    private String callOllamaAPI(String prompt) {
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            JSONObject json = new JSONObject();
+            json.put("model", "codellama:7b");
+            json.put("prompt", prompt);
+
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:11434/api/generate")).header("Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(json.toString())).build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            JSONObject jsonResponse = new JSONObject(response.body());
+            return jsonResponse.getString("response");  // Trích xuất phản hồi từ API
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Lỗi khi gọi API!";
+        }
+    }
+
+    // Hàm hiển thị tin nhắn lên giao diện
+    private void addMessageToChat(String message, String timestamp, boolean isUser) {
+        VBox messageContainer = new VBox();
+        messageContainer.setMaxWidth(300);
+        messageContainer.setStyle("-fx-background-color: " + (isUser ? "#2f2f2f" : "#1e1e1e") + "; -fx-padding: 10px; -fx-border-radius: 10px; -fx-background-radius: 10px;");
+
+        Label messageLabel = new Label(message);
+        messageLabel.setWrapText(true);
+        messageLabel.setTextFill(Color.WHITE);
+        messageLabel.setMaxWidth(280);
+
+        TextFlow textFlow = new TextFlow(messageLabel);
+        textFlow.setMaxWidth(280);
+
+        Label timeLabel = new Label(timestamp);
+        timeLabel.setStyle("-fx-text-fill: #aaaaaa; -fx-font-size: 10px;");
+        timeLabel.setAlignment(Pos.CENTER_RIGHT);
+
+        chatBox.getChildren().addAll(textFlow, timeLabel);
+        VBox.setMargin(messageContainer, new Insets(5, 10, 5, 10));
+
+        Platform.runLater(() -> {
+            chatBox.getChildren().add(messageContainer);
+            chatBox.requestLayout();
+            scrollPane.setVvalue(1.0);
+        });
     }
 
 
