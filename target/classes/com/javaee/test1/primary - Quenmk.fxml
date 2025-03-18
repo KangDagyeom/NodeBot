@@ -15,7 +15,7 @@
          <children>
             <ImageView fitHeight="733.0" fitWidth="430.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../../../../Downloads/DACM/ảnh%20dacm/Quên%20mật%20khẩu.png" />
+                  <Image url="@../../../img/Quên%20mật%20khẩu.png" />
                </image>
             </ImageView>
             <Label layoutX="68.0" layoutY="23.0" prefHeight="58.0" prefWidth="322.0" text="Forgot Password" textFill="WHITE">
@@ -48,22 +48,10 @@
                   <Font size="10.0" />
                </font>
             </Label>
-            <TextField layoutX="98.0" layoutY="263.0" prefHeight="51.0" prefWidth="264.0" styleClass="text-field" text="yourname@gmail.com">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </TextField>
-            <TextField layoutX="108.0" layoutY="468.0" prefHeight="49.0" prefWidth="263.0" text="Confirm Password">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </TextField>
-            <TextField layoutX="103.0" layoutY="359.0" prefHeight="47.0" prefWidth="262.0" styleClass="password-field" text="Password">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </TextField>
-            <Button layoutX="83.0" layoutY="597.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="297.0" styleClass="green-button" text="Sign up">
+            <TextField layoutX="98.0" layoutY="263.0" prefHeight="54.0" prefWidth="275.0" promptText="yourname@gmail.com" styleClass="text-field" />
+            <TextField layoutX="103.0" layoutY="461.0" prefHeight="54.0" prefWidth="275.0" promptText="Confirm Password" />
+            <TextField layoutX="98.0" layoutY="359.0" prefHeight="54.0" prefWidth="275.0" promptText="Password" styleClass="password-field" />
+            <Button layoutX="87.0" layoutY="551.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="297.0" styleClass="green-button" text="Sign up">
                <font>
                   <Font size="24.0" />
                </font>
