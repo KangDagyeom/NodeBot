@@ -1,0 +1,4 @@
+--patch-module
+com.javaee.test1=_
+--add-reads
+com.javaee.test1=ALL-UNNAMED
