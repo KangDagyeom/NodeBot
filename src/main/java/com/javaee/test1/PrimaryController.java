@@ -1,5 +1,8 @@
 package com.javaee.test1;
 
+import com.javaee.test1.controllers.ChatMessageDAO;
+import com.javaee.test1.controllers.UserDAO;
+import com.javaee.test1.models.ChatMessage;
 import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -28,9 +31,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class PrimaryController {
-
+    ChatMessageDAO chatMessageDAO = new ChatMessageDAO();
+    UserDAO userDAO = new UserDAO();
     @FXML
     private Label resultLabel;
     @FXML
@@ -44,6 +49,8 @@ public class PrimaryController {
     @FXML
     private ScrollPane scrollPane2;
     private List<String> responseChunks = new ArrayList<>();
+    @FXML
+    private VBox conversationCon;
 
     @FXML
     private void handleMouseEnter(MouseEvent event) {
@@ -64,7 +71,7 @@ public class PrimaryController {
     @FXML
     public void initialize() {
         scrollPane.setFitToWidth(true);
-
+        loadConversations(UUID.fromString("882E2160-0204-F011-8D5F-B8AEEDBCAC42"));
         // Đảm bảo VBox mở rộng theo nội dung
         chatBox.setMinHeight(Region.USE_PREF_SIZE);
         chatBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -83,38 +90,19 @@ public class PrimaryController {
         if (!message.isEmpty()) {
             String timestamp = new SimpleDateFormat("HH:mm").format(new Date());
 
-            // Container chứa tin nhắn
-            VBox messageContainer = new VBox();
-            messageContainer.setMaxWidth(300);
-            messageContainer.setStyle("-fx-background-color: #2f2f2f; -fx-padding: 10px; -fx-border-radius: 10px; -fx-background-radius: 10px;");
+            // Thêm tin nhắn user vào giao diện
+            addMessageToChat(message, timestamp, true);
 
-
-            Label messageLabel = new Label(message);
-            messageLabel.setWrapText(true);
-            messageLabel.setTextFill(Color.WHITE);
-            messageLabel.setMaxWidth(280);
-
-            TextFlow textFlow = new TextFlow(messageLabel);
-
-            textFlow.setMaxWidth(280);
-
-            // Nhãn thời gian
-            Label timeLabel = new Label(timestamp);
-            timeLabel.setStyle("-fx-text-fill: #aaaaaa; -fx-font-size: 10px;");
-            timeLabel.setAlignment(Pos.CENTER_RIGHT);
-
-            messageContainer.getChildren().addAll(textFlow, timeLabel);
-            VBox.setMargin(messageContainer, new Insets(5, 10, 5, 10));
-
-            chatBox.getChildren().add(messageContainer);
-
-
-            Platform.runLater(() -> {
-                chatBox.requestLayout();
-                scrollPane.setVvalue(1.0);
-            });
+            // Lưu tin nhắn vào DB
+            chatMessageDAO.saveMessageToDB(UUID.fromString("DFC9F96C-0304-F011-8D5F-B8AEEDBCAC42"),  // conversationId
+                    UUID.fromString("882E2160-0204-F011-8D5F-B8AEEDBCAC42"),  // senderId
+                    "user",  // senderType
+                    message  // Nội dung tin nhắn
+            );
 
             inputField.clear();
+
+            // Gửi tin nhắn đến bot và nhận phản hồi
             sendResponse(message);
         }
     }
@@ -123,11 +111,17 @@ public class PrimaryController {
     private void sendResponse(String userMessage) {
         String timestamp = new SimpleDateFormat("HH:mm").format(new Date());
 
-        // Gửi yêu cầu API chạy trên một luồng khác để không bị treo giao diện
         new Thread(() -> {
             String botResponse = callOllamaAPI(userMessage);
 
-            // Hiển thị phản hồi từ AI
+            // Lưu tin nhắn bot vào DB
+            chatMessageDAO.saveMessageToDB(UUID.fromString("DFC9F96C-0304-F011-8D5F-B8AEEDBCAC42"),  // conversationId
+                    UUID.fromString("882E2160-0204-F011-8D5F-B8AEEDBCAC42"),  // senderId
+                    "bot",  // senderType
+                    botResponse  // Nội dung tin nhắn
+            );
+
+            // Thêm tin nhắn bot vào giao diện
             Platform.runLater(() -> addMessageToChat(botResponse, timestamp, false));
         }).start();
     }
@@ -169,49 +163,87 @@ public class PrimaryController {
 
 
     private void addMessageToChat(String message, String timestamp, boolean isUser) {
-        VBox messageContainer = new VBox();
-        messageContainer.setMaxWidth(700);
-        messageContainer.setPadding(new Insets(10));
-        messageContainer.setStyle("-fx-background-color: transparent;");
 
-        // Tạo Label chứa text
-        Label textLabel = new Label();
-        textLabel.setWrapText(true);
-        textLabel.setMaxWidth(700);
-        textLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: white;");
+        if (isUser) {
+            timestamp = new SimpleDateFormat("HH:mm").format(new Date());
 
-        if (message.startsWith("```") && message.endsWith("```")) {
-            // Tạo code block
-            String codeContent = message.substring(3, message.length() - 3).trim();
+            VBox messageContainer = new VBox();
+            messageContainer.setMaxWidth(300);
 
-            VBox codeContainer = new VBox();
-            codeContainer.setStyle("-fx-background-color: #171717; -fx-padding: 10px; -fx-border-radius: 8px;");
+            messageContainer.setStyle("-fx-background-color: #2f2f2f; -fx-padding: 10px; -fx-border-radius: 10px; -fx-background-radius: 10px;");
 
-            TextArea codeArea = new TextArea(codeContent);
-            codeArea.setEditable(false);
-            codeArea.setWrapText(false);
-            codeArea.setMaxWidth(580);
-            codeArea.setStyle("-fx-font-family: 'Consolas'; -fx-font-size: 14px; -fx-background-color: #171717; -fx-text-fill: white;");
 
-            ScrollPane scrollPane = new ScrollPane(codeArea);
-            scrollPane.setFitToWidth(true);
-            scrollPane.setPrefHeight(200);
-            scrollPane.setStyle("-fx-background: #171717; -fx-padding: 10px;");
+            Label messageLabel = new Label(message);
+            messageLabel.setWrapText(true);
+            messageLabel.setTextFill(Color.WHITE);
+            messageLabel.setMaxWidth(280);
 
-            codeContainer.getChildren().add(scrollPane);
-            messageContainer.getChildren().add(codeContainer);
+            TextFlow textFlow = new TextFlow(messageLabel);
+
+            textFlow.setMaxWidth(280);
+
+
+            Label timeLabel = new Label(timestamp);
+            timeLabel.setStyle("-fx-text-fill: #aaaaaa; -fx-font-size: 10px;");
+            timeLabel.setAlignment(Pos.CENTER_RIGHT);
+
+            messageContainer.getChildren().addAll(textFlow, timeLabel);
+            VBox.setMargin(messageContainer, new Insets(5, 10, 5, 10));
+
+            chatBox.getChildren().add(messageContainer);
+
+
+            Platform.runLater(() -> {
+                chatBox.requestLayout();
+                scrollPane.setVvalue(1.0);
+            });
         } else {
+            VBox messageContainer = new VBox();
+            messageContainer.setMaxWidth(700);
+            messageContainer.setPadding(new Insets(10));
+            messageContainer.setStyle("-fx-background-color: transparent;");
+
+            Label textLabel = new Label();
+            textLabel.setWrapText(true);
+            textLabel.setMaxWidth(700);
+            textLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: white;");
             textLabel.setText(message);
             messageContainer.getChildren().add(textLabel);
+            Platform.runLater(() -> {
+                chatBox.getChildren().add(messageContainer);
+                scrollPane.setVvalue(1.0);
+            });
         }
 
 
-        // 🎯 Thêm tin nhắn vào giao diện
-        Platform.runLater(() -> {
-            chatBox.getChildren().add(messageContainer);
-            scrollPane.setVvalue(1.0);
-        });
     }
 
+    public void loadConversations(UUID userId) {
+        ArrayList<String> conversationNames = userDAO.loadConversation(userId);
+        conversationCon.getChildren().clear();
+        for (String title : conversationNames) {
+            Label conversationLabel = new Label(title);
+            conversationLabel.setStyle("-fx-padding: 10px; -fx-font-size: 14px; -fx-background-color: #e0e0e0; -fx-border-radius: 5px;");
+
+
+            conversationLabel.setOnMouseClicked(event -> {
+                loadChatHistory(UUID.fromString("DFC9F96C-0304-F011-8D5F-B8AEEDBCAC42"));
+
+            });
+
+
+            conversationCon.getChildren().add(conversationLabel);
+        }
+
+    }
+
+    @FXML
+    public void loadChatHistory(UUID conversationId) {
+        chatBox.getChildren().clear();
+        List<ChatMessage> messages = chatMessageDAO.getChatHistory(conversationId);
+        for (ChatMessage msg : messages) {
+            addMessageToChat(msg.getMessageText(), msg.getSentAt().toString(), msg.getSenderType().equals("user"));
+        }
+    }
 
 }

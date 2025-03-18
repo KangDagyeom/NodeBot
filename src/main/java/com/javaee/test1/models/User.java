@@ -9,20 +9,22 @@ public class User {
     private String passwordHash;
     private String username;
     private String avatar;
-    private boolean registeredPlan;
+    private String role;
+    private String subscriptionPlan;
     private Timestamp createdAt;
-    private Timestamp lastLogin;
+    private Timestamp lastActive;
     private boolean isActive;
 
-    public User(String username, UUID userID, String email, String passwordHash, String avatar, boolean registeredPlan, Timestamp createdAt, Timestamp lastLogin, boolean isActive) {
-        this.username = username;
+    public User(UUID userID, String email, String passwordHash, String username, String avatar, String role, String subscriptionPlan, Timestamp createdAt, Timestamp lastActive, boolean isActive) {
         this.userID = userID;
         this.email = email;
         this.passwordHash = passwordHash;
+        this.username = username;
         this.avatar = avatar;
-        this.registeredPlan = registeredPlan;
+        this.role = role;
+        this.subscriptionPlan = subscriptionPlan;
         this.createdAt = createdAt;
-        this.lastLogin = lastLogin;
+        this.lastActive = lastActive;
         this.isActive = isActive;
     }
 
@@ -66,12 +68,20 @@ public class User {
         this.avatar = avatar;
     }
 
-    public boolean isRegisteredPlan() {
-        return registeredPlan;
+    public String getRole() {
+        return role;
     }
 
-    public void setRegisteredPlan(boolean registeredPlan) {
-        this.registeredPlan = registeredPlan;
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getSubscriptionPlan() {
+        return subscriptionPlan;
+    }
+
+    public void setSubscriptionPlan(String subscriptionPlan) {
+        this.subscriptionPlan = subscriptionPlan;
     }
 
     public Timestamp getCreatedAt() {
@@ -82,12 +92,12 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public Timestamp getLastLogin() {
-        return lastLogin;
+    public Timestamp getLastActive() {
+        return lastActive;
     }
 
-    public void setLastLogin(Timestamp lastLogin) {
-        this.lastLogin = lastLogin;
+    public void setLastActive(Timestamp lastActive) {
+        this.lastActive = lastActive;
     }
 
     public boolean isActive() {

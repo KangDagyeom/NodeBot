@@ -4,48 +4,54 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 public class ChatMessage {
-    private UUID messageId;
-    private UUID senderId;
-    private UUID receiverId;
+    private UUID messageID;
+    private UUID conversationID;
+    private UUID senderID;
+    private String senderType;
     private String messageText;
-    private boolean hasAttachment;
-    private String attachmentFileName;
-    private String attachmentFilePath;
+    private String messageType;
     private Timestamp sentAt;
 
-    public ChatMessage(UUID messageId, UUID senderId, UUID receiverId, String messageText, boolean hasAttachment, String attachmentFileName, String attachmentFilePath, Timestamp sentAt) {
-        this.messageId = messageId;
-        this.senderId = senderId;
-        this.receiverId = receiverId;
+    public ChatMessage(UUID messageID, UUID conversationID, UUID senderID, String senderType, String messageText, String messageType, Timestamp sentAt) {
+        this.messageID = messageID;
+        this.conversationID = conversationID;
+        this.senderID = senderID;
+        this.senderType = senderType;
         this.messageText = messageText;
-        this.hasAttachment = hasAttachment;
-        this.attachmentFileName = attachmentFileName;
-        this.attachmentFilePath = attachmentFilePath;
+        this.messageType = messageType;
         this.sentAt = sentAt;
     }
 
-    public UUID getMessageId() {
-        return messageId;
+    public UUID getMessageID() {
+        return messageID;
     }
 
-    public void setMessageId(UUID messageId) {
-        this.messageId = messageId;
+    public void setMessageID(UUID messageID) {
+        this.messageID = messageID;
     }
 
-    public UUID getSenderId() {
-        return senderId;
+    public UUID getConversationID() {
+        return conversationID;
     }
 
-    public void setSenderId(UUID senderId) {
-        this.senderId = senderId;
+    public void setConversationID(UUID conversationID) {
+        this.conversationID = conversationID;
     }
 
-    public UUID getReceiverId() {
-        return receiverId;
+    public UUID getSenderID() {
+        return senderID;
     }
 
-    public void setReceiverId(UUID receiverId) {
-        this.receiverId = receiverId;
+    public void setSenderID(UUID senderID) {
+        this.senderID = senderID;
+    }
+
+    public String getSenderType() {
+        return senderType;
+    }
+
+    public void setSenderType(String senderType) {
+        this.senderType = senderType;
     }
 
     public String getMessageText() {
@@ -56,28 +62,12 @@ public class ChatMessage {
         this.messageText = messageText;
     }
 
-    public boolean isHasAttachment() {
-        return hasAttachment;
+    public String getMessageType() {
+        return messageType;
     }
 
-    public void setHasAttachment(boolean hasAttachment) {
-        this.hasAttachment = hasAttachment;
-    }
-
-    public String getAttachmentFileName() {
-        return attachmentFileName;
-    }
-
-    public void setAttachmentFileName(String attachmentFileName) {
-        this.attachmentFileName = attachmentFileName;
-    }
-
-    public String getAttachmentFilePath() {
-        return attachmentFilePath;
-    }
-
-    public void setAttachmentFilePath(String attachmentFilePath) {
-        this.attachmentFilePath = attachmentFilePath;
+    public void setMessageType(String messageType) {
+        this.messageType = messageType;
     }
 
     public Timestamp getSentAt() {
