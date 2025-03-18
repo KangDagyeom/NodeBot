@@ -23,7 +23,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <TextField layoutX="28.0" layoutY="66.0" prefHeight="38.0" prefWidth="304.0" text="Nhập tên mới cho cuộc trò chuyện" />
+            <TextField layoutX="28.0" layoutY="66.0" prefHeight="38.0" prefWidth="304.0" promptText="Nhập tên mới cho cuộc trò chuyện" />
             <Button layoutX="25.0" layoutY="124.0" mnemonicParsing="false" styleClass="red-button" text="Hủy" />
             <Button layoutX="105.0" layoutY="124.0" mnemonicParsing="false" styleClass="green-button" text="Đổi tên" />
             <Button layoutX="356.0" layoutY="66.0" mnemonicParsing="false" styleClass="green-button" text="Tiếp tục" />

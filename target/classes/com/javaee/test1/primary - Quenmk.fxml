@@ -48,9 +48,9 @@
                   <Font size="10.0" />
                </font>
             </Label>
-            <TextField layoutX="98.0" layoutY="263.0" prefHeight="54.0" prefWidth="275.0" styleClass="text-field" text="yourname@gmail.com" />
-            <TextField layoutX="103.0" layoutY="461.0" prefHeight="54.0" prefWidth="275.0" text="Confirm Password" />
-            <TextField layoutX="98.0" layoutY="359.0" prefHeight="54.0" prefWidth="275.0" styleClass="password-field" text="Password" />
+            <TextField layoutX="98.0" layoutY="263.0" prefHeight="54.0" prefWidth="275.0" promptText="yourname@gmail.com" styleClass="text-field" />
+            <TextField layoutX="103.0" layoutY="461.0" prefHeight="54.0" prefWidth="275.0" promptText="Confirm Password" />
+            <TextField layoutX="98.0" layoutY="359.0" prefHeight="54.0" prefWidth="275.0" promptText="Password" styleClass="password-field" />
             <Button layoutX="87.0" layoutY="551.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="297.0" styleClass="green-button" text="Sign up">
                <font>
                   <Font size="24.0" />
