@@ -15,7 +15,7 @@
          <children>
             <ImageView fitHeight="180.0" fitWidth="751.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../../../../Downloads/DACM/ảnh%20dacm/Doitenchocuoctrotruyen.png" />
+                  <Image url="@../../../img/Doitenchocuoctrotruyen.png" />
                </image>
             </ImageView>
             <Label layoutX="28.0" layoutY="14.0" prefHeight="26.0" prefWidth="290.0" text="Đổi tên cho cuộc trò chuyện này" textFill="WHITE">
