@@ -26,10 +26,9 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 public class PrimaryController {
     ChatMessageDAO chatMessageDAO = new ChatMessageDAO();
@@ -89,7 +88,7 @@ public class PrimaryController {
             String timestamp = new SimpleDateFormat("HH:mm").format(new Date());
 
             // Thêm tin nhắn user vào giao diện
-            addMessageToChat(message, timestamp, true);
+            addMessageToChat(message, timestamp, true, false);
 
             // Lưu tin nhắn vào DB
             chatMessageDAO.saveMessageToDB(UUID.fromString("DFC9F96C-0304-F011-8D5F-B8AEEDBCAC42"),  // conversationId
@@ -120,7 +119,7 @@ public class PrimaryController {
             );
 
             // Thêm tin nhắn bot vào giao diện
-            Platform.runLater(() -> addMessageToChat(botResponse, timestamp, false));
+            Platform.runLater(() -> addMessageToChat(botResponse, timestamp, false, false));
         }).start();
     }
 
@@ -160,10 +159,12 @@ public class PrimaryController {
     }
 
 
-    private void addMessageToChat(String message, String timestamp, boolean isUser) {
-
-        if (isUser) {
+    private void addMessageToChat(String message, String timestamp, boolean isUser, boolean isFetch) {
+        if (!isFetch) {
             timestamp = new SimpleDateFormat("HH:mm").format(new Date());
+        }
+        if (isUser) {
+
 
             VBox messageContainer = new VBox();
             messageContainer.setMaxWidth(300);
@@ -188,14 +189,13 @@ public class PrimaryController {
             messageContainer.getChildren().addAll(textFlow, timeLabel);
             VBox.setMargin(messageContainer, new Insets(5, 10, 5, 10));
 
-            chatBox.getChildren().add(messageContainer);
-
-
             Platform.runLater(() -> {
+                chatBox.getChildren().add(messageContainer);
                 chatBox.requestLayout();
                 scrollPane.setVvalue(1.0);
             });
-        } else {
+        }
+        if (!isUser) {
             VBox messageContainer = new VBox();
             messageContainer.setMaxWidth(700);
             messageContainer.setPadding(new Insets(10));
@@ -257,10 +257,33 @@ public class PrimaryController {
     @FXML
     public void loadChatHistory(UUID conversationId) {
         chatBox.getChildren().clear();
+
         List<ChatMessage> messages = chatMessageDAO.getChatHistory(conversationId);
-        for (ChatMessage msg : messages) {
-            addMessageToChat(msg.getMessageText(), msg.getSentAt().toString(), msg.getSenderType().equals("user"));
-        }
+        messages.sort(Comparator.comparing(ChatMessage::getSentAt));
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+
+        CompletableFuture.runAsync(() -> {
+            for (ChatMessage msg : messages) {
+                boolean isUser = msg.getSenderType().equalsIgnoreCase("user");
+
+                try {
+                    // Đợi một chút để đảm bảo JavaFX vẽ UI theo thứ tự user → bot
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                Platform.runLater(() -> addMessageToChat(
+                        msg.getMessageText(),
+                        msg.getSentAt().toLocalDateTime().format(formatter),
+                        isUser,
+                        true
+                ));
+            }
+        });
     }
+
 
 }
