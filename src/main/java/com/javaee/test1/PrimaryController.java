@@ -8,10 +8,8 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -223,7 +221,26 @@ public class PrimaryController {
         conversationCon.getChildren().clear();
         for (String title : conversationNames) {
             Label conversationLabel = new Label(title);
-            conversationLabel.setStyle("-fx-padding: 10px; -fx-font-size: 14px; -fx-background-color: #e0e0e0; -fx-border-radius: 5px;");
+            ImageView imageView1 = new ImageView(getClass().getResource("/img/Item.png").toExternalForm());
+            ImageView imageView2 = new ImageView(getClass().getResource("/img/buttonpick.png").toExternalForm());
+
+            conversationLabel.setTextFill(Color.WHITE);
+            conversationLabel.setGraphic(imageView1);
+            conversationLabel.setContentDisplay(ContentDisplay.LEFT);
+            conversationLabel.setGraphicTextGap(10);
+            conversationLabel.setStyle("-fx-padding: 10px; -fx-font-size: 14px;");
+
+
+            conversationLabel.setOnMouseEntered(event -> {
+                conversationLabel.setGraphic(imageView2);
+                conversationLabel.setContentDisplay(ContentDisplay.RIGHT);
+            });
+
+
+            conversationLabel.setOnMouseExited(event -> {
+                conversationLabel.setGraphic(imageView1);
+                conversationLabel.setContentDisplay(ContentDisplay.LEFT);
+            });
 
 
             conversationLabel.setOnMouseClicked(event -> {
