@@ -52,7 +52,7 @@ public class ChatMessageDAO {
     }
 
     public int saveMessageToDB(UUID conversationId, UUID senderId, String senderType, String messageText) {
-        String sql = "INSERT INTO Messages (ConversationID, SenderID, SenderType, MessageText, SentAt) " + "VALUES (?, ?, ?, ?, GETDATE())";
+        String sql = "INSERT INTO ChatMessages (ConversationID, SenderID, SenderType, MessageText, SentAt) " + "VALUES (?, ?, ?, ?, GETDATE())";
 
         try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setObject(1, conversationId); // UNIQUEIDENTIFIER
@@ -69,7 +69,7 @@ public class ChatMessageDAO {
     public List<ChatMessage> getChatHistory(UUID conversationId) {
         List<ChatMessage> chatMessages = new ArrayList<>();
         String sql = "SELECT MessageID, ConversationID, SenderID, SenderType, MessageText, MessageType, SentAt " +
-                "FROM Messages WHERE ConversationID = ? ORDER BY SentAt";
+                "FROM ChatMessages WHERE ConversationID = ? ORDER BY SentAt";
 
         try (Connection conn = getConnect();
              PreparedStatement ps = conn.prepareStatement(sql)) {

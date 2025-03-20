@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class UserDAO {
+
     private static final String CONNECTION_URL = "jdbc:sqlserver://localhost:1433;databaseName=ChatSystemDB;encrypt=true;trustServerCertificate=true;username=sa;password=123";
 
     public static Connection getConnect() {
@@ -50,10 +51,9 @@ public class UserDAO {
     }
 
     public ArrayList<String> loadConversation(UUID userId) {
-        String query = "SELECT ConversationID, Title FROM Conversations WHERE UserID = ? ORDER BY CreatedAt DESC";
+        String query = "SELECT ConversationID, Title FROM ChatHistory WHERE UserID = ? ORDER BY CreatedAt DESC";
         ArrayList<String> conversationName = new ArrayList<>();
-        try (Connection conn = getConnect();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setObject(1, userId);
             ResultSet rs = ps.executeQuery();
