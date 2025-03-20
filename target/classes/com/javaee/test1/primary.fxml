@@ -21,12 +21,12 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="629.0" prefWidth="897.0">
                             <children>
-                                <ImageView fitHeight="665.0" fitWidth="854.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="668.0" fitWidth="854.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../../../img/Main-background.png" />
                                     </image>
                                 </ImageView>
-                                <ImageView fitHeight="650.0" fitWidth="822.0" layoutX="11.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="643.0" fitWidth="806.0" layoutX="19.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../../../img/Main-container.png" />
                                     </image>

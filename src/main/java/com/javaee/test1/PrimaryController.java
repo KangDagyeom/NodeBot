@@ -71,7 +71,7 @@ public class PrimaryController {
     @FXML
     public void initialize() {
         scrollPane.setFitToWidth(true);
-        loadConversations(UUID.fromString("882E2160-0204-F011-8D5F-B8AEEDBCAC42"));
+        loadConversations(UUID.fromString("6926B948-A305-F011-8D62-B8AEEDBCAC42"));
         // Đảm bảo VBox mở rộng theo nội dung
         chatBox.setMinHeight(Region.USE_PREF_SIZE);
         chatBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -94,8 +94,8 @@ public class PrimaryController {
             addMessageToChat(message, timestamp, true, false);
 
             // Lưu tin nhắn vào DB
-            chatMessageDAO.saveMessageToDB(UUID.fromString("DFC9F96C-0304-F011-8D5F-B8AEEDBCAC42"),  // conversationId
-                    UUID.fromString("882E2160-0204-F011-8D5F-B8AEEDBCAC42"),  // senderId
+            chatMessageDAO.saveMessageToDB(UUID.fromString("6926B948-A305-F011-8D62-B8AEEDBCAC42"),  // conversationId
+                    UUID.fromString("6626B948-A305-F011-8D62-B8AEEDBCAC42"),  // senderId
                     "user",  // senderType
                     message  // Nội dung tin nhắn
             );
@@ -176,8 +176,8 @@ public class PrimaryController {
                 if (jsonResponse.optBoolean("done", false)) {
                     timeline.stop(); // Dừng Timeline khi nhận xong dữ liệu
                     String botResponse = String.join("", responseChunks);
-                    chatMessageDAO.saveMessageToDB(UUID.fromString("DFC9F96C-0304-F011-8D5F-B8AEEDBCAC42"),  // conversationId
-                            UUID.fromString("882E2160-0204-F011-8D5F-B8AEEDBCAC42"),  // senderId
+                    chatMessageDAO.saveMessageToDB(UUID.fromString("6926B948-A305-F011-8D62-B8AEEDBCAC42"),  // conversationId
+                            UUID.fromString("6626B948-A305-F011-8D62-B8AEEDBCAC42"),  // senderId
                             "bot",  // senderType
                             botResponse  // Nội dung tin nhắn
                     );
@@ -280,7 +280,7 @@ public class PrimaryController {
 
 
             conversationLabel.setOnMouseClicked(event -> {
-                loadChatHistory(UUID.fromString("DFC9F96C-0304-F011-8D5F-B8AEEDBCAC42"));
+                loadChatHistory(UUID.fromString("6926B948-A305-F011-8D62-B8AEEDBCAC42"));
 
             });
 
