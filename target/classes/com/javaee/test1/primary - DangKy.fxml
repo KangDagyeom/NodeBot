@@ -29,7 +29,7 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label layoutX="125.0" layoutY="130.0" prefHeight="47.0" prefWidth="179.0" text="Free Forever. No Credit Card Needed" textFill="#c4bcbc">
+            <Label layoutX="125.0" layoutY="130.0" prefHeight="47.0" prefWidth="179.0" text="Free Forever. No Credit Card Needed." textFill="#c4bcbc">
                <font>
                   <Font name="System Bold" size="10.0" />
                </font>
@@ -54,41 +54,41 @@
                   <Font size="10.0" />
                </font>
             </Label>
-            <Button layoutX="93.0" layoutY="551.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="275.0" styleClass="green-button" text="Sigh up" />
-            <TextField layoutX="93.0" layoutY="251.0" prefHeight="54.0" prefWidth="275.0" promptText="email@gmail.com" styleClass="gray-background" />
-            <Button layoutX="195.0" layoutY="654.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="37.0" styleClass="transparent-button">
+            <Button fx:id="bttdangky" layoutX="93.0" layoutY="551.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="275.0" styleClass="green-button" text="Sigh up" />
+            <TextField fx:id="txtemaildangky" layoutX="93.0" layoutY="251.0" prefHeight="54.0" prefWidth="275.0" promptText="email@gmail.com" styleClass="gray-background" />
+            <Button layoutX="195.0" layoutY="654.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="24.0" styleClass="transparent-button">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
                <graphic>
-                  <ImageView fitHeight="23.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="23.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" styleClass="transparent-button2">
                      <image>
-                        <Image url="@../../../../../../../../../Downloads/DACM/ảnh%20dacm/hinhapple.png" />
+                        <Image url="@../../../img/hinhapple.png" />
                      </image>
                   </ImageView>
                </graphic></Button>
-            <TextField layoutX="93.0" layoutY="352.0" prefHeight="54.0" prefWidth="275.0" promptText="Password" />
-            <TextField layoutX="93.0" layoutY="452.0" prefHeight="54.0" prefWidth="275.0" promptText="Confirm Password" styleClass="gray-background" />
-            <Button layoutX="113.0" layoutY="654.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="37.0" styleClass="transparent-button1">
+            <TextField fx:id="txtpassworddangky" layoutX="93.0" layoutY="352.0" prefHeight="54.0" prefWidth="275.0" promptText="Password" />
+            <TextField fx:id="txtpasswordconfirmdangky" layoutX="93.0" layoutY="452.0" prefHeight="54.0" prefWidth="275.0" promptText="Confirm Password" styleClass="gray-background" />
+            <Button fx:id="bttggdangky" layoutX="113.0" layoutY="654.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="37.0" styleClass="transparent-button1">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
                <graphic>
-                  <ImageView fitHeight="23.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="23.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" styleClass="transparent-button1">
                      <image>
-                        <Image url="@../../../../../../../../../Downloads/DACM/ảnh%20dacm/hinhgg.png" />
+                        <Image url="@../../../img/hinhgg.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button layoutX="296.0" layoutY="654.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="37.0" styleClass="transparent-button">
+            <Button fx:id="bttfbdangky" layoutX="296.0" layoutY="654.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="37.0" styleClass="transparent-button3">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
                <graphic>
                   <ImageView fitHeight="23.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" styleClass="black-background">
                      <image>
-                        <Image url="@../../../../../../../../../Downloads/DACM/ảnh%20dacm/hinhfFB.png" />
+                        <Image url="@../../../img/hinhfFB.png" />
                      </image>
                   </ImageView>
                </graphic>
