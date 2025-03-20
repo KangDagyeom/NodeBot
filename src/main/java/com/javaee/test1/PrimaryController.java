@@ -25,12 +25,14 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 public class PrimaryController {
+
     ChatMessageDAO chatMessageDAO = new ChatMessageDAO();
     UserDAO userDAO = new UserDAO();
     @FXML
@@ -68,7 +70,7 @@ public class PrimaryController {
     @FXML
     public void initialize() {
         scrollPane.setFitToWidth(true);
-        loadConversations(UUID.fromString("882E2160-0204-F011-8D5F-B8AEEDBCAC42"));
+        loadConversations(UUID.fromString("75EA79AE-2C05-F011-BAA8-E738C431D833"));
         // Đảm bảo VBox mở rộng theo nội dung
         chatBox.setMinHeight(Region.USE_PREF_SIZE);
         chatBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -91,10 +93,10 @@ public class PrimaryController {
             addMessageToChat(message, timestamp, true, false);
 
             // Lưu tin nhắn vào DB
-            chatMessageDAO.saveMessageToDB(UUID.fromString("DFC9F96C-0304-F011-8D5F-B8AEEDBCAC42"),  // conversationId
-                    UUID.fromString("882E2160-0204-F011-8D5F-B8AEEDBCAC42"),  // senderId
-                    "user",  // senderType
-                    message  // Nội dung tin nhắn
+            chatMessageDAO.saveMessageToDB(UUID.fromString("75EA79AE-2C05-F011-BAA8-E738C431D833"), // conversationId
+                    UUID.fromString("45C181A4-2C05-F011-BAA8-E738C431D833"), // senderId
+                    "user", // senderType
+                    message // Nội dung tin nhắn
             );
 
             inputField.clear();
@@ -112,10 +114,10 @@ public class PrimaryController {
             String botResponse = callOllamaAPI(userMessage);
 
             // Lưu tin nhắn bot vào DB
-            chatMessageDAO.saveMessageToDB(UUID.fromString("DFC9F96C-0304-F011-8D5F-B8AEEDBCAC42"),  // conversationId
-                    UUID.fromString("882E2160-0204-F011-8D5F-B8AEEDBCAC42"),  // senderId
-                    "bot",  // senderType
-                    botResponse  // Nội dung tin nhắn
+            chatMessageDAO.saveMessageToDB(UUID.fromString("75EA79AE-2C05-F011-BAA8-E738C431D833"), // conversationId
+                    UUID.fromString("45C181A4-2C05-F011-BAA8-E738C431D833"), // senderId
+                    "bot", // senderType
+                    botResponse // Nội dung tin nhắn
             );
 
             // Thêm tin nhắn bot vào giao diện
@@ -123,18 +125,25 @@ public class PrimaryController {
         }).start();
     }
 
-    // Hàm gọi API Ollama
     private String callOllamaAPI(String prompt) {
+        List<String> responseChunks = new ArrayList<>();
+
         try {
             HttpClient client = HttpClient.newHttpClient();
             JSONObject json = new JSONObject();
             json.put("model", "codellama:7b");
             json.put("prompt", prompt);
 
-            HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:11434/api/generate")).header("Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(json.toString())).build();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:11434/api/generate"))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(json.toString()))
+                    .build();
 
             HttpResponse<InputStream> response = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
-            BufferedReader reader = new BufferedReader(new InputStreamReader(response.body()));
+
+            // SỬA Ở ĐÂY: chỉ định UTF-8
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response.body(), StandardCharsets.UTF_8));
 
             String line;
             while ((line = reader.readLine()) != null) {
@@ -158,19 +167,16 @@ public class PrimaryController {
         return "Bot không có phản hồi!";
     }
 
-
     private void addMessageToChat(String message, String timestamp, boolean isUser, boolean isFetch) {
         if (!isFetch) {
             timestamp = new SimpleDateFormat("HH:mm").format(new Date());
         }
         if (isUser) {
 
-
             VBox messageContainer = new VBox();
             messageContainer.setMaxWidth(300);
 
             messageContainer.setStyle("-fx-background-color: #2f2f2f; -fx-padding: 10px; -fx-border-radius: 10px; -fx-background-radius: 10px;");
-
 
             Label messageLabel = new Label(message);
             messageLabel.setWrapText(true);
@@ -180,7 +186,6 @@ public class PrimaryController {
             TextFlow textFlow = new TextFlow(messageLabel);
 
             textFlow.setMaxWidth(280);
-
 
             Label timeLabel = new Label(timestamp);
             timeLabel.setStyle("-fx-text-fill: #aaaaaa; -fx-font-size: 10px;");
@@ -213,7 +218,6 @@ public class PrimaryController {
             });
         }
 
-
     }
 
     public void loadConversations(UUID userId) {
@@ -230,24 +234,20 @@ public class PrimaryController {
             conversationLabel.setGraphicTextGap(10);
             conversationLabel.setStyle("-fx-padding: 10px; -fx-font-size: 14px;");
 
-
             conversationLabel.setOnMouseEntered(event -> {
                 conversationLabel.setGraphic(imageView2);
                 conversationLabel.setContentDisplay(ContentDisplay.RIGHT);
             });
-
 
             conversationLabel.setOnMouseExited(event -> {
                 conversationLabel.setGraphic(imageView1);
                 conversationLabel.setContentDisplay(ContentDisplay.LEFT);
             });
 
-
             conversationLabel.setOnMouseClicked(event -> {
-                loadChatHistory(UUID.fromString("DFC9F96C-0304-F011-8D5F-B8AEEDBCAC42"));
+                loadChatHistory(UUID.fromString("75EA79AE-2C05-F011-BAA8-E738C431D833"));
 
             });
-
 
             conversationCon.getChildren().add(conversationLabel);
         }
@@ -262,7 +262,6 @@ public class PrimaryController {
         messages.sort(Comparator.comparing(ChatMessage::getSentAt));
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-
 
         CompletableFuture.runAsync(() -> {
             for (ChatMessage msg : messages) {
@@ -284,6 +283,5 @@ public class PrimaryController {
             }
         });
     }
-
 
 }

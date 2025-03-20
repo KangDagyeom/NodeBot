@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="665.0" prefWidth="1150.0" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javaee.test1.PrimaryController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="668.0" prefWidth="1187.0" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javaee.test1.PrimaryController">
     <center>
         <AnchorPane BorderPane.alignment="CENTER">
             <children>
@@ -34,12 +34,12 @@
                         <Image url="@../../../img/Main-background.png" />
                     </image>
                 </ImageView>
-            <ImageView fitHeight="637.0" fitWidth="833.0" layoutX="343.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="637.0" fitWidth="843.0" layoutX="343.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../img/KA/Content%20(2).png" />
                </image>
             </ImageView>
-                <AnchorPane layoutX="14.0" prefHeight="671.0" prefWidth="315.0" styleClass="gray-background">
+                <AnchorPane layoutX="-2.0" prefHeight="671.0" prefWidth="331.0" styleClass="gray-background">
                     <children>
                         <ImageView fitHeight="57.0" fitWidth="281.0" layoutX="23.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
                             <image>
