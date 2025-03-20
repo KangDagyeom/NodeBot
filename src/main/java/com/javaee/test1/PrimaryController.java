@@ -3,7 +3,10 @@ package com.javaee.test1;
 import com.javaee.test1.controllers.ChatMessageDAO;
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.models.ChatMessage;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
 import javafx.animation.ScaleTransition;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -109,53 +112,86 @@ public class PrimaryController {
         String timestamp = new SimpleDateFormat("HH:mm").format(new Date());
 
         new Thread(() -> {
-            String botResponse = callOllamaAPI(userMessage);
-
-            // Lưu tin nhắn bot vào DB
-            chatMessageDAO.saveMessageToDB(UUID.fromString("DFC9F96C-0304-F011-8D5F-B8AEEDBCAC42"),  // conversationId
-                    UUID.fromString("882E2160-0204-F011-8D5F-B8AEEDBCAC42"),  // senderId
-                    "bot",  // senderType
-                    botResponse  // Nội dung tin nhắn
-            );
-
-            // Thêm tin nhắn bot vào giao diện
-            Platform.runLater(() -> addMessageToChat(botResponse, timestamp, false, false));
+            callOllamaAPI(userMessage);
         }).start();
     }
 
-    // Hàm gọi API Ollama
-    private String callOllamaAPI(String prompt) {
+    private void callOllamaAPI(String prompt) {
+        responseChunks.clear();
         try {
             HttpClient client = HttpClient.newHttpClient();
             JSONObject json = new JSONObject();
             json.put("model", "codellama:7b");
             json.put("prompt", prompt);
 
-            HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:11434/api/generate")).header("Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(json.toString())).build();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:11434/api/generate"))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(json.toString()))
+                    .build();
 
             HttpResponse<InputStream> response = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
             BufferedReader reader = new BufferedReader(new InputStreamReader(response.body()));
 
+            VBox botMessageContainer = new VBox();
+            botMessageContainer.setMaxWidth(700);
+            botMessageContainer.setPadding(new Insets(10));
+            botMessageContainer.setStyle("-fx-background-color: transparent;");
+
+            Label botLabel = new Label();
+            botLabel.setWrapText(true);
+            botLabel.setMaxWidth(700);
+            botLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: white;");
+            botMessageContainer.getChildren().add(botLabel);
+
+            Platform.runLater(() -> {
+                chatBox.getChildren().add(botMessageContainer);
+                scrollPane.setVvalue(1.0);
+            });
+
+            StringBuilder responseText = new StringBuilder();
+            List<String> buffer = new ArrayList<>();
+
+            // Tạo Timeline cập nhật giao diện mỗi 100ms
+            Timeline timeline = new Timeline(new KeyFrame(Duration.millis(50), event -> {
+                if (!buffer.isEmpty()) {
+                    responseText.append(String.join("", buffer));
+                    botLabel.setText(responseText.toString());
+                    responseChunks.addAll(buffer);
+                    buffer.clear();
+                }
+            }));
+            timeline.setCycleCount(Animation.INDEFINITE);
+            timeline.play();
+
             String line;
             while ((line = reader.readLine()) != null) {
-                System.out.println("API Response: " + line);
                 JSONObject jsonResponse = new JSONObject(line);
 
                 if (jsonResponse.has("response")) {
-                    responseChunks.add(jsonResponse.getString("response"));
+                    String chunk = jsonResponse.getString("response");
+                    buffer.add(chunk);
                 }
 
                 if (jsonResponse.optBoolean("done", false)) {
-                    String fullMessage = String.join("", responseChunks);
-                    responseChunks.clear();
-                    return fullMessage;
+                    timeline.stop(); // Dừng Timeline khi nhận xong dữ liệu
+                    String botResponse = String.join("", responseChunks);
+                    chatMessageDAO.saveMessageToDB(UUID.fromString("DFC9F96C-0304-F011-8D5F-B8AEEDBCAC42"),  // conversationId
+                            UUID.fromString("882E2160-0204-F011-8D5F-B8AEEDBCAC42"),  // senderId
+                            "bot",  // senderType
+                            botResponse  // Nội dung tin nhắn
+                    );
+
+
+                    break;
                 }
             }
+
+
         } catch (Exception e) {
             e.printStackTrace();
-            return "Lỗi khi gọi API!";
+            Platform.runLater(() -> addMessageToChat("Lỗi khi gọi API!", "", false, true));
         }
-        return "Bot không có phản hồi!";
     }
 
 

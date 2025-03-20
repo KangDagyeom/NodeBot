@@ -4,6 +4,7 @@
 .inputField {
     -fx-background-color: #222222;
     -fx-border-color: #ccc; /* Viền xám */
+    -fx-background-radius: 20px
     -fx-border-width: 1px;
     -fx-border-radius: 20px;
     -fx-font-size: 14px;

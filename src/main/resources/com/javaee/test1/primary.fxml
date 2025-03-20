@@ -5,8 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity"
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="665.0" prefWidth="1150.0" stylesheets="@../../../css/style.css"
             xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.javaee.test1.PrimaryController">
     <center>
@@ -16,12 +15,12 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="629.0" prefWidth="897.0">
                             <children>
-                                <ImageView fitHeight="665.0" fitWidth="854.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="668.0" fitWidth="854.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../../../img/Main-background.png"/>
                                     </image>
                                 </ImageView>
-                                <ImageView fitHeight="633.0" fitWidth="825.0" layoutX="12.0" layoutY="12.0"
+                                <ImageView fitHeight="643.0" fitWidth="806.0" layoutX="19.0" layoutY="12.0"
                                            pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../../../img/Main-container.png"/>
