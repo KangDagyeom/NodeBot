@@ -32,6 +32,8 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PrimaryController {
     ChatMessageDAO chatMessageDAO = new ChatMessageDAO();
@@ -71,7 +73,7 @@ public class PrimaryController {
     @FXML
     public void initialize() {
         scrollPane.setFitToWidth(true);
-        loadConversations(UUID.fromString("6926B948-A305-F011-8D62-B8AEEDBCAC42"));
+        loadConversations(UUID.fromString("6626B948-A305-F011-8D62-B8AEEDBCAC42"));
         // Đảm bảo VBox mở rộng theo nội dung
         chatBox.setMinHeight(Region.USE_PREF_SIZE);
         chatBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -109,7 +111,6 @@ public class PrimaryController {
 
     @FXML
     private void sendResponse(String userMessage) {
-        String timestamp = new SimpleDateFormat("HH:mm").format(new Date());
 
         new Thread(() -> {
             callOllamaAPI(userMessage);
@@ -152,7 +153,7 @@ public class PrimaryController {
             StringBuilder responseText = new StringBuilder();
             List<String> buffer = new ArrayList<>();
 
-            // Tạo Timeline cập nhật giao diện mỗi 100ms
+            // Tạo Timeline cập nhật giao diện mỗi 50ms
             Timeline timeline = new Timeline(new KeyFrame(Duration.millis(50), event -> {
                 if (!buffer.isEmpty()) {
                     responseText.append(String.join("", buffer));
@@ -167,7 +168,7 @@ public class PrimaryController {
             String line;
             while ((line = reader.readLine()) != null) {
                 JSONObject jsonResponse = new JSONObject(line);
-
+                System.out.println("Bot API response: " + jsonResponse);
                 if (jsonResponse.has("response")) {
                     String chunk = jsonResponse.getString("response");
                     buffer.add(chunk);
@@ -176,22 +177,46 @@ public class PrimaryController {
                 if (jsonResponse.optBoolean("done", false)) {
                     timeline.stop(); // Dừng Timeline khi nhận xong dữ liệu
                     String botResponse = String.join("", responseChunks);
-                    chatMessageDAO.saveMessageToDB(UUID.fromString("6926B948-A305-F011-8D62-B8AEEDBCAC42"),  // conversationId
-                            UUID.fromString("6626B948-A305-F011-8D62-B8AEEDBCAC42"),  // senderId
-                            "bot",  // senderType
-                            botResponse  // Nội dung tin nhắn
-                    );
 
+                    // 🔹 Xử lý code block
+                    Platform.runLater(() -> processBotResponse(botResponse, botMessageContainer));
+
+                    chatMessageDAO.saveMessageToDB(UUID.fromString("6926B948-A305-F011-8D62-B8AEEDBCAC42"),
+                            UUID.fromString("6626B948-A305-F011-8D62-B8AEEDBCAC42"),
+                            "bot",
+                            botResponse);
 
                     break;
                 }
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
             Platform.runLater(() -> addMessageToChat("Lỗi khi gọi API!", "", false, true));
         }
+    }
+
+    private void processBotResponse(String message, VBox botMessageContainer) {
+        String regex = "```(.*?)```";  // Regex tìm code block
+        Pattern pattern = Pattern.compile(regex, Pattern.DOTALL);
+        Matcher matcher = pattern.matcher(message);
+
+        int lastEnd = 0;
+
+        while (matcher.find()) {
+
+            String codeBlock = matcher.group(1).trim();
+
+            TextArea codeArea = new TextArea(codeBlock);
+            codeArea.setWrapText(true);
+            codeArea.setMaxWidth(700);
+            codeArea.setEditable(false);
+            codeArea.setStyle("-fx-font-family: 'Consolas'; -fx-font-size: 14px; -fx-background-color: #282c34; -fx-text-fill: #ffffff;");
+            botMessageContainer.getChildren().add(codeArea);
+
+            lastEnd = matcher.end();
+        }
+
+
     }
 
 
@@ -237,12 +262,39 @@ public class PrimaryController {
             messageContainer.setPadding(new Insets(10));
             messageContainer.setStyle("-fx-background-color: transparent;");
 
-            Label textLabel = new Label();
-            textLabel.setWrapText(true);
-            textLabel.setMaxWidth(700);
-            textLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: white;");
-            textLabel.setText(message);
-            messageContainer.getChildren().add(textLabel);
+            if (message.contains("```")) {
+                // Xử lý nội dung code block
+                StringBuilder formattedMessage = new StringBuilder();
+                boolean isCodeBlock = false;
+
+                for (String line : message.split("\n")) {
+                    if (line.trim().startsWith("```") && line.trim().endsWith("```")) {
+                        isCodeBlock = !isCodeBlock; // Bật/tắt chế độ code block
+                        continue; // Bỏ qua dòng ``` trong hiển thị
+                    }
+
+                    if (isCodeBlock) {
+                        formattedMessage.append(line).append("\n");
+                    }
+                }
+
+                TextArea codeArea = new TextArea(formattedMessage.toString().trim());
+                codeArea.setEditable(false);
+                codeArea.setWrapText(true);
+                codeArea.setMaxWidth(680);
+                codeArea.setStyle("-fx-font-family: 'Consolas'; -fx-font-size: 13px; -fx-background-color: #2e2e2e; -fx-text-fill: #00ff00;");
+                messageContainer.getChildren().add(codeArea);
+
+            } else {
+                // Xử lý tin nhắn bình thường
+                Label textLabel = new Label();
+                textLabel.setWrapText(true);
+                textLabel.setMaxWidth(700);
+                textLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: white;");
+                textLabel.setText(message);
+                messageContainer.getChildren().add(textLabel);
+            }
+
             Platform.runLater(() -> {
                 chatBox.getChildren().add(messageContainer);
                 scrollPane.setVvalue(1.0);
