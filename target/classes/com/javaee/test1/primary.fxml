@@ -66,7 +66,7 @@
                         </Label>
                         <ScrollPane fx:id="scrollPane3" layoutX="25.0" layoutY="87.0" prefHeight="424.0" prefWidth="264.0">
                             <content>
-                                <VBox fx:id="conversationCon" prefHeight="419.0" prefWidth="260.0" />
+                                <VBox fx:id="conversationCon" prefHeight="415.0" prefWidth="258.0" />
                             </content>
                         </ScrollPane>
                     </children>

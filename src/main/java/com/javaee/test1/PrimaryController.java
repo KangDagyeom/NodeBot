@@ -34,8 +34,10 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.scene.text.Text;
 
 public class PrimaryController {
+
     ChatMessageDAO chatMessageDAO = new ChatMessageDAO();
     UserDAO userDAO = new UserDAO();
     @FXML
@@ -73,7 +75,7 @@ public class PrimaryController {
     @FXML
     public void initialize() {
         scrollPane.setFitToWidth(true);
-        loadConversations(UUID.fromString("6626B948-A305-F011-8D62-B8AEEDBCAC42"));
+        loadConversations(UUID.fromString("BDC49726-C106-F011-BAAB-BD1237DCC943"));
         // Đảm bảo VBox mở rộng theo nội dung
         chatBox.setMinHeight(Region.USE_PREF_SIZE);
         chatBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -96,10 +98,10 @@ public class PrimaryController {
             addMessageToChat(message, timestamp, true, false);
 
             // Lưu tin nhắn vào DB
-            chatMessageDAO.saveMessageToDB(UUID.fromString("6926B948-A305-F011-8D62-B8AEEDBCAC42"),  // conversationId
-                    UUID.fromString("6626B948-A305-F011-8D62-B8AEEDBCAC42"),  // senderId
-                    "user",  // senderType
-                    message  // Nội dung tin nhắn
+            chatMessageDAO.saveMessageToDB(UUID.fromString("693A4249-C306-F011-BAAB-BD1237DCC943"), // conversationId
+                    UUID.fromString("BDC49726-C106-F011-BAAB-BD1237DCC943"), // senderId
+                    "user", // senderType
+                    message // Nội dung tin nhắn
             );
 
             inputField.clear();
@@ -181,8 +183,8 @@ public class PrimaryController {
                     // 🔹 Xử lý code block
                     Platform.runLater(() -> processBotResponse(botResponse, botMessageContainer));
 
-                    chatMessageDAO.saveMessageToDB(UUID.fromString("6926B948-A305-F011-8D62-B8AEEDBCAC42"),
-                            UUID.fromString("6626B948-A305-F011-8D62-B8AEEDBCAC42"),
+                    chatMessageDAO.saveMessageToDB(UUID.fromString("693A4249-C306-F011-BAAB-BD1237DCC943"),
+                            UUID.fromString("BDC49726-C106-F011-BAAB-BD1237DCC943"),
                             "bot",
                             botResponse);
 
@@ -216,9 +218,7 @@ public class PrimaryController {
             lastEnd = matcher.end();
         }
 
-
     }
-
 
     private void addMessageToChat(String message, String timestamp, boolean isUser, boolean isFetch) {
         if (!isFetch) {
@@ -226,12 +226,10 @@ public class PrimaryController {
         }
         if (isUser) {
 
-
             VBox messageContainer = new VBox();
             messageContainer.setMaxWidth(300);
 
             messageContainer.setStyle("-fx-background-color: #2f2f2f; -fx-padding: 10px; -fx-border-radius: 10px; -fx-background-radius: 10px;");
-
 
             Label messageLabel = new Label(message);
             messageLabel.setWrapText(true);
@@ -241,7 +239,6 @@ public class PrimaryController {
             TextFlow textFlow = new TextFlow(messageLabel);
 
             textFlow.setMaxWidth(280);
-
 
             Label timeLabel = new Label(timestamp);
             timeLabel.setStyle("-fx-text-fill: #aaaaaa; -fx-font-size: 10px;");
@@ -301,7 +298,6 @@ public class PrimaryController {
             });
         }
 
-
     }
 
     public void loadConversations(UUID userId) {
@@ -318,24 +314,20 @@ public class PrimaryController {
             conversationLabel.setGraphicTextGap(10);
             conversationLabel.setStyle("-fx-padding: 10px; -fx-font-size: 14px;");
 
-
             conversationLabel.setOnMouseEntered(event -> {
                 conversationLabel.setGraphic(imageView2);
                 conversationLabel.setContentDisplay(ContentDisplay.RIGHT);
             });
-
 
             conversationLabel.setOnMouseExited(event -> {
                 conversationLabel.setGraphic(imageView1);
                 conversationLabel.setContentDisplay(ContentDisplay.LEFT);
             });
 
-
             conversationLabel.setOnMouseClicked(event -> {
-                loadChatHistory(UUID.fromString("6926B948-A305-F011-8D62-B8AEEDBCAC42"));
+                loadChatHistory(UUID.fromString("693A4249-C306-F011-BAAB-BD1237DCC943"));
 
             });
-
 
             conversationCon.getChildren().add(conversationLabel);
         }
@@ -350,7 +342,6 @@ public class PrimaryController {
         messages.sort(Comparator.comparing(ChatMessage::getSentAt));
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-
 
         CompletableFuture.runAsync(() -> {
             for (ChatMessage msg : messages) {
@@ -372,6 +363,5 @@ public class PrimaryController {
             }
         });
     }
-
 
 }

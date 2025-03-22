@@ -68,4 +68,50 @@ public class UserDAO {
         }
         return conversationName;
     }
+     // ✅ Kiểm tra mật khẩu cũ có đúng không
+    public boolean isOldPasswordCorrect(String email, String oldPassword) {
+        String query = "SELECT * FROM Users WHERE Email = ? AND PasswordHash = ?";
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, email);
+            ps.setString(2, oldPassword);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }   
+    }
+
+    // 🔄 Cập nhật mật khẩu mới
+    public boolean updatePassword(String email, String newPassword) {
+        String query = "UPDATE Users SET PasswordHash = ? WHERE Email = ?";
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, newPassword);
+            ps.setString(2, email);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+        // Hàm kiểm tra đăng nhập
+    public boolean validateUser(String usernameOrEmail, String password) {
+        String query = "SELECT * FROM Users WHERE (Email = ? OR Username = ?) AND PasswordHash = ?";
+        
+        try (Connection conn = getConnect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, usernameOrEmail);
+            stmt.setString(2, usernameOrEmail);
+            stmt.setString(3, password);  // ❗ Thực tế nên hash password, ví dụ SHA-256
+
+            ResultSet rs = stmt.executeQuery();
+            return rs.next();  // Có dữ liệu nghĩa là đăng nhập đúng
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

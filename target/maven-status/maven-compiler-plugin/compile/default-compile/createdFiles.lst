@@ -3,6 +3,8 @@ com\javaee\test1\PrimaryController.class
 com\javaee\test1\controllers\UserDAO.class
 com\javaee\test1\SecondaryController.class
 com\javaee\test1\models\ChatMessage.class
+com\javaee\test1\QuenMatKhauController.class
+com\javaee\test1\LoginController.class
 module-info.class
 com\javaee\test1\controllers\ChatMessageDAO.class
 com\javaee\test1\models\User.class
