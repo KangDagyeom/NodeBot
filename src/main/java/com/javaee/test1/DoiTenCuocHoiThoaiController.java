@@ -34,7 +34,7 @@ public class DoiTenCuocHoiThoaiController {
     private void doiTenHoiThoai() {
         String newTitle = txtNewTitle.getText().trim();
         if (newTitle.isEmpty()) {
-            showAlert("Lỗi", "Vui lòng nhập tên mới!", Alert.AlertType.ERROR);
+            showAlert("Lỗi", "Vui lòng nhập tên mới!!", Alert.AlertType.ERROR);
             return;
         }
 
