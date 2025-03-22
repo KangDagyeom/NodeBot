@@ -114,4 +114,81 @@ public class UserDAO {
             return false;
         }
     }
+    // ✅ Hàm đổi tên cuộc trò chuyện
+public boolean updateConversationTitle(UUID conversationId, String newTitle) {
+    String query = "UPDATE ChatHistory SET Title = ? WHERE ConversationID = ?";
+    try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+        ps.setString(1, newTitle);
+        ps.setObject(2, conversationId);
+        return ps.executeUpdate() > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+// ✅ Hàm cập nhật thông tin người dùng
+public boolean updateUserInfo(UUID userId, String newUsername, String newEmail, String newAvatar) {
+    String query = "UPDATE Users SET Username = ?, Email = ?, Avatar = ? WHERE UserID = ?";
+    try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+        ps.setString(1, newUsername);
+        ps.setString(2, newEmail);
+        ps.setString(3, newAvatar);
+        ps.setObject(4, userId);
+        return ps.executeUpdate() > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
+// ✅ Cập nhật Email
+public boolean updateEmail(UUID userId, String newEmail) {
+    String query = "UPDATE Users SET Email = ? WHERE UserID = ?";
+    try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+        ps.setString(1, newEmail);
+        ps.setObject(2, userId);
+        return ps.executeUpdate() > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
+// ✅ Cập nhật Username
+public boolean updateUsername(UUID userId, String newUsername) {
+    String query = "UPDATE Users SET Username = ? WHERE UserID = ?";
+    try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+        ps.setString(1, newUsername);
+        ps.setObject(2, userId);
+        return ps.executeUpdate() > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+// ✅ Lấy thông tin User theo UserID
+public User getUserById(UUID userId) {
+    String query = "SELECT * FROM Users WHERE UserID = ?";
+    try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+        ps.setObject(1, userId);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return new User(
+                UUID.fromString(rs.getString("UserID")),
+                rs.getString("Email"),
+                rs.getString("PasswordHash"),
+                rs.getString("Username"),
+                rs.getString("Avatar"),
+                rs.getString("Role"),
+                rs.getString("SubscriptionPlan"),
+                rs.getTimestamp("CreatedAt"),
+                rs.getTimestamp("LastActive"),
+                rs.getBoolean("IsActive")
+            );
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null;
+}
 }
