@@ -7,15 +7,18 @@ package com.javaee.test1;
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.models.User;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 
 import java.util.UUID;
+
 /**
- *
  * @author xinch
  */
 public class DoiThongTinCaNhan {
-   @FXML
+    @FXML
     private TextField txtEmail;
     @FXML
     private TextField txtUsername;
@@ -70,7 +73,7 @@ public class DoiThongTinCaNhan {
         String currentPassword = txtCurrentPassword.getText().trim();
         String newPassword = txtNewPassword.getText().trim();
         String confirmPassword = txtConfirmPassword.getText().trim();
-
+        System.out.println(currentPassword);
         if (username.isEmpty()) {
             showAlert("Lỗi", "Tên người dùng không được để trống!", Alert.AlertType.ERROR);
             return;
