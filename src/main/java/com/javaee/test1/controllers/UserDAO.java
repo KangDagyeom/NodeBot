@@ -19,7 +19,7 @@ public class UserDAO {
     }
 
     private User mapResult(ResultSet rs) throws SQLException {
-        return new User(UUID.fromString(rs.getString("UserID")), rs.getString("Email"), rs.getString("PasswordHash"), rs.getString("Username"), rs.getString("Avatar"), rs.getString("Role"), rs.getString("SubscriptionPlan"), rs.getTimestamp("CreatedAt"), rs.getTimestamp("LastActive"), rs.getBoolean("IsActive"));
+        return new User(UUID.fromString(rs.getString("UserIDd")), rs.getString("Email"), rs.getString("PasswordHash"), rs.getString("Username"), rs.getString("Avatar"), rs.getString("Role"), rs.getString("SubscriptionPlan"), rs.getTimestamp("CreatedAt"), rs.getTimestamp("LastActive"), rs.getBoolean("IsActive"));
     }
 
     private ArrayList<User> executeQuery(String query, Object... params) {
