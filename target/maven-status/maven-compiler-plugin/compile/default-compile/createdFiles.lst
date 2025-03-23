@@ -2,9 +2,13 @@ com\javaee\test1\App.class
 com\javaee\test1\PrimaryController.class
 com\javaee\test1\controllers\UserDAO.class
 com\javaee\test1\SecondaryController.class
+com\javaee\test1\controllers\testcase.class
 com\javaee\test1\models\ChatMessage.class
 com\javaee\test1\QuenMatKhauController.class
 com\javaee\test1\LoginController.class
 module-info.class
+com\javaee\test1\DoiTenCuocHoiThoaiController.class
 com\javaee\test1\controllers\ChatMessageDAO.class
+com\javaee\test1\DoiThongTinCaNhan.class
 com\javaee\test1\models\User.class
+com\javaee\test1\controllers\UserDAO$HashUtil.class

@@ -11,7 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-
+import com.javaee.test1.models.User;
 import java.util.UUID;
 
 /**
@@ -19,7 +19,9 @@ import java.util.UUID;
  */
 public class DoiThongTinCaNhan {
     @FXML
-    private TextField txtEmail;
+    private TextField txtEmailMoi;
+    @FXML
+    private TextField txtEmailCu;
     @FXML
     private TextField txtUsername;
     @FXML
@@ -35,6 +37,7 @@ public class DoiThongTinCaNhan {
 
     private UserDAO userDAO = new UserDAO();
     private UUID userId;
+    private User user;
 
     public void setUserId(UUID id) {
         this.userId = id;
@@ -43,9 +46,9 @@ public class DoiThongTinCaNhan {
 
     // ✅ Load thông tin người dùng khi mở form
     private void loadUserInfo() {
-        User user = userDAO.getUserById(userId);
+
         if (user != null) {
-            txtEmail.setText(user.getEmail());
+            txtEmailMoi.setText(user.getEmail());
             txtUsername.setText(user.getUsername());
         }
     }
@@ -53,52 +56,73 @@ public class DoiThongTinCaNhan {
     // ✅ Cập nhật Email khi bấm "Lưu và Xác Minh"
     @FXML
     private void luuVaXacMinhEmail() {
-        String email = txtEmail.getText().trim();
-        if (email.isEmpty() || !email.contains("@")) {
-            showAlert("Lỗi", "Vui lòng nhập địa chỉ email hợp lệ!", Alert.AlertType.ERROR);
+        String oldEmail = txtEmailCu.getText().trim();
+        String newEmail = txtEmailMoi.getText().trim();
+
+        // Kiểm tra email hợp lệ
+        if (newEmail.isEmpty() || !newEmail.contains("@")) {
+            showAlert("Lỗi", "Vui lòng nhập địa chỉ email mới hợp lệ!", Alert.AlertType.ERROR);
             return;
         }
 
-        if (userDAO.updateEmail(userId, email)) {
+        if (oldEmail.isEmpty() || !oldEmail.contains("@")) {
+            showAlert("Lỗi", "Vui lòng nhập địa chỉ email cũ hợp lệ!", Alert.AlertType.ERROR);
+            return;
+        }
+
+        // Kiểm tra email cũ có đúng không
+        if (!userDAO.checkEmailExists(oldEmail)) {
+            showAlert("Lỗi", "Email cũ không tồn tại trong hệ thống!", Alert.AlertType.ERROR);
+            return;
+        }
+
+        // Cập nhật email trong database
+        if (userDAO.updateEmail(oldEmail, newEmail)) {
             showAlert("Thành công", "Email đã được cập nhật!", Alert.AlertType.INFORMATION);
         } else {
-            showAlert("Lỗi", "Không thể cập nhật email!", Alert.AlertType.ERROR);
+            showAlert("Lỗi", "Không thể cập nhật email. Vui lòng thử lại!", Alert.AlertType.ERROR);
         }
     }
 
     // ✅ Cập nhật Username và Mật khẩu khi bấm "Lưu Thay Đổi"
-    @FXML
-    private void luuThayDoi() {
-        String username = txtUsername.getText().trim();
-        String currentPassword = txtCurrentPassword.getText().trim();
-        String newPassword = txtNewPassword.getText().trim();
-        String confirmPassword = txtConfirmPassword.getText().trim();
-        System.out.println(currentPassword);
-        if (username.isEmpty()) {
-            showAlert("Lỗi", "Tên người dùng không được để trống!", Alert.AlertType.ERROR);
-            return;
-        }
+@FXML
+private void luuThayDoi() {
+    String user = txtUsername.getText().trim();
+    String currentPassword = txtCurrentPassword.getText().trim();
+    String newPassword = txtNewPassword.getText().trim();
+    String confirmPassword = txtConfirmPassword.getText().trim();
 
-        // 🔹 Nếu đổi mật khẩu, kiểm tra mật khẩu cũ
-        if (!currentPassword.isEmpty() || !newPassword.isEmpty() || !confirmPassword.isEmpty()) {
-            if (!userDAO.isOldPasswordCorrect(txtEmail.getText().trim(), currentPassword)) {
-                showAlert("Lỗi", "Mật khẩu hiện tại không đúng!", Alert.AlertType.ERROR);
-                return;
-            }
-            if (!newPassword.equals(confirmPassword)) {
-                showAlert("Lỗi", "Mật khẩu mới không khớp!", Alert.AlertType.ERROR);
-                return;
-            }
-            userDAO.updatePassword(txtEmail.getText().trim(), newPassword);
-        }
+    if (user.isEmpty()) {
+    showAlert("Lỗi", "Vui lòng nhập username", Alert.AlertType.ERROR);
+    return;
+}
 
-        // 🔹 Cập nhật Username
-        if (userDAO.updateUsername(userId, username)) {
-            showAlert("Thành công", "Thông tin cá nhân đã được cập nhật!", Alert.AlertType.INFORMATION);
-        } else {
-            showAlert("Lỗi", "Cập nhật không thành công!", Alert.AlertType.ERROR);
-        }
+//    // Lấy username theo email từ database
+//    String username = userDAO.getUsernameByEmail(user);
+//    if (username == null) {
+//        showAlert("Lỗi", "Email không tồn tại!", Alert.AlertType.ERROR);
+//        return;
+//    }
+
+    // Kiểm tra xác nhận mật khẩu mới
+    if (!newPassword.equals(confirmPassword)) {
+        showAlert("Lỗi", "Mật khẩu mới không khớp!", Alert.AlertType.ERROR);
+        return;
     }
+
+    // Kiểm tra mật khẩu cũ có đúng không
+    if (!userDAO.isOldPasswordCorrectuser(user, currentPassword)) {
+        showAlert("Lỗi", "Mật khẩu hiện tại không đúng!", Alert.AlertType.ERROR);
+        return;
+    }
+
+    // Cập nhật mật khẩu
+    if (userDAO.updatePassworduser(user, newPassword)) {
+        showAlert("Thành công", "Mật khẩu đã được cập nhật!", Alert.AlertType.INFORMATION);
+    } else {
+        showAlert("Lỗi", "Không thể đổi mật khẩu. Vui lòng thử lại!", Alert.AlertType.ERROR);
+    }
+}
 
     private void showAlert(String title, String content, Alert.AlertType type) {
         Alert alert = new Alert(type);
