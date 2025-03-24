@@ -118,19 +118,6 @@ public class UserDAO {
         }
     }
 
-    // ✅ Hàm đổi tên cuộc trò chuyện
-    public boolean updateConversationTitle(UUID conversationId, String newTitle) {
-        String query = "UPDATE ChatHistory SET Title = ? WHERE ConversationID = ?";
-        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setString(1, newTitle);
-            ps.setObject(2, conversationId);
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
     // ✅ Hàm cập nhật thông tin người dùng
     public boolean updateUserInfo(UUID userId, String newUsername, String newEmail, String newAvatar) {
         String query = "UPDATE Users SET Username = ?, Email = ?, Avatar = ? WHERE UserID = ?";
@@ -253,4 +240,35 @@ public class UserDAO {
         }
     }
 
+    // Lấy tên cuộc trò chuyện theo ConversationID
+    public String getConversationTitle(UUID conversationId) {
+        String query = "SELECT Title FROM ChatHistory WHERE ConversationID = ?";
+        try (Connection conn = getConnect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, conversationId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("Title");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // Cập nhật tên cuộc trò chuyện
+    public boolean updateConversationTitle(UUID conversationId, String newTitle) {
+        String query = "UPDATE ChatHistory SET Title = ? WHERE ConversationID = ?";
+        try (Connection conn = getConnect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, newTitle);
+            ps.setObject(2, conversationId);
+            return ps.executeUpdate() > 0; // >0 nghĩa là update thành công
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
+

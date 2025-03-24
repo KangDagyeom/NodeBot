@@ -9,6 +9,7 @@ com\javaee\test1\LoginController.class
 module-info.class
 com\javaee\test1\DoiTenCuocHoiThoaiController.class
 com\javaee\test1\controllers\ChatMessageDAO.class
+com\javaee\test1\test.class
 com\javaee\test1\DoiThongTinCaNhan.class
 com\javaee\test1\models\User.class
 com\javaee\test1\controllers\UserDAO$HashUtil.class
