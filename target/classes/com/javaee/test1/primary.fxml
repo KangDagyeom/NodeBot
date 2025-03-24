@@ -13,35 +13,45 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="665.0" prefWidth="1150.0" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javaee.test1.PrimaryController">
+<BorderPane maxHeight="668.0" maxWidth="1187.0" minHeight="668.0" minWidth="1187.0" prefHeight="668.0" prefWidth="1187.0" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javaee.test1.PrimaryController">
     <center>
         <AnchorPane BorderPane.alignment="CENTER">
             <children>
-                <ScrollPane fitToWidth="true" layoutX="325.0" layoutY="1.0" prefHeight="671.0" prefWidth="845.0">
+                <ScrollPane fitToWidth="true" layoutX="312.0" layoutY="1.0" prefHeight="676.0" prefWidth="911.0">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="629.0" prefWidth="897.0">
+                        <AnchorPane maxHeight="668.0" maxWidth="852.0" minHeight="668.0" minWidth="852.0" prefHeight="668.0" prefWidth="852.0">
                             <children>
-                                <ImageView fitHeight="668.0" fitWidth="854.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="675.0" fitWidth="923.0" preserveRatio="true">
                                     <image>
                                         <Image url="@../../../img/Main-background.png" />
                                     </image>
                                 </ImageView>
-                                <ImageView fitHeight="643.0" fitWidth="806.0" layoutX="19.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="632.0" fitWidth="857.0" layoutX="35.0" layoutY="19.0" preserveRatio="true">
                                     <image>
                                         <Image url="@../../../img/Main-container.png" />
                                     </image>
                                 </ImageView>
-                                <ScrollPane fx:id="scrollPane" layoutX="24.0" layoutY="24.0" prefHeight="519.0" prefWidth="781.0" styleClass="inputField">
+                                <ScrollPane fx:id="scrollPane" layoutX="52.0" layoutY="31.0" prefHeight="514.0" prefWidth="836.0" styleClass="inputField" viewOrder="-1">
                                     <content>
-                                        <VBox fx:id="chatBox" prefHeight="506.0" prefWidth="749.0" viewOrder="0" />
+                                        <VBox fx:id="chatBox" prefHeight="491.0" prefWidth="809.0" viewOrder="-1" />
                                     </content>
                                 </ScrollPane>
+            
+                            <!-- HBox chứa TextArea và Button, đảm bảo đặt ngoài ScrollPane -->
+                            <HBox alignment="CENTER" layoutX="56.0" layoutY="536.0" prefHeight="85.0" prefWidth="806.0" spacing="10.0">
+                                <children>
+                                    <TextArea fx:id="inputField" prefHeight="80.0" prefWidth="699.0" promptText="Ask anything" styleClass="inputField" wrapText="true" />
+                                    <Button onAction="#sendMessage" text="Gửi" />
+                                </children>
+                            </HBox>
+                        <Label layoutX="317.0" layoutY="625.0" text="Node can make mistakes. Check important info." textAlignment="CENTER" textFill="WHITE" />
+
 
                             </children>
                         </AnchorPane>
                     </content>
                 </ScrollPane>
-                <AnchorPane layoutX="14.0" prefHeight="671.0" prefWidth="315.0" styleClass="gray-background">
+                <AnchorPane layoutX="-1.0" prefHeight="677.0" prefWidth="335.0" styleClass="gray-background">
                     <children>
                         <ImageView fitHeight="57.0" fitWidth="281.0" layoutX="23.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -71,14 +81,6 @@
                         </ScrollPane>
                     </children>
                 </AnchorPane>
-
-                <!-- HBox chứa TextArea và Button, đảm bảo đặt ngoài ScrollPane -->
-                <HBox alignment="CENTER" layoutX="362.0" layoutY="557.0" prefHeight="92.0" prefWidth="821.0" spacing="10.0">
-                    <children>
-                        <TextArea fx:id="inputField" prefHeight="80.0" prefWidth="699.0" promptText="Ask anything" styleClass="inputField" wrapText="true" />
-                        <Button onAction="#sendMessage" text="Gửi" />
-                    </children>
-                </HBox>
 
             </children>
         </AnchorPane>

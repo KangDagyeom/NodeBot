@@ -193,23 +193,6 @@ public class UserDAO {
         return false;
     }
 
-    public class HashUtil {
-        public static String hashPassword(String password) {
-            try {
-                MessageDigest md = MessageDigest.getInstance("SHA-256");
-                byte[] hashedBytes = md.digest(password.getBytes());
-                StringBuilder hexString = new StringBuilder();
-                for (byte b : hashedBytes) {
-                    hexString.append(String.format("%02x", b));
-                }
-                return hexString.toString();
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-    }
-
     // ✅ Kiểm tra mật khẩu cũ có đúng không
     public boolean isOldPasswordCorrectuser(String user, String oldPassword) {
         String query = "SELECT * FROM Users WHERE Username = ? AND PasswordHash = ?";
@@ -251,6 +234,23 @@ public class UserDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public class HashUtil {
+        public static String hashPassword(String password) {
+            try {
+                MessageDigest md = MessageDigest.getInstance("SHA-256");
+                byte[] hashedBytes = md.digest(password.getBytes());
+                StringBuilder hexString = new StringBuilder();
+                for (byte b : hashedBytes) {
+                    hexString.append(String.format("%02x", b));
+                }
+                return hexString.toString();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
     }
 
 }

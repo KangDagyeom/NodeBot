@@ -3,17 +3,19 @@ package com.javaee.test1;
 import com.javaee.test1.controllers.ChatMessageDAO;
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.models.ChatMessage;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.ScaleTransition;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -34,7 +36,6 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javafx.scene.text.Text;
 
 public class PrimaryController {
 
@@ -75,7 +76,7 @@ public class PrimaryController {
     @FXML
     public void initialize() {
         scrollPane.setFitToWidth(true);
-        loadConversations(UUID.fromString("BDC49726-C106-F011-BAAB-BD1237DCC943"));
+        loadConversations(UUID.fromString("6626B948-A305-F011-8D62-B8AEEDBCAC42"));
         // Đảm bảo VBox mở rộng theo nội dung
         chatBox.setMinHeight(Region.USE_PREF_SIZE);
         chatBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -98,8 +99,8 @@ public class PrimaryController {
             addMessageToChat(message, timestamp, true, false);
 
             // Lưu tin nhắn vào DB
-            chatMessageDAO.saveMessageToDB(UUID.fromString("693A4249-C306-F011-BAAB-BD1237DCC943"), // conversationId
-                    UUID.fromString("BDC49726-C106-F011-BAAB-BD1237DCC943"), // senderId
+            chatMessageDAO.saveMessageToDB(UUID.fromString("6926B948-A305-F011-8D62-B8AEEDBCAC42"), // conversationId
+                    UUID.fromString("6626B948-A305-F011-8D62-B8AEEDBCAC42"), // senderId
                     "user", // senderType
                     message // Nội dung tin nhắn
             );
@@ -145,7 +146,51 @@ public class PrimaryController {
             botLabel.setWrapText(true);
             botLabel.setMaxWidth(700);
             botLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: white;");
-            botMessageContainer.getChildren().add(botLabel);
+
+            ImageView copyImageView = new ImageView(new Image(getClass().getResource("/img/btnCopy.png").toExternalForm()));
+            copyImageView.setFitWidth(16);
+            copyImageView.setFitHeight(16);
+
+            ImageView likeImageView = new ImageView(new Image(getClass().getResource("/img/Like.png").toExternalForm()));
+            likeImageView.setFitWidth(16);
+            likeImageView.setFitHeight(16);
+
+            ImageView dislikeImageView = new ImageView(new Image(getClass().getResource("/img/Dislike.png").toExternalForm()));
+            dislikeImageView.setFitWidth(16);
+            dislikeImageView.setFitHeight(16);
+
+            Button btnCopy = new Button();
+            btnCopy.setGraphic(copyImageView);
+            btnCopy.setCursor(Cursor.HAND);
+            btnCopy.setStyle("-fx-background-color: transparent; -fx-margin:0; -fx-padding:5px;");
+            btnCopy.setStyle(
+                    "-fx-background-color: transparent; -fx-padding: 5px;" +
+                            "-fx-background-radius: 5px;"
+            );
+            btnCopy.setOnMouseEntered(e -> btnCopy.setStyle("-fx-background-color: #2c2c2c; -fx-padding: 5px; -fx-background-radius: 10px;"));
+            btnCopy.setOnMouseExited(e -> btnCopy.setStyle("-fx-background-color: transparent; -fx-padding: 5px;"));
+
+            Button btnLike = new Button();
+            btnLike.setGraphic(likeImageView);
+            btnLike.setCursor(Cursor.HAND);
+            btnLike.setStyle("-fx-background-color: transparent; -fx-margin:0; -fx-padding:5px;");
+
+            Button btnDislike = new Button();
+            btnDislike.setGraphic(dislikeImageView);
+            btnDislike.setCursor(Cursor.HAND);
+            btnDislike.setStyle("-fx-background-color: transparent; -fx-margin:0; -fx-padding:5px;");
+            btnLike.setOnMouseEntered(e -> btnLike.setStyle("-fx-background-color: #2c2c2c; -fx-padding: 5px; -fx-background-radius: 10px;"));
+            btnLike.setOnMouseExited(e -> btnLike.setStyle("-fx-background-color: transparent; -fx-padding: 5px; "));
+
+            btnDislike.setOnMouseEntered(e -> btnDislike.setStyle("-fx-background-color: #2c2c2c; -fx-padding: 5px; -fx-background-radius: 10px;"));
+            btnDislike.setOnMouseExited(e -> btnDislike.setStyle("-fx-background-color: transparent; -fx-padding: 5px; "));
+
+            HBox buttonContainer = new HBox(5, btnCopy, btnLike, btnDislike);
+
+            buttonContainer.setSpacing(0);
+            buttonContainer.setAlignment(Pos.BOTTOM_LEFT);
+
+            botMessageContainer.getChildren().addAll(botLabel, buttonContainer);
 
             Platform.runLater(() -> {
                 chatBox.getChildren().add(botMessageContainer);
@@ -179,12 +224,35 @@ public class PrimaryController {
                 if (jsonResponse.optBoolean("done", false)) {
                     timeline.stop(); // Dừng Timeline khi nhận xong dữ liệu
                     String botResponse = String.join("", responseChunks);
+                    btnCopy.setOnAction(event -> {
+                        ImageView copiedImageView = new ImageView(new Image(getClass().getResource("/img/btnCopied.png").toExternalForm()));
+                        copiedImageView.setFitWidth(20);
+                        copiedImageView.setFitHeight(20);
+                        btnCopy.setGraphic(copiedImageView);
+
+                        Clipboard clipboard = Clipboard.getSystemClipboard();
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(botResponse);
+                        clipboard.setContent(content);
+                        System.out.println("Copied: " + botResponse);
+
+                        // Tạo hiệu ứng đợi 3 giây
+                        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+                        pause.setOnFinished(e -> {
+
+
+                            copyImageView.setFitWidth(16);
+                            copyImageView.setFitHeight(16);
+                            btnCopy.setGraphic(copyImageView);
+                        });
+                        pause.play();
+                    });
 
                     // 🔹 Xử lý code block
                     Platform.runLater(() -> processBotResponse(botResponse, botMessageContainer));
 
-                    chatMessageDAO.saveMessageToDB(UUID.fromString("693A4249-C306-F011-BAAB-BD1237DCC943"),
-                            UUID.fromString("BDC49726-C106-F011-BAAB-BD1237DCC943"),
+                    chatMessageDAO.saveMessageToDB(UUID.fromString("6926B948-A305-F011-8D62-B8AEEDBCAC42"),
+                            UUID.fromString("6626B948-A305-F011-8D62-B8AEEDBCAC42"),
                             "bot",
                             botResponse);
 
@@ -291,6 +359,73 @@ public class PrimaryController {
                 textLabel.setText(message);
                 messageContainer.getChildren().add(textLabel);
             }
+            ImageView copyImageView = new ImageView(new Image(getClass().getResource("/img/btnCopy.png").toExternalForm()));
+            copyImageView.setFitWidth(16);
+            copyImageView.setFitHeight(16);
+
+            ImageView likeImageView = new ImageView(new Image(getClass().getResource("/img/Like.png").toExternalForm()));
+            likeImageView.setFitWidth(16);
+            likeImageView.setFitHeight(16);
+
+            ImageView dislikeImageView = new ImageView(new Image(getClass().getResource("/img/Dislike.png").toExternalForm()));
+            dislikeImageView.setFitWidth(16);
+            dislikeImageView.setFitHeight(16);
+
+            Button btnCopy = new Button();
+            btnCopy.setGraphic(copyImageView);
+            btnCopy.setCursor(Cursor.HAND);
+            btnCopy.setStyle("-fx-background-color: transparent; -fx-margin:0; -fx-padding:5px;");
+            btnCopy.setStyle(
+                    "-fx-background-color: transparent; -fx-padding: 5px;" +
+                            "-fx-background-radius: 5px;"
+            );
+            btnCopy.setOnMouseEntered(e -> btnCopy.setStyle("-fx-background-color: #2c2c2c; -fx-padding: 5px; -fx-background-radius: 10px;"));
+            btnCopy.setOnMouseExited(e -> btnCopy.setStyle("-fx-background-color: transparent; -fx-padding: 5px;"));
+
+            Button btnLike = new Button();
+            btnLike.setGraphic(likeImageView);
+            btnLike.setCursor(Cursor.HAND);
+            btnLike.setStyle("-fx-background-color: transparent; -fx-margin:0; -fx-padding:5px;");
+
+            Button btnDislike = new Button();
+            btnDislike.setGraphic(dislikeImageView);
+            btnDislike.setCursor(Cursor.HAND);
+            btnDislike.setStyle("-fx-background-color: transparent; -fx-margin:0; -fx-padding:5px;");
+            btnLike.setOnMouseEntered(e -> btnLike.setStyle("-fx-background-color: #2c2c2c; -fx-padding: 5px; -fx-background-radius: 10px;"));
+            btnLike.setOnMouseExited(e -> btnLike.setStyle("-fx-background-color: transparent; -fx-padding: 5px; "));
+
+            btnDislike.setOnMouseEntered(e -> btnDislike.setStyle("-fx-background-color: #2c2c2c; -fx-padding: 5px; -fx-background-radius: 10px;"));
+            btnDislike.setOnMouseExited(e -> btnDislike.setStyle("-fx-background-color: transparent; -fx-padding: 5px; "));
+
+
+            HBox buttonContainer = new HBox(5, btnCopy, btnLike, btnDislike);
+
+            buttonContainer.setSpacing(0);
+            buttonContainer.setAlignment(Pos.BOTTOM_LEFT);
+            messageContainer.getChildren().add(buttonContainer);
+            btnCopy.setOnAction(event -> {
+                ImageView copiedImageView = new ImageView(new Image(getClass().getResource("/img/btnCopied.png").toExternalForm()));
+                copiedImageView.setFitWidth(20);
+                copiedImageView.setFitHeight(20);
+                btnCopy.setGraphic(copiedImageView);
+
+                Clipboard clipboard = Clipboard.getSystemClipboard();
+                ClipboardContent content = new ClipboardContent();
+                content.putString(message);
+                clipboard.setContent(content);
+                System.out.println("Copied: " + message);
+
+                // Tạo hiệu ứng đợi 3 giây
+                PauseTransition pause = new PauseTransition(Duration.seconds(3));
+                pause.setOnFinished(e -> {
+
+
+                    copyImageView.setFitWidth(16);
+                    copyImageView.setFitHeight(16);
+                    btnCopy.setGraphic(copyImageView);
+                });
+                pause.play();
+            });
 
             Platform.runLater(() -> {
                 chatBox.getChildren().add(messageContainer);
@@ -325,7 +460,7 @@ public class PrimaryController {
             });
 
             conversationLabel.setOnMouseClicked(event -> {
-                loadChatHistory(UUID.fromString("693A4249-C306-F011-BAAB-BD1237DCC943"));
+                loadChatHistory(UUID.fromString("6926B948-A305-F011-8D62-B8AEEDBCAC42"));
 
             });
 

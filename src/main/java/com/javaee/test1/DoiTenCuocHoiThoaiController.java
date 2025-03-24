@@ -12,12 +12,12 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.util.UUID;
+
 /**
- *
  * @author xinch
  */
 public class DoiTenCuocHoiThoaiController {
- @FXML
+    @FXML
     private TextField txtNewTitle;
     @FXML
     private Button btnDoiTen, btnHuy, btnThoat;
@@ -67,5 +67,5 @@ public class DoiTenCuocHoiThoaiController {
         alert.setContentText(content);
         alert.showAndWait();
     }
-   
+
 }

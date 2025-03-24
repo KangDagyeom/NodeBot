@@ -11,7 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import com.javaee.test1.models.User;
+
 import java.util.UUID;
 
 /**
@@ -85,17 +85,17 @@ public class DoiThongTinCaNhan {
     }
 
     // ✅ Cập nhật Username và Mật khẩu khi bấm "Lưu Thay Đổi"
-@FXML
-private void luuThayDoi() {
-    String user = txtUsername.getText().trim();
-    String currentPassword = txtCurrentPassword.getText().trim();
-    String newPassword = txtNewPassword.getText().trim();
-    String confirmPassword = txtConfirmPassword.getText().trim();
+    @FXML
+    private void luuThayDoi() {
+        String user = txtUsername.getText().trim();
+        String currentPassword = txtCurrentPassword.getText().trim();
+        String newPassword = txtNewPassword.getText().trim();
+        String confirmPassword = txtConfirmPassword.getText().trim();
 
-    if (user.isEmpty()) {
-    showAlert("Lỗi", "Vui lòng nhập username", Alert.AlertType.ERROR);
-    return;
-}
+        if (user.isEmpty()) {
+            showAlert("Lỗi", "Vui lòng nhập username", Alert.AlertType.ERROR);
+            return;
+        }
 
 //    // Lấy username theo email từ database
 //    String username = userDAO.getUsernameByEmail(user);
@@ -104,25 +104,25 @@ private void luuThayDoi() {
 //        return;
 //    }
 
-    // Kiểm tra xác nhận mật khẩu mới
-    if (!newPassword.equals(confirmPassword)) {
-        showAlert("Lỗi", "Mật khẩu mới không khớp!", Alert.AlertType.ERROR);
-        return;
-    }
+        // Kiểm tra xác nhận mật khẩu mới
+        if (!newPassword.equals(confirmPassword)) {
+            showAlert("Lỗi", "Mật khẩu mới không khớp!", Alert.AlertType.ERROR);
+            return;
+        }
 
-    // Kiểm tra mật khẩu cũ có đúng không
-    if (!userDAO.isOldPasswordCorrectuser(user, currentPassword)) {
-        showAlert("Lỗi", "Mật khẩu hiện tại không đúng!", Alert.AlertType.ERROR);
-        return;
-    }
+        // Kiểm tra mật khẩu cũ có đúng không
+        if (!userDAO.isOldPasswordCorrectuser(user, currentPassword)) {
+            showAlert("Lỗi", "Mật khẩu hiện tại không đúng!", Alert.AlertType.ERROR);
+            return;
+        }
 
-    // Cập nhật mật khẩu
-    if (userDAO.updatePassworduser(user, newPassword)) {
-        showAlert("Thành công", "Mật khẩu đã được cập nhật!", Alert.AlertType.INFORMATION);
-    } else {
-        showAlert("Lỗi", "Không thể đổi mật khẩu. Vui lòng thử lại!", Alert.AlertType.ERROR);
+        // Cập nhật mật khẩu
+        if (userDAO.updatePassworduser(user, newPassword)) {
+            showAlert("Thành công", "Mật khẩu đã được cập nhật!", Alert.AlertType.INFORMATION);
+        } else {
+            showAlert("Lỗi", "Không thể đổi mật khẩu. Vui lòng thử lại!", Alert.AlertType.ERROR);
+        }
     }
-}
 
     private void showAlert(String title, String content, Alert.AlertType type) {
         Alert alert = new Alert(type);

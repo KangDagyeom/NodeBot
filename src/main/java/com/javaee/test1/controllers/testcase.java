@@ -7,13 +7,12 @@ package com.javaee.test1.controllers;
 import java.util.UUID;
 
 /**
- *
  * @author xinch
  */
 public class testcase {
     public static void main(String[] args) {
         UserDAO userDAO = new UserDAO();
-        
+
         // Giả lập một UUID để test
         UUID testUserId = UUID.randomUUID();
 

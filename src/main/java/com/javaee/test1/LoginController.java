@@ -2,22 +2,20 @@ package com.javaee.test1;
 
 import com.javaee.test1.controllers.ChatMessageDAO;
 import com.javaee.test1.controllers.UserDAO;
-import java.io.IOException;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 /**
- *
  * @author xinch
  */
 public class LoginController {
@@ -105,23 +103,23 @@ public class LoginController {
         alert.setContentText(message);
         alert.showAndWait(); // Hiện thông báo và chờ người dùng bấm OK
     }
-    
-    @FXML
-private void handleQuenMK(ActionEvent event) {
-    try {
-        FXMLLoader loader = new FXMLLoader(App.class.getResource("Quenmk.fxml"));
-        Parent root = loader.load();
 
-        Scene newScene = new Scene(root);
-        Stage stage = (Stage) buttonQuenMK.getScene().getWindow();
-        stage.setScene(newScene);
-        stage.centerOnScreen();  // 🔹 Căn giữa màn hình
-        stage.show();
-    } catch (IOException e) {
-        e.printStackTrace();
-        showStatus("Không thể mở giao diện Quên mật khẩu.", false);
+    @FXML
+    private void handleQuenMK(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("Quenmk.fxml"));
+            Parent root = loader.load();
+
+            Scene newScene = new Scene(root);
+            Stage stage = (Stage) buttonQuenMK.getScene().getWindow();
+            stage.setScene(newScene);
+            stage.centerOnScreen();  // 🔹 Căn giữa màn hình
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showStatus("Không thể mở giao diện Quên mật khẩu.", false);
+        }
     }
-}
 
 
 }
