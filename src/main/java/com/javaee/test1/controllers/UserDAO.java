@@ -217,24 +217,6 @@ public class UserDAO {
         return null;
     }
 
-    public class HashUtil {
-
-        public static String hashPassword(String password) {
-            try {
-                MessageDigest md = MessageDigest.getInstance("SHA-256");
-                byte[] hashedBytes = md.digest(password.getBytes());
-                StringBuilder hexString = new StringBuilder();
-                for (byte b : hashedBytes) {
-                    hexString.append(String.format("%02x", b));
-                }
-                return hexString.toString();
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-    }
-
     // Lấy tên cuộc trò chuyện theo ConversationID
     public String getConversationTitle(UUID conversationId) {
         String query = "SELECT Title FROM ChatHistory WHERE ConversationID = ?";
@@ -334,8 +316,6 @@ public class UserDAO {
         return null; // Trả về null nếu không tìm thấy user
     }
 
-    //xóa tất cả các cuộc hội thoại
-
     public boolean deleteAllConversations(UUID userId) {
         String query = "DELETE FROM ChatHistory WHERE UserID = ?";
         try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
@@ -348,11 +328,30 @@ public class UserDAO {
         }
     }
 
+    //xóa tất cả các cuộc hội thoại
 
     //Nang cấp gói
     public void updateSubscriptionPlan(User user, String newPlan) {
         user.setSubscriptionPlan(newPlan);
         System.out.println("User " + user.getUsername() + " đã cập nhật gói: " + newPlan);
+    }
+
+    public class HashUtil {
+
+        public static String hashPassword(String password) {
+            try {
+                MessageDigest md = MessageDigest.getInstance("SHA-256");
+                byte[] hashedBytes = md.digest(password.getBytes());
+                StringBuilder hexString = new StringBuilder();
+                for (byte b : hashedBytes) {
+                    hexString.append(String.format("%02x", b));
+                }
+                return hexString.toString();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
     }
 
 }

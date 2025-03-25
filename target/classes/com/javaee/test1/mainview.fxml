@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="668.0" maxWidth="1187.0" minHeight="668.0" minWidth="1187.0" prefHeight="668.0" prefWidth="1187.0" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javaee.test1.PrimaryController">
+<BorderPane maxHeight="668.0" maxWidth="1187.0" minHeight="668.0" minWidth="1187.0" prefHeight="668.0" prefWidth="1187.0" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javaee.test1.MainViewController">
     <center>
         <AnchorPane BorderPane.alignment="CENTER">
             <children>
@@ -54,7 +54,7 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Circle>
-                        <ImageView fitHeight="36.0" fitWidth="36.0" layoutX="59.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="avatar" fitHeight="36.0" fitWidth="36.0" layoutX="59.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../../img/avatar.png" />
                             </image>
@@ -105,7 +105,7 @@
                                 <Image url="@../../../img/delete.png" />
                             </image>
                         </ImageView>
-                        <Label layoutX="74.0" layoutY="537.0" text="Xóa tất cả các cuộc hội thoại" textFill="WHITE">
+                        <Label fx:id="labelXoahoithoai" layoutX="74.0" layoutY="537.0" text="Xóa tất cả các cuộc hội thoại" textFill="WHITE">
                             <font>
                                 <Font size="14.0" />
                             </font>
@@ -113,12 +113,12 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                         </Label>
-                        <Label layoutX="75.0" layoutY="582.0" text="Nâng cấp lên Node Plus " textFill="WHITE">
+                        <Label fx:id="labelNangcap" layoutX="75.0" layoutY="582.0" text="Nâng cấp lên Node Plus " textFill="WHITE">
                             <font>
                                 <Font size="14.0" />
                             </font>
                         </Label>
-                        <Label layoutX="74.0" layoutY="626.0" text="Log out" textFill="#d45454">
+                        <Label fx:id="labelLogout" layoutX="74.0" layoutY="626.0" text="Log out" textFill="#d45454">
                             <font>
                                 <Font size="14.0" />
                             </font>
@@ -164,19 +164,10 @@
                 </ImageView>
                 <ImageView fitHeight="158.0" fitWidth="648.0" layoutX="456.0" layoutY="445.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../../img/Fonctionnality%20List.png" />
+                        <Image url="@../../../img/Fonctionnality List.png" />
                     </image>
                 </ImageView>
-                <TextArea layoutX="470.0" layoutY="333.0" prefHeight="0.0" prefWidth="619.0" promptText="Example : “Explain quantum computing in simple terms”" styleClass="inputField" />
-                <Button layoutX="445.0" layoutY="360.0" mnemonicParsing="false" styleClass="transparent-button2">
-                    <graphic>
-                        <ImageView fitHeight="21.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true" styleClass="transparent-button2">
-                            <image>
-                                <Image url="@../../../img/KA/Group%201439.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
+                <TextArea layoutX="470.0" layoutY="333.0" prefHeight="14.0" prefWidth="619.0" promptText="Example : “Explain quantum computing in simple terms”" styleClass="inputField" stylesheets="@../../../css/style.css" wrapText="true" />
             <Label layoutX="533.0" layoutY="169.0" text="Welcome to" textFill="WHITE">
                <font>
                   <Font name="SansSerif Bold" size="48.0" />
@@ -187,7 +178,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <ImageView fitHeight="50.0" fitWidth="56.0" layoutX="1033.0" layoutY="339.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="52.0" fitWidth="56.0" layoutX="1033.0" layoutY="339.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../img/btnSend.png" />
                </image>

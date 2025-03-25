@@ -50,33 +50,34 @@ package com.javaee.test1;
 //import javafx.scene.Scene;
 //import javafx.scene.text.Text;
 //import javafx.stage.Stage;
-////đổi ten theo controller của từng cái 
+/// /đổi ten theo controller của từng cái
 //import com.javaee.test1.DoiThongTinCaNhan;
 //import com.javaee.test1.DoiTenCuocHoiThoaiController;
-////import com.javaee.test1.controllers.DeleteConversationController;
+/// /import com.javaee.test1.controllers.DeleteConversationController;
 //import com.javaee.test1.NangCapController;
 
+
+import com.javaee.test1.controllers.UserDAO;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.javaee.test1.controllers.UserDAO;
-
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
-
 // Import controller theo từng chức năng
 
 
 /**
- *
  * @author dokie
  */
 public class MainViewController {
@@ -84,18 +85,9 @@ public class MainViewController {
     private List<String> historyList = new ArrayList<>();
 
     @FXML
-    private Button txtNode;
-    @FXML
-    private Button txtClickcuochoithoai;
+    private ImageView avatar;
     @FXML
     private Label labelNangcap;
-    @FXML
-    private Button buttonCuoctrochuyenmoi;
-    @FXML
-    private Label labelLichsutrochuyen;
-    // có để khi bấm vào cuộc trò chuyện mới sẽ xóa hết tin nhắn đang nhắn trong TextArea
-    @FXML
-    private TextArea textAreaChat;
     @FXML
     private Label labelXoahoithoai; // Label nút xóa
     @FXML
@@ -105,16 +97,12 @@ public class MainViewController {
     @FXML
     private void initialize() {
         // Gán sự kiện click cho button
-        txtNode.setOnAction(event -> openEditProfile());
-        //gán sự kien click cuoc hội thoại
-        txtClickcuochoithoai.setOnAction(event -> handleClick());
+        avatar.setOnMouseClicked(event -> openEditProfile());
         //gán sự kiện bấm vào label nâng cấp chuyển sang trang nâng cấp gói
         labelNangcap.setOnMouseClicked(event -> openUpgradePlan());
-        //GÁN SỰ KIỆN CUỘC TRÒ CHUYỆN MỚI
-        buttonCuoctrochuyenmoi.setOnAction(event -> startNewConversation());
         //gán sự kiện cho xóa hết cuộc hội thoại
         labelXoahoithoai.setOnMouseClicked(event -> {
-            xoaTatCaLichSu();
+
         });
         labelLogout.setOnMouseClicked(event -> handleLogout(event));
     }
@@ -122,7 +110,7 @@ public class MainViewController {
     //===========================================================================
     //bấm vào button avatar thì chuyển sang trang  trỉnh sửa thông tin cá nhân
     @FXML
-    private void openEditProfile() {      
+    private void openEditProfile() {
         try {
             // Load FXML của trang chỉnh sửa
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/Thongtincanhan.fxml"));//đổi đường dẫn thì nó mới load sang trang 
@@ -201,34 +189,6 @@ public class MainViewController {
         }
     }
 
-    //=======================================================================================================
-    //CUỘC TRÒ CHUYỆN MỚI VÀ LƯU LỊCH SỬ CUỘC TRÒ CHUYỆN CŨ VÀO LABEL
-    @FXML
-    private void startNewConversation() {
-        // Lưu nội dung cuộc trò chuyện hiện tại
-        String currentConversation = getCurrentConversation(); // Viết hàm này để lấy nội dung đang chat
-        if (!currentConversation.isEmpty()) {
-            historyList.add(currentConversation);
-        }
-
-        // Clear nội dung chat (giả sử bạn có text area hoặc list message)
-        clearChat();
-
-        // Hiển thị lịch sử
-        showHistory();
-
-        // Có thể reload lại giao diện nếu muốn:
-        // reloadScene();
-    }
-
-    @FXML
-    private void showHistory() {
-        StringBuilder sb = new StringBuilder();
-        for (String convo : historyList) {
-            sb.append(convo).append("\n");
-        }
-        labelLichsutrochuyen.setText(sb.toString());
-    }
 
     @FXML
     private String getCurrentConversation() {
@@ -237,30 +197,8 @@ public class MainViewController {
         return "Cuộc trò chuyện " + (historyList.size() + 1);
     }
 
-    @FXML
-    private void clearChat() {
-
-        textAreaChat.clear(); // Xóa sạch nội dung text area
-    }
-
-    @FXML
-    private void reloadScene() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/views/MainView.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) buttonCuoctrochuyenmoi.getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     //=======================================
-    @FXML
-    private void xoaTatCaLichSu() {
-        labelLichsutrochuyen.setText(""); // Xóa hết nội dung
-        System.out.println("Đã xóa tất cả lịch sử cuộc trò chuyện!");
-    }
 
     //log out
     @FXML

@@ -3,14 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.javaee.test1;
+
 import com.javaee.test1.controllers.UserDAO;
-import javafx.scene.control.Label;
 import com.javaee.test1.models.User;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 
 /**
- *
  * @author dokie
  */
 public class NangCapController {
@@ -22,7 +22,7 @@ public class NangCapController {
 
     private User currentUser;
     private UserDAO userDAO;
-    
+
 
     @FXML
     public void setData(User user, UserDAO userDAO) {
@@ -40,7 +40,7 @@ public class NangCapController {
     private void chooseProPlan() {
         updatePlan("Plus");
     }
-    
+
     @FXML
     private void updatePlan(String plan) {
         userDAO.updateSubscriptionPlan(currentUser, plan);

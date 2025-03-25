@@ -6,20 +6,11 @@ package com.javaee.test1;
 
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.models.User;
-import java.io.IOException;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import java.util.Optional;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.*;
 
+import java.util.Optional;
 import java.util.UUID;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 /**
  * @author xinch

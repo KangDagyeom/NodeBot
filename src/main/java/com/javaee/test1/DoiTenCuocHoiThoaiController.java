@@ -5,7 +5,6 @@
 package com.javaee.test1;
 
 import com.javaee.test1.controllers.UserDAO;
-import com.javaee.test1.models.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -27,7 +26,7 @@ public class DoiTenCuocHoiThoaiController {
     private Button btnConfirm;   // Nút Xác nhận
 
     private UserDAO userDAO = new UserDAO();
-    
+
     private UUID conversationId;
 
     // Được gọi từ bên ngoài, gán ConversationID và load tiêu đề hiện tại (nếu muốn)
