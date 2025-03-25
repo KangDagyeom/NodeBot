@@ -102,8 +102,7 @@ public class UserDAO {
     public boolean validateUser(String usernameOrEmail, String password) {
         String query = "SELECT * FROM Users WHERE (Email = ? OR Username = ?) AND PasswordHash = ?";
 
-        try (Connection conn = getConnect();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+        try (Connection conn = getConnect(); PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, usernameOrEmail);
             stmt.setString(2, usernameOrEmail);
@@ -133,12 +132,10 @@ public class UserDAO {
         }
     }
 
-// 1️⃣ Kiểm tra Email cũ có tồn tại không
-
+    // 1️⃣ Kiểm tra Email cũ có tồn tại không
     public boolean checkEmailExists(String email) {
         String query = "SELECT COUNT(*) FROM Users WHERE Email = ?";
-        try (Connection conn = getConnect();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -153,8 +150,7 @@ public class UserDAO {
 
     public boolean updateEmail(String oldEmail, String newEmail) {
         String query = "UPDATE Users SET Email = ? WHERE Email = ?";
-        try (Connection conn = getConnect();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, newEmail);
             ps.setString(2, oldEmail);
             return ps.executeUpdate() > 0;
@@ -167,8 +163,7 @@ public class UserDAO {
     //1️⃣ Kiểm tra Username có tồn tại không
     public boolean checkUsernameExists(String username) {
         String query = "SELECT COUNT(*) FROM Users WHERE Username = ?";
-        try (Connection conn = getConnect();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -210,8 +205,7 @@ public class UserDAO {
     // Lấy username theo email (tránh chỉnh sửa username trực tiếp)
     public String getUsernameByEmail(String email) {
         String query = "SELECT Username FROM Users WHERE Email = ?";
-        try (Connection conn = getConnect();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -224,6 +218,7 @@ public class UserDAO {
     }
 
     public class HashUtil {
+
         public static String hashPassword(String password) {
             try {
                 MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -243,8 +238,7 @@ public class UserDAO {
     // Lấy tên cuộc trò chuyện theo ConversationID
     public String getConversationTitle(UUID conversationId) {
         String query = "SELECT Title FROM ChatHistory WHERE ConversationID = ?";
-        try (Connection conn = getConnect();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, conversationId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -260,8 +254,7 @@ public class UserDAO {
     // Cập nhật tên cuộc trò chuyện
     public boolean updateConversationTitle(UUID conversationId, String newTitle) {
         String query = "UPDATE ChatHistory SET Title = ? WHERE ConversationID = ?";
-        try (Connection conn = getConnect();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, newTitle);
             ps.setObject(2, conversationId);
             return ps.executeUpdate() > 0; // >0 nghĩa là update thành công
@@ -270,5 +263,96 @@ public class UserDAO {
             return false;
         }
     }
-}
 
+    // Thêm người dùng vào database
+    public boolean createUser(String email, String username, String password, String avatar) {
+        String sql = "INSERT INTO Users (Email, PasswordHash, Username, Avatar) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = getConnect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, email);
+            pstmt.setString(2, password); // Có thể thêm mã hóa mật khẩu ở đây
+            pstmt.setString(3, username);
+            pstmt.setString(4, avatar);
+
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("Lỗi khi thêm người dùng: " + e.getMessage());
+            return false;
+        }
+    }
+
+    // Hàm xóa người dùng trong UserDAO
+    public boolean deleteUserById(UUID userId) {
+        String sql = "DELETE FROM Users WHERE UserID = ?";
+
+        try (Connection conn = getConnect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setObject(1, userId);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("Lỗi khi xóa tài khoản: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public User getUserById(UUID userId) {
+        if (userId == null) {
+            System.out.println("Lỗi: userId truyền vào là null");
+            return null;
+        }
+
+        String sql = "SELECT * FROM Users WHERE UserID = ?";
+
+        try (Connection conn = getConnect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            if (conn == null) {
+                System.out.println("Lỗi: Không thể kết nối database.");
+                return null;
+            }
+
+            pstmt.setObject(1, userId); // UUID phải dùng setObject
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return new User(
+                            rs.getObject("UserID", UUID.class), // Cách cast đúng
+                            rs.getString("Email"),
+                            rs.getString("PasswordHash"),
+                            rs.getString("Username"),
+                            rs.getString("Avatar"),
+                            rs.getString("Role"),
+                            rs.getString("SubscriptionPlan"),
+                            rs.getTimestamp("CreatedAt"),
+                            rs.getTimestamp("LastActive"),
+                            rs.getBoolean("IsActive")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Lỗi khi lấy thông tin người dùng: " + e.getMessage());
+        }
+        return null; // Trả về null nếu không tìm thấy user
+    }
+
+    //xóa tất cả các cuộc hội thoại
+
+    public boolean deleteAllConversations(UUID userId) {
+        String query = "DELETE FROM ChatHistory WHERE UserID = ?";
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, userId);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0; // Trả về true nếu có dòng bị xóa
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    //Nang cấp gói
+    public void updateSubscriptionPlan(User user, String newPlan) {
+        user.setSubscriptionPlan(newPlan);
+        System.out.println("User " + user.getUsername() + " đã cập nhật gói: " + newPlan);
+    }
+
+}

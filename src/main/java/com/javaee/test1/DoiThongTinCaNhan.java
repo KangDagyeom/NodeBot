@@ -6,18 +6,26 @@ package com.javaee.test1;
 
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.models.User;
+import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import java.util.Optional;
+import javafx.scene.control.ButtonType;
 
 import java.util.UUID;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  * @author xinch
  */
 public class DoiThongTinCaNhan {
+
     @FXML
     private TextField txtEmailMoi;
     @FXML
@@ -34,22 +42,56 @@ public class DoiThongTinCaNhan {
     private Button btnLuuThayDoi;
     @FXML
     private Button btnLuuVaXacMinh;
+    @FXML
+    private Button btnXoaNguoiDungNew;
 
-    private UserDAO userDAO = new UserDAO();
+    //    private UserDAO userDAO = new UserDAO();
+//    private UUID userId;
+//    private User user;
+//
+//    public void setUserId(UUID id) {
+//        this.userId = id;
+//        this.user = userDAO.getUserById(id); // Lấy user từ database nếu chưa có
+//        loadUserInfo();
+//    }
+//
+//    // ✅ Load thông tin người dùng khi mở form
+//    private void loadUserInfo() {
+//
+//        if (user != null) {
+//            txtEmailMoi.setText(user.getEmail());
+//            txtUsername.setText(user.getUsername());
+//        }
+//    }
     private UUID userId;
     private User user;
+    private UserDAO userDAO = new UserDAO();
 
+    // ✅ Gán userId từ user (nếu có), nếu không thì lấy từ database
     public void setUserId(UUID id) {
+        if (id == null) {
+            showAlert("Lỗi", "ID người dùng không hợp lệ!", Alert.AlertType.ERROR);
+            return;
+        }
+
         this.userId = id;
-        loadUserInfo();
+        this.user = userDAO.getUserById(id);
+
+        if (this.user == null) {
+            showAlert("Lỗi", "Không tìm thấy thông tin người dùng!", Alert.AlertType.ERROR);
+        } else {
+            loadUserInfo();
+        }
     }
 
     // ✅ Load thông tin người dùng khi mở form
     private void loadUserInfo() {
-
         if (user != null) {
+            userId = user.getUserID(); // Đảm bảo userId luôn có giá trị
             txtEmailMoi.setText(user.getEmail());
             txtUsername.setText(user.getUsername());
+        } else {
+            showAlert("Lỗi", "Không tìm thấy thông tin người dùng!", Alert.AlertType.ERROR);
         }
     }
 
@@ -103,7 +145,6 @@ public class DoiThongTinCaNhan {
 //        showAlert("Lỗi", "Email không tồn tại!", Alert.AlertType.ERROR);
 //        return;
 //    }
-
         // Kiểm tra xác nhận mật khẩu mới
         if (!newPassword.equals(confirmPassword)) {
             showAlert("Lỗi", "Mật khẩu mới không khớp!", Alert.AlertType.ERROR);
@@ -131,5 +172,46 @@ public class DoiThongTinCaNhan {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
+    @FXML
+    private void xoaNguoiDung() {
+        if (user == null || user.getUserID() == null) {
+            showAlert("Lỗi", "Không tìm thấy thông tin tài khoản!", Alert.AlertType.ERROR);
+            return;
+        }
+
+        UUID userId = user.getUserID();
+
+        // Xác nhận trước khi xóa
+        Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmDialog.setTitle("Xác nhận xóa");
+        confirmDialog.setHeaderText(null);
+        confirmDialog.setContentText("Bạn có chắc chắn muốn xóa tài khoản này? Hành động này không thể hoàn tác!");
+
+        Optional<ButtonType> result = confirmDialog.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            boolean success = userDAO.deleteUserById(userId);
+
+            if (success) {
+                showAlert("Thành công", "Tài khoản của bạn đã bị xóa!", Alert.AlertType.INFORMATION);
+//                logoutAndRedirectToLogin();
+            } else {
+                showAlert("Lỗi", "Không thể xóa tài khoản!", Alert.AlertType.ERROR);
+            }
+        }
+    }
+
+// Hàm đăng xuất và chuyển về màn hình đăng nhập
+//    private void logoutAndRedirectToLogin() {
+//        try {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Login.fxml"));
+//            Parent root = loader.load();
+//            Stage stage = (Stage) btnXoaNguoiDungNew.getScene().getWindow();
+//            stage.setScene(new Scene(root));
+//            stage.show();
+//        } catch (IOException e) {
+//            System.out.println("Lỗi khi chuyển về màn hình đăng nhập: " + e.getMessage());
+//        }
+//    }
 
 }
