@@ -35,6 +35,8 @@ public class LoginController {
     @FXML
     private Button buttonQuenMK;
     @FXML
+    private Button buttonDangKy;
+    @FXML
     private Button buttonGG;
     @FXML
     private Button buttonFace;
@@ -123,6 +125,23 @@ public class LoginController {
         } catch (IOException e) {
             e.printStackTrace();
             showStatus("Không thể mở giao diện Quên mật khẩu.", false);
+        }
+    }
+    
+        @FXML
+    private void handleDangKy(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("DangKy.fxml"));
+            Parent root = loader.load();
+
+            Scene newScene = new Scene(root);
+            Stage stage = (Stage) buttonDangKy.getScene().getWindow();
+            stage.setScene(newScene);
+            stage.centerOnScreen(); // 🔹 Căn giữa màn hình
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showStatus("Không thể mở giao diện Đăng ký.", false);
         }
     }
 
