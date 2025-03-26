@@ -7,6 +7,7 @@ package com.javaee.test1;
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.controllers.UserSession;
 import com.javaee.test1.models.User;
+import java.io.File;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -16,6 +17,9 @@ import java.util.UUID;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
@@ -41,6 +45,8 @@ public class DoiThongTinCaNhan {
     private Button btnLuuVaXacMinh;
     @FXML
     private Button btnXoaNguoiDungNew;
+    @FXML
+    private ImageView imgAvatar;
 
     //    private UserDAO userDAO = new UserDAO();
 //    private UUID userId;
@@ -81,16 +87,38 @@ public class DoiThongTinCaNhan {
         }
     }
 
-    // ✅ Load thông tin người dùng khi mở form
     private void loadUserInfo() {
-        if (user != null) {
-            userId = user.getUserID(); // Đảm bảo userId luôn có giá trị
-            txtEmailMoi.setText(user.getEmail());
-            txtUsername.setText(user.getUsername());
-        } else {
-            showAlert("Lỗi", "Không tìm thấy thông tin người dùng!", Alert.AlertType.ERROR);
+        // Lấy thông tin từ UserSession
+        UserSession userSession = UserSession.getInstance();
+        UUID userId = userSession.getUserId();
+
+        if (userId == null) {
+            showAlert("Lỗi", "Không tìm thấy thông tin người dùng từ phiên đăng nhập!", Alert.AlertType.ERROR);
+            return;
+        }
+
+        // Cập nhật thông tin người dùng lên giao diện
+        txtEmailMoi.setText(userSession.getEmail());
+        txtUsername.setText(userSession.getUsername());
+
+        // Hiển thị avatar từ UserSession (nếu có)
+        String avatarPath = userSession.getAvatar();
+        if (avatarPath != null && !avatarPath.isEmpty()) {
+            try {
+                File avatarFile = new File(avatarPath);
+                if (avatarFile.exists()) {
+                    Image avatarImage = new Image(avatarFile.toURI().toString());
+                    imgAvatar.setImage(avatarImage);
+                } else {
+                    showAlert("Lỗi", "Không tìm thấy tệp ảnh đại diện!", Alert.AlertType.ERROR);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                showAlert("Lỗi", "Không thể tải ảnh đại diện!", Alert.AlertType.ERROR);
+            }
         }
     }
+
 
     // ✅ Cập nhật Email khi bấm "Lưu và Xác Minh"
     @FXML

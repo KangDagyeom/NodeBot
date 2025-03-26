@@ -68,8 +68,8 @@ public class LoginController {
             Platform.runLater(() -> {
                 try {
                     User userLogged = userDAO.getUserInfoByUsername(usernameOrEmail);
-                    // ➜ Lưu cả userId vào UserSession
-                    UserSession.getInstance().setUserInfo(userLogged.getUserID(), userLogged.getAvatar(), userLogged.getUsername(), userLogged.getSubscriptionPlan());
+                    // ➜ Lưu toàn bộ thông tin người dùng vào UserSession
+                    UserSession.getInstance().setUserInfo(userLogged.getUserID(), userLogged.getAvatar(), userLogged.getUsername(), userLogged.getSubscriptionPlan(), userLogged.getEmail(), userLogged.getPasswordHash());
                     FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("Thongtincanhan.fxml"));
                     Parent root = fXMLLoader.load();
                     Scene newScene = new Scene(root, 1187, 668);

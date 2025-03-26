@@ -39,9 +39,9 @@
                         <Image url="@../../../img/thongtin2.png" />
                     </image>
                 </ImageView>
-                <Button layoutX="11.0" layoutY="12.0" mnemonicParsing="false" prefHeight="79.0" prefWidth="287.0" styleClass="transparent-button3">
+                <Button fx:id="btnAvatar" layoutX="11.0" layoutY="12.0" mnemonicParsing="false" prefHeight="79.0" prefWidth="287.0" styleClass="transparent-button3">
                     <graphic>
-                        <ImageView fitHeight="69.0" fitWidth="352.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgAvatar" fitHeight="69.0" fitWidth="352.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../../img/Node.png" />
                             </image>
