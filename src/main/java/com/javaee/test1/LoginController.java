@@ -2,6 +2,8 @@ package com.javaee.test1;
 
 import com.javaee.test1.controllers.ChatMessageDAO;
 import com.javaee.test1.controllers.UserDAO;
+import com.javaee.test1.controllers.UserSession;
+import com.javaee.test1.models.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -65,6 +67,8 @@ public class LoginController {
             showStatus("Đăng nhập thành công!", true);
             Platform.runLater(() -> {
                 try {
+                    User userLogged = userDAO.getUserInfoByUsername(usernameOrEmail);
+                    UserSession.getInstance().setUserInfo(userLogged.getAvatar(), userLogged.getUsername(), userLogged.getSubscriptionPlan());
                     FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("primary.fxml"));
                     Parent root = fXMLLoader.load();
                     Scene newScene = new Scene(root, 1187, 668);

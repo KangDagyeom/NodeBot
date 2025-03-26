@@ -2,6 +2,7 @@ package com.javaee.test1;
 
 import com.javaee.test1.controllers.ChatMessageDAO;
 import com.javaee.test1.controllers.UserDAO;
+import com.javaee.test1.controllers.UserSession;
 import com.javaee.test1.models.ChatMessage;
 import javafx.animation.*;
 import javafx.application.Platform;
@@ -41,6 +42,7 @@ public class PrimaryController {
 
     ChatMessageDAO chatMessageDAO = new ChatMessageDAO();
     UserDAO userDAO = new UserDAO();
+    UserSession session = UserSession.getInstance();
     @FXML
     private Label resultLabel;
     @FXML
@@ -56,6 +58,13 @@ public class PrimaryController {
     private List<String> responseChunks = new ArrayList<>();
     @FXML
     private VBox conversationCon;
+    @FXML
+    private Label lbusername;
+    @FXML
+    private Label lbuserplan;
+    @FXML
+    private ImageView avatar;
+    private String saveTitle;
 
     @FXML
     private void handleMouseEnter(MouseEvent event) {
@@ -75,8 +84,15 @@ public class PrimaryController {
 
     @FXML
     public void initialize() {
+
+        lbusername.setText(session.getUsername());
+        lbuserplan.setText(session.getSubscriptionPlan());
+        System.out.println("Username: " + session.getUsername());
+        System.out.println("Avatar: " + session.getAvatar());
+        System.out.println("Subscription Plan: " + session.getSubscriptionPlan());
+
         scrollPane.setFitToWidth(true);
-        loadConversations(UUID.fromString("6626B948-A305-F011-8D62-B8AEEDBCAC42"));
+        loadConversations(userDAO.getUserIdByUsername(session.getUsername()));
         // Đảm bảo VBox mở rộng theo nội dung
         chatBox.setMinHeight(Region.USE_PREF_SIZE);
         chatBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -99,8 +115,8 @@ public class PrimaryController {
             addMessageToChat(message, timestamp, true, false);
 
             // Lưu tin nhắn vào DB
-            chatMessageDAO.saveMessageToDB(UUID.fromString("6926B948-A305-F011-8D62-B8AEEDBCAC42"), // conversationId
-                    UUID.fromString("6626B948-A305-F011-8D62-B8AEEDBCAC42"), // senderId
+            chatMessageDAO.saveMessageToDB(userDAO.getConversationIdByTitle(saveTitle), // conversationId
+                    userDAO.getUserIdByUsername(session.getUsername()), // senderId
                     "user", // senderType
                     message // Nội dung tin nhắn
             );
@@ -128,11 +144,7 @@ public class PrimaryController {
             json.put("model", "codellama:7b");
             json.put("prompt", prompt);
 
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:11434/api/generate"))
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(json.toString()))
-                    .build();
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:11434/api/generate")).header("Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(json.toString())).build();
 
             HttpResponse<InputStream> response = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
             BufferedReader reader = new BufferedReader(new InputStreamReader(response.body()));
@@ -163,10 +175,7 @@ public class PrimaryController {
             btnCopy.setGraphic(copyImageView);
             btnCopy.setCursor(Cursor.HAND);
             btnCopy.setStyle("-fx-background-color: transparent; -fx-margin:0; -fx-padding:5px;");
-            btnCopy.setStyle(
-                    "-fx-background-color: transparent; -fx-padding: 5px;" +
-                            "-fx-background-radius: 5px;"
-            );
+            btnCopy.setStyle("-fx-background-color: transparent; -fx-padding: 5px;" + "-fx-background-radius: 5px;");
             btnCopy.setOnMouseEntered(e -> btnCopy.setStyle("-fx-background-color: #2c2c2c; -fx-padding: 5px; -fx-background-radius: 10px;"));
             btnCopy.setOnMouseExited(e -> btnCopy.setStyle("-fx-background-color: transparent; -fx-padding: 5px;"));
 
@@ -251,10 +260,7 @@ public class PrimaryController {
                     // 🔹 Xử lý code block
                     Platform.runLater(() -> processBotResponse(botResponse, botMessageContainer));
 
-                    chatMessageDAO.saveMessageToDB(UUID.fromString("6926B948-A305-F011-8D62-B8AEEDBCAC42"),
-                            UUID.fromString("6626B948-A305-F011-8D62-B8AEEDBCAC42"),
-                            "bot",
-                            botResponse);
+                    chatMessageDAO.saveMessageToDB(userDAO.getConversationIdByTitle(saveTitle), userDAO.getUserIdByUsername(session.getUsername()), "bot", botResponse);
 
                     break;
                 }
@@ -375,10 +381,7 @@ public class PrimaryController {
             btnCopy.setGraphic(copyImageView);
             btnCopy.setCursor(Cursor.HAND);
             btnCopy.setStyle("-fx-background-color: transparent; -fx-margin:0; -fx-padding:5px;");
-            btnCopy.setStyle(
-                    "-fx-background-color: transparent; -fx-padding: 5px;" +
-                            "-fx-background-radius: 5px;"
-            );
+            btnCopy.setStyle("-fx-background-color: transparent; -fx-padding: 5px;" + "-fx-background-radius: 5px;");
             btnCopy.setOnMouseEntered(e -> btnCopy.setStyle("-fx-background-color: #2c2c2c; -fx-padding: 5px; -fx-background-radius: 10px;"));
             btnCopy.setOnMouseExited(e -> btnCopy.setStyle("-fx-background-color: transparent; -fx-padding: 5px;"));
 
@@ -460,8 +463,10 @@ public class PrimaryController {
             });
 
             conversationLabel.setOnMouseClicked(event -> {
-                loadChatHistory(UUID.fromString("6926B948-A305-F011-8D62-B8AEEDBCAC42"));
+                saveTitle = conversationLabel.getText();
+                loadChatHistory(userDAO.getConversationIdByTitle(saveTitle));
 
+                System.out.println(saveTitle);
             });
 
             conversationCon.getChildren().add(conversationLabel);
@@ -489,12 +494,7 @@ public class PrimaryController {
                     e.printStackTrace();
                 }
 
-                Platform.runLater(() -> addMessageToChat(
-                        msg.getMessageText(),
-                        msg.getSentAt().toLocalDateTime().format(formatter),
-                        isUser,
-                        true
-                ));
+                Platform.runLater(() -> addMessageToChat(msg.getMessageText(), msg.getSentAt().toLocalDateTime().format(formatter), isUser, true));
             }
         });
     }

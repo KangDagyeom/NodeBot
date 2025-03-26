@@ -2,8 +2,6 @@ package com.javaee.test1.controllers;
 
 import com.javaee.test1.models.User;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -336,22 +334,75 @@ public class UserDAO {
         System.out.println("User " + user.getUsername() + " đã cập nhật gói: " + newPlan);
     }
 
-    public class HashUtil {
+    public User getUserInfoByUsername(String username) {
+        String query = "SELECT Avatar, Username, SubscriptionPlan FROM Users WHERE Username = ?";
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
 
-        public static String hashPassword(String password) {
-            try {
-                MessageDigest md = MessageDigest.getInstance("SHA-256");
-                byte[] hashedBytes = md.digest(password.getBytes());
-                StringBuilder hexString = new StringBuilder();
-                for (byte b : hashedBytes) {
-                    hexString.append(String.format("%02x", b));
-                }
-                return hexString.toString();
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-                return null;
+            if (rs.next()) {
+                return new User(
+                        null,
+                        null,
+                        null,
+                        rs.getString("Username"),
+                        rs.getString("Avatar"),
+                        null,
+                        rs.getString("SubscriptionPlan"),
+                        null,
+                        null,
+                        false
+                );
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return null; // Không tìm thấy user
     }
 
+    public UUID getUserIdByUsername(String username) {
+        String query = "SELECT UserID FROM Users WHERE Username = ?";
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return UUID.fromString(rs.getString("UserID"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public UUID getConversationIdByTitle(String title) {
+        String query = "SELECT ConversationID FROM ChatHistory WHERE Title = ?";
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, title);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return UUID.fromString(rs.getString("ConversationID"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String getConversationId(UUID userId) {
+        String query = "SELECT ConversationID FROM ChatHistory WHERE UserID = ? ORDER BY CreatedAt DESC LIMIT 1";
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("ConversationID"); // Lấy ConversationID dạng String
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Trả về null nếu không có kết quả
+    }
 }
