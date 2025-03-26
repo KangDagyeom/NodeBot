@@ -327,7 +327,6 @@ public class UserDAO {
     }
 
     //xóa tất cả các cuộc hội thoại
-
     //Nang cấp gói
     public void updateSubscriptionPlan(User user, String newPlan) {
         user.setSubscriptionPlan(newPlan);
@@ -335,16 +334,16 @@ public class UserDAO {
     }
 
     public User getUserInfoByUsername(String username) {
-        String query = "SELECT Avatar, Username, SubscriptionPlan FROM Users WHERE Username = ?";
+        String query = "SELECT UserID,PasswordHash, Email, Avatar, Username, SubscriptionPlan FROM Users WHERE Username = ?";
         try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
                 return new User(
-                        null,
-                        null,
-                        null,
+                        rs.getObject("UserID", UUID.class), // Lấy UserID dạng UUID
+                        rs.getString("Email"), // Các trường khác không cần thiết
+                        rs.getString("PasswordHash"),
                         rs.getString("Username"),
                         rs.getString("Avatar"),
                         null,
@@ -353,9 +352,11 @@ public class UserDAO {
                         null,
                         false
                 );
+            } else {
+                System.out.println("Không tìm thấy người dùng với username: " + username);
             }
-
         } catch (SQLException e) {
+            System.err.println("Lỗi truy vấn getUserInfoByUsername: " + e.getMessage());
             e.printStackTrace();
         }
         return null; // Không tìm thấy user

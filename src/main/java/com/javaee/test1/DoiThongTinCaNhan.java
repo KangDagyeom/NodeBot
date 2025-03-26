@@ -5,12 +5,18 @@
 package com.javaee.test1;
 
 import com.javaee.test1.controllers.UserDAO;
+import com.javaee.test1.controllers.UserSession;
 import com.javaee.test1.models.User;
+import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.util.Optional;
 import java.util.UUID;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  * @author xinch
@@ -166,12 +172,12 @@ public class DoiThongTinCaNhan {
 
     @FXML
     private void xoaNguoiDung() {
-        if (user == null || user.getUserID() == null) {
+        UUID userId = UserSession.getInstance().getUserId(); // ➜ Lấy UserID từ UserSession
+
+        if (userId == null) {
             showAlert("Lỗi", "Không tìm thấy thông tin tài khoản!", Alert.AlertType.ERROR);
             return;
         }
-
-        UUID userId = user.getUserID();
 
         // Xác nhận trước khi xóa
         Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
@@ -185,24 +191,29 @@ public class DoiThongTinCaNhan {
 
             if (success) {
                 showAlert("Thành công", "Tài khoản của bạn đã bị xóa!", Alert.AlertType.INFORMATION);
-//                logoutAndRedirectToLogin();
+
+                // ➜ Xóa session và chuyển hướng về màn hình đăng nhập
+                UserSession.getInstance().clearSession();
+                redirectToLogin();
             } else {
                 showAlert("Lỗi", "Không thể xóa tài khoản!", Alert.AlertType.ERROR);
             }
         }
     }
+// Chuyển hướng về màn hình đăng nhập
 
-// Hàm đăng xuất và chuyển về màn hình đăng nhập
-//    private void logoutAndRedirectToLogin() {
-//        try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Login.fxml"));
-//            Parent root = loader.load();
-//            Stage stage = (Stage) btnXoaNguoiDungNew.getScene().getWindow();
-//            stage.setScene(new Scene(root));
-//            stage.show();
-//        } catch (IOException e) {
-//            System.out.println("Lỗi khi chuyển về màn hình đăng nhập: " + e.getMessage());
-//        }
-//    }
+    private void redirectToLogin() {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("login.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) btnXoaNguoiDungNew.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Lỗi", "Không thể chuyển về màn hình đăng nhập!", Alert.AlertType.ERROR);
+        }
+    }
 
 }

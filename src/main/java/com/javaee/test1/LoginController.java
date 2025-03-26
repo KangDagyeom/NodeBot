@@ -68,8 +68,9 @@ public class LoginController {
             Platform.runLater(() -> {
                 try {
                     User userLogged = userDAO.getUserInfoByUsername(usernameOrEmail);
-                    UserSession.getInstance().setUserInfo(userLogged.getAvatar(), userLogged.getUsername(), userLogged.getSubscriptionPlan());
-                    FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("primary.fxml"));
+                    // ➜ Lưu cả userId vào UserSession
+                    UserSession.getInstance().setUserInfo(userLogged.getUserID(), userLogged.getAvatar(), userLogged.getUsername(), userLogged.getSubscriptionPlan());
+                    FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("Thongtincanhan.fxml"));
                     Parent root = fXMLLoader.load();
                     Scene newScene = new Scene(root, 1187, 668);
 
@@ -124,6 +125,5 @@ public class LoginController {
             showStatus("Không thể mở giao diện Quên mật khẩu.", false);
         }
     }
-
 
 }
