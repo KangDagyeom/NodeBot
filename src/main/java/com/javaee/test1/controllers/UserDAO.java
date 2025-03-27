@@ -326,12 +326,25 @@ public class UserDAO {
         }
     }
 
-    //xóa tất cả các cuộc hội thoại
+    ///xóa tất cả các cuộc hội thoại
     //Nang cấp gói
-    public void updateSubscriptionPlan(User user, String newPlan) {
-        user.setSubscriptionPlan(newPlan);
-        System.out.println("User " + user.getUsername() + " đã cập nhật gói: " + newPlan);
+    public boolean updateSubscriptionPlan(User user, String newPlan) {
+        String query = "UPDATE Users SET SubscriptionPlan = ? WHERE UserID = ?";
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, newPlan);
+            ps.setObject(2, user.getUserID());
+            int rowsAffected = ps.executeUpdate();
+
+            if (rowsAffected > 0) {
+                user.setSubscriptionPlan(newPlan); // Cập nhật object trong bộ nhớ
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
+
 
     public User getUserInfoByUsername(String username) {
         String query = "SELECT UserID,PasswordHash, Email, Avatar, Username, SubscriptionPlan FROM Users WHERE Username = ?";
@@ -406,4 +419,5 @@ public class UserDAO {
         }
         return null; // Trả về null nếu không có kết quả
     }
+    
 }

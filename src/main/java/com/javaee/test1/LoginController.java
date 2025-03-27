@@ -72,13 +72,14 @@ public class LoginController {
                     User userLogged = userDAO.getUserInfoByUsername(usernameOrEmail);
                     // ➜ Lưu toàn bộ thông tin người dùng vào UserSession
                     UserSession.getInstance().setUserInfo(userLogged.getUserID(), userLogged.getAvatar(), userLogged.getUsername(), userLogged.getSubscriptionPlan(), userLogged.getEmail(), userLogged.getPasswordHash());
-                    FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("Thongtincanhan.fxml"));
+                    FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("primary.fxml"));
                     Parent root = fXMLLoader.load();
                     Scene newScene = new Scene(root, 1187, 668);
 
                     Stage newStage = (Stage) buttonLogin.getScene().getWindow();
-                    newStage.centerOnScreen();
                     newStage.setScene(newScene);
+                    newStage.centerOnScreen();
+
                     newStage.setResizable(false);
 
                     newStage.show();
@@ -127,8 +128,8 @@ public class LoginController {
             showStatus("Không thể mở giao diện Quên mật khẩu.", false);
         }
     }
-    
-        @FXML
+
+    @FXML
     private void handleDangKy(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource("DangKy.fxml"));
