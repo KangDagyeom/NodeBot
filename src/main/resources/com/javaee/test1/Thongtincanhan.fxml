@@ -188,12 +188,12 @@
                     </font>
                 </Label>
                 <TextField fx:id="txtUsername" layoutX="644.0" layoutY="220.0" prefHeight="47.0" prefWidth="507.0" promptText=" Tên người dùng" />
-                <Label layoutX="85.0" layoutY="24.0" prefHeight="34.0" prefWidth="239.0" text="Node" textFill="WHITE" wrapText="true">
+                <Label fx:id="txtTenND" layoutX="85.0" layoutY="24.0" prefHeight="34.0" prefWidth="239.0" text="Node" textFill="WHITE" wrapText="true">
                     <font>
                         <Font name="System Bold" size="16.0" />
                     </font>
                 </Label>
-                <Label layoutX="87.0" layoutY="44.0" prefHeight="34.0" prefWidth="239.0" text="Tài khoản miễn phí" textFill="WHITE" wrapText="true" />
+                <Label fx:id="txtTaiKhoanND" layoutX="87.0" layoutY="44.0" prefHeight="34.0" prefWidth="239.0" text="Tài khoản miễn phí" textFill="WHITE" wrapText="true" />
                 <Label layoutX="654.0" layoutY="213.0" prefHeight="34.0" prefWidth="239.0" text="Tên người dùng" textFill="WHITE" wrapText="true">
                     <font>
                         <Font size="10.0" />

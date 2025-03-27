@@ -19,6 +19,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -47,6 +50,10 @@ public class DoiThongTinCaNhan {
     private Button btnXoaNguoiDungNew;
     @FXML
     private ImageView imgAvatar;
+    @FXML
+    private Label txtTenND;
+    @FXML
+    private Label txtTaiKhoanND;
 
     //    private UserDAO userDAO = new UserDAO();
 //    private UUID userId;
@@ -87,6 +94,11 @@ public class DoiThongTinCaNhan {
         }
     }
 
+    @FXML
+    public void initialize() {
+        loadUserInfo(); // Gọi loadUserInfo() khi view được hiển thị
+    }
+
     private void loadUserInfo() {
         // Lấy thông tin từ UserSession
         UserSession userSession = UserSession.getInstance();
@@ -96,10 +108,9 @@ public class DoiThongTinCaNhan {
             showAlert("Lỗi", "Không tìm thấy thông tin người dùng từ phiên đăng nhập!", Alert.AlertType.ERROR);
             return;
         }
-
-        // Cập nhật thông tin người dùng lên giao diện
-        txtEmailMoi.setText(userSession.getEmail());
-        txtUsername.setText(userSession.getUsername());
+        // Cập nhật tên và loại tài khoản từ UserSession lên giao diện
+        txtTenND.setText(userSession.getUsername() != null ? userSession.getUsername() : "Chưa có tên");
+        txtTaiKhoanND.setText(userSession.getSubscriptionPlan() != null ? userSession.getSubscriptionPlan() : "Không xác định");
 
         // Hiển thị avatar từ UserSession (nếu có)
         String avatarPath = userSession.getAvatar();
@@ -109,6 +120,25 @@ public class DoiThongTinCaNhan {
                 if (avatarFile.exists()) {
                     Image avatarImage = new Image(avatarFile.toURI().toString());
                     imgAvatar.setImage(avatarImage);
+
+                    // 📌 Căn ảnh sát trái
+                    imgAvatar.setPreserveRatio(true);  // Giữ tỷ lệ ảnh
+                    imgAvatar.setFitWidth(50);        // Điều chỉnh chiều rộng
+                    imgAvatar.setFitHeight(50);       // Điều chỉnh chiều cao
+                    imgAvatar.setSmooth(true);        // Làm mịn ảnh
+                    imgAvatar.setCache(true);         // Tăng hiệu suất load ảnh
+
+                    imgAvatar.setTranslateX(500); // Di chuyển ảnh sang trái (âm là trái, dương là phải)
+                    imgAvatar.setTranslateY(0);   // Di chuyển ảnh xuống dưới (âm là lên trên, dương là xuống dưới)
+
+                    // 📌 Làm tròn avatar
+                    Circle clip = new Circle(25, 25, 25); // Tạo clip hình tròn (bán kính 25px)
+                    imgAvatar.setClip(clip); // Đặt hình cắt tròn vào avatar
+
+                    // 📌 Nếu imgAvatar nằm trong HBox, căn sát trái
+                    HBox.setHgrow(imgAvatar, Priority.NEVER);
+                    imgAvatar.setTranslateX(-10); // Dịch ảnh về bên trái (tùy chỉnh)
+
                 } else {
                     showAlert("Lỗi", "Không tìm thấy tệp ảnh đại diện!", Alert.AlertType.ERROR);
                 }
@@ -117,8 +147,8 @@ public class DoiThongTinCaNhan {
                 showAlert("Lỗi", "Không thể tải ảnh đại diện!", Alert.AlertType.ERROR);
             }
         }
-    }
 
+    }
 
     // ✅ Cập nhật Email khi bấm "Lưu và Xác Minh"
     @FXML
