@@ -123,8 +123,8 @@ public class DoiThongTinCaNhan {
 
                     // 📌 Căn ảnh sát trái
                     imgAvatar.setPreserveRatio(true);  // Giữ tỷ lệ ảnh
-                    imgAvatar.setFitWidth(50);        // Điều chỉnh chiều rộng
-                    imgAvatar.setFitHeight(50);       // Điều chỉnh chiều cao
+                    imgAvatar.setFitWidth(55);        // Điều chỉnh chiều rộng
+                    imgAvatar.setFitHeight(55);       // Điều chỉnh chiều cao
                     imgAvatar.setSmooth(true);        // Làm mịn ảnh
                     imgAvatar.setCache(true);         // Tăng hiệu suất load ảnh
 
