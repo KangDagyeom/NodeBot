@@ -29,8 +29,6 @@ public class LoginController {
     @FXML
     private TextField txtPass;
     @FXML
-    private TextField txtPassCF;
-    @FXML
     private Button buttonLogin;
     @FXML
     private Button buttonQuenMK;
@@ -48,20 +46,13 @@ public class LoginController {
         // Lấy dữ liệu người dùng nhập
         String usernameOrEmail = txtUser.getText().trim();
         String password = txtPass.getText().trim();
-        String confirmPassword = txtPassCF.getText().trim();
 
         // Kiểm tra ô nhập liệu có bị bỏ trống không
         if (isInputEmpty(usernameOrEmail, password)) {
             showStatus("Vui lòng nhập đầy đủ Email/Username và Password.", false);
             return;
         }
-
-        // Kiểm tra password xác nhận có khớp không
-        if (!password.equals(confirmPassword)) {
-            showStatus("Password xác nhận không khớp.", false);
-            return;
-        }
-
+    
         // Kiểm tra thông tin đăng nhập với CSDL
         boolean loginSuccessful = userDAO.validateUser(usernameOrEmail, password);
 
