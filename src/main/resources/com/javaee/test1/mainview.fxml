@@ -8,82 +8,39 @@
 <?import javafx.scene.text.*?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="668.0" maxWidth="1187.0" minHeight="668.0" minWidth="1187.0"
             prefHeight="668.0" prefWidth="1187.0" stylesheets="@../../../css/style.css"
-            xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.javaee.test1.PrimaryController">
+            xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.javaee.test1.MainViewController">
     <center>
+
         <AnchorPane BorderPane.alignment="CENTER">
             <children>
-                <ScrollPane fitToWidth="true" layoutX="312.0" layoutY="1.0" prefHeight="676.0" prefWidth="911.0">
-                    <content>
-                        <AnchorPane maxHeight="668.0" maxWidth="852.0" minHeight="668.0" minWidth="852.0"
-                                    prefHeight="668.0" prefWidth="852.0">
-                            <children>
-                                <ImageView fitHeight="675.0" fitWidth="923.0" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../../../img/Main-background.png"/>
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="632.0" fitWidth="857.0" layoutX="35.0" layoutY="19.0"
-                                           preserveRatio="true">
-                                    <image>
-                                        <Image url="@../../../img/Main-container.png"/>
-                                    </image>
-                                </ImageView>
-                                <ScrollPane fx:id="scrollPane" layoutX="52.0" layoutY="31.0" prefHeight="469.0"
-                                            prefWidth="839.0" styleClass="inputField" viewOrder="-1">
-                                    <content>
-                                        <VBox fx:id="chatBox" prefHeight="460.0" prefWidth="809.0" viewOrder="-1"/>
-                                    </content>
-                                </ScrollPane>
-                                <AnchorPane layoutX="105.0" layoutY="506.0" maxHeight="110.0" maxWidth="696.0"
-                                            minHeight="110.0" minWidth="696.0" prefHeight="110.0" prefWidth="684.0"
-                                            styleClass="inputField">
-                                    <children>
-                                        <TextArea fx:id="inputField" layoutX="8.0" layoutY="9.0" prefHeight="58.0"
-                                                  prefWidth="643.0" promptText="Ask anything" wrapText="true"/>
-                                        <ImageView fitHeight="87.0" fitWidth="42.0" layoutX="648.0" layoutY="65.0"
-                                                   onMouseClicked="#sendMessage" pickOnBounds="true"
-                                                   preserveRatio="true">
-                                            <image>
-                                                <Image url="@../../../img/sendBtn.png"/>
-                                            </image>
-                                            <cursor>
-                                                <Cursor fx:constant="HAND"/>
-                                            </cursor>
-                                        </ImageView>
-                                        <ImageView fitHeight="38.0" fitWidth="34.0" layoutX="13.0" layoutY="68.0"
-                                                   pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../../../img/appendFile.png"/>
-                                            </image>
-                                            <cursor>
-                                                <Cursor fx:constant="HAND"/>
-                                            </cursor>
-                                        </ImageView>
-                                        <ImageView fx:id="btnSearch" fitHeight="30.0" fitWidth="96.0" layoutX="56.0"
-                                                   layoutY="70.0" onMouseClicked="#searchAction" pickOnBounds="true"
-                                                   preserveRatio="true">
-                                            <image>
-                                                <Image url="@../../../img/btnSearch.png"/>
-                                            </image>
-                                        </ImageView>
-                                        <ImageView fx:id="btnTranslate" fitHeight="45.0" fitWidth="103.0"
-                                                   layoutX="159.0" layoutY="71.0" pickOnBounds="true"
-                                                   preserveRatio="true">
-                                            <image>
-                                                <Image url="@../../../img/btnTranslate.png"/>
-                                            </image>
-                                        </ImageView>
-                                    </children>
-                                </AnchorPane>
-                                <Label layoutX="317.0" layoutY="625.0"
-                                       text="Node can make mistakes. Check important info." textAlignment="CENTER"
-                                       textFill="WHITE"/>
+
+                <VBox layoutX="346.0" prefHeight="664.0" prefWidth="821.0">
+                    <children>
+                        <!-- Phần hiển thị tin nhắn -->
+                        <ScrollPane fx:id="scrollPane" prefHeight="571.0" prefWidth="821.0">
+                            <content>
+                                <VBox fx:id="chatBox" prefHeight="657.0" prefWidth="812.0"/>
+                            </content>
+                        </ScrollPane>
+                    </children>
+                </VBox>
 
 
-                            </children>
-                        </AnchorPane>
-                    </content>
-                </ScrollPane>
+                <ImageView fitHeight="675.0" fitWidth="893.0" layoutX="329.0" layoutY="-2.0" pickOnBounds="true"
+                           preserveRatio="true" styleClass="ten-phan-tu">
+                    <image>
+                        <Image url="@../../../img/Main-background.png"/>
+                    </image>
+                    <cursor>
+                        <Cursor fx:constant="HAND"/>
+                    </cursor>
+                </ImageView>
+                <ImageView fitHeight="638.0" fitWidth="880.0" layoutX="352.0" layoutY="19.0" pickOnBounds="true"
+                           preserveRatio="true">
+                    <image>
+                        <Image url="@../../../img/Main-container.png"/>
+                    </image>
+                </ImageView>
                 <AnchorPane layoutX="-2.0" prefHeight="672.0" prefWidth="335.0" styleClass="gray-background">
                     <children>
                         <ImageView fitHeight="57.0" fitWidth="281.0" layoutX="47.0" layoutY="18.0" pickOnBounds="true"
@@ -197,6 +154,38 @@
                         </ScrollPane>
                     </children>
                 </AnchorPane>
+                <ImageView fitHeight="73.0" fitWidth="204.0" layoutX="813.0" layoutY="165.0" pickOnBounds="true"
+                           preserveRatio="true">
+                    <image>
+                        <Image url="@../../../img/Title.png"/>
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="158.0" fitWidth="648.0" layoutX="456.0" layoutY="445.0" pickOnBounds="true"
+                           preserveRatio="true">
+                    <image>
+                        <Image url="@../../../img/Fonctionnality%20List.png"/>
+                    </image>
+                </ImageView>
+                <TextArea fx:id="textAreaChat" layoutX="470.0" layoutY="333.0" prefHeight="14.0" prefWidth="619.0"
+                          promptText="Example : “Explain quantum computing in simple terms”" styleClass="inputField"
+                          stylesheets="@../../../css/style.css" wrapText="true"/>
+                <Label layoutX="533.0" layoutY="169.0" text="Welcome to" textFill="WHITE">
+                    <font>
+                        <Font name="SansSerif Bold" size="48.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="578.0" layoutY="241.0" text="The power of AI at your service – Taming knowledge!"
+                       textFill="WHITE">
+                    <font>
+                        <Font size="16.0"/>
+                    </font>
+                </Label>
+                <ImageView fitHeight="52.0" fitWidth="56.0" layoutX="1033.0" layoutY="339.0" pickOnBounds="true"
+                           preserveRatio="true">
+                    <image>
+                        <Image url="@../../../img/btnSend.png"/>
+                    </image>
+                </ImageView>
 
             </children>
         </AnchorPane>

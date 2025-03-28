@@ -1,25 +1,18 @@
 .gray-background {
     -fx-background-color: #222222;
 }
-.test {
-    -fx-font-size: 14px;
-    -fx-transition: all 0.3s ease-in-out; /* Tạo hiệu ứng mượt */
-}
-
-.test:hover {
-    -fx-font-size: 18px; /* Phóng to từ từ khi hover */
-}
 .inputField {
-    -fx-background-color: #222222;
-    -fx-border-color: #ccc; /* Viền xám */
-    -fx-border-width: 1px;
-    -fx-border-radius: 20px;
-    -fx-font-size: 14px;
-    -fx-text-fill: white;
-    -fx-padding: 8px;
-    -fx-focus-color: transparent; /* Xóa hiệu ứng khi focus */
-    -fx-faint-focus-color: transparent;
-}
+     -fx-background-color: #222222;
+     -fx-border-color: #ccc; /* Viền xám */
+     -fx-background-radius: 10px;
+     -fx-border-width: 1px;
+     -fx-border-radius: 10px;
+     -fx-font-size: 14px;
+     -fx-text-fill: white;
+     -fx-padding: 8px;
+     -fx-focus-color: transparent; /* Xóa hiệu ứng khi focus */
+     -fx-faint-focus-color: transparent;
+ }
 .scroll-pane{
     -fx-background-color: transparent;
 }
@@ -72,8 +65,163 @@
 .scroll-pane .viewport {
     -fx-background-color: transparent;
 }
+.black-background {
+    -fx-background-color: #000000;
+}
+
+.green-button {
+    -fx-background-color: linear-gradient(to bottom, #019A5A, #097E4D); /* Gradient từ trên xuống */
+    -fx-background-radius: 10;          /* Bo góc */
+    -fx-text-fill: white;               /* Màu chữ trắng */
+    -fx-padding: 14;                 /* Kích thước lề trong nút */
+    -fx-cursor: hand;                   /* Biến con trỏ thành bàn tay khi hover */
+    /* Thêm hiệu ứng transition mềm mại */
+    -fx-transition: all 0.2s ease-in-out;
+}
+
+/* Khi di chuyển chuột vào nút (hover) sẽ phóng to 1.1 lần */
+.green-button:hover {
+    -fx-background-color: #125036;
+}
+
+.green-button:pressed {
+    -fx-background-color: #125036;
+}
+.red-button {
+    -fx-background-color: linear-gradient(to bottom, #9a0101, #7e2e09); /* Gradient từ trên xuống */
+    -fx-background-radius: 30;          /* Bo góc */
+    -fx-text-fill: white;               /* Màu chữ trắng */
+    -fx-padding: 10 20;                 /* Kích thước lề trong nút */
+    -fx-cursor: hand;                   /* Biến con trỏ thành bàn tay khi hover */
+    -fx-background-radius: 18;          /* Bo tròn viền */
+    -fx-effect: dropshadow(gaussian, rgba(150, 45, 0, 0.4), 10, 0.5, 0, 0); /* Viền mờ mặc định */
+
+    /* Thêm hiệu ứng transition mềm mại */
+    -fx-transition: all 0.2s ease-in-out;
+}
+
+/* Khi di chuyển chuột vào nút (hover) sẽ phóng to 1.1 lần */
+.red-button:hover {
+    -fx-scale-x: 1.1; /* Phóng to theo chiều ngang */
+    -fx-scale-y: 1.1; /* Phóng to theo chiều dọc */
+}
+
+/* Khi bấm vào nút (trạng thái pressed) sẽ phóng to 1.1 lần */
+.red-button:pressed {
+    -fx-scale-x: 0.9; /* Phóng to theo chiều ngang */
+    -fx-scale-y: 0.9; /* Phóng to theo chiều dọc */
+}
+
+/* Nút với nền trong suốt và chữ trắng */
+.transparent-button {
+    -fx-background-color: transparent; /* Nền trong suốt */
+    -fx-text-fill: white; /* Chữ trắng */
+}
+
+.transparent-button:hover {
+    -fx-text-fill: blue; /* Màu xanh (lime green) */
+    -fx-underline: true;
+}
 
 
+
+.text-field, .password-field {
+    -fx-text-fill: white;               /* Màu chữ trắng */
+    -fx-background-color: #4e4949 ;      /* Màu nền tối */
+    -fx-background-radius: 10;          /* Bo góc */
+}
+
+.transparent-button1 {
+    -fx-background-color: transparent; /* Nền trong suốt */
+    -fx-border-color: transparent;     /* Không viền */
+    -fx-text-fill: black;              /* Màu chữ */
+    -fx-transition: all 0.2s;          /* Tạo hiệu ứng mượt */
+}
+
+/* Khi hover: phóng to */
+.transparent-button1:hover {
+    -fx-scale-x: 1.1; /* Phóng to theo chiều ngang */
+    -fx-scale-y: 1.1; /* Phóng to theo chiều dọc */
+}
+
+/* Khi bấm: thu nhỏ lại */
+.transparent-button1:pressed {
+    -fx-scale-x: 0.9; /* Thu nhỏ ngang */
+    -fx-scale-y: 0.9; /* Thu nhỏ dọc */
+}
+
+
+.transparent-button2 {
+    -fx-background-color: transparent; /* Nền trong suốt */
+    -fx-border-color: transparent;     /* Không viền */
+    -fx-text-fill: black;              /* Màu chữ */
+    -fx-transition: all 0.2s;          /* Tạo hiệu ứng mượt */
+}
+
+
+/* Khi di chuột vào: làm sáng nền và chữ */
+.transparent-button2:hover {
+    -fx-text-fill: rgb(255, 255, 200); /* Làm sáng chữ hơn */
+    -fx-background-color: rgba(255, 255, 180, 0.264); /* Nền sáng nhẹ */
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 200, 0.139), 20, 0.5, 0, 0); /* Phát sáng vừa phải */
+}
+/* Khi bấm: làm nền sáng hơn một chút */
+.transparent-button2:pressed {
+    -fx-text-fill: rgb(255, 255, 210); /* Làm chữ sáng hơn một chút */
+    -fx-background-color: rgba(255, 255, 190, 0.323); /* Nền sáng hơn */
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 190, 0.368), 25, 0.6, 0, 0); /* Phát sáng nhẹ */
+}
+
+.transparent-button3 {
+    -fx-background-color: transparent; /* Nền trong suốt */
+    -fx-border-color: transparent;     /* Không viền */
+    -fx-text-fill: rgb(255, 255, 255);              /* Màu chữ */
+    -fx-transition: all 0.2s;          /* Tạo hiệu ứng mượt */
+}
+
+/* Khi di chuột vào: phóng to */
+.transparent-button3:hover {
+
+    -fx-text-fill: rgb(255, 255, 150); /* Làm sáng chữ */
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 150, 0.8), 15, 0.5, 0, 0); /* Phát sáng */
+}
+
+/* Khi bấm: thu nhỏ */
+.transparent-button3:pressed {
+    -fx-scale-x: 0.9; /* Thu nhỏ theo chiều ngang */
+    -fx-scale-y: 0.9; /* Thu nhỏ theo chiều dọc */
+}
+
+.transparent-button4 {
+    -fx-background-color: transparent; /* Nền trong suốt */
+    -fx-background-radius: 50;          /* Bo góc */
+    -fx-background-radius: 50;          /* Bo tròn viền */
+    -fx-border-color: white;           /* Viền màu trắng */
+    -fx-border-width: 1px;             /* Độ dày viền */
+    -fx-text-fill: white;              /* Màu chữ */
+    -fx-transition: all 0.2s;          /* Tạo hiệu ứng mượt */
+}
+
+/* Khi hover: phóng to */
+.transparent-button4:hover {
+    -fx-scale-x: 1.1; /* Phóng to theo chiều ngang */
+    -fx-scale-y: 1.1; /* Phóng to theo chiều dọc */
+}
+
+/* Khi bấm: thu nhỏ lại */
+.transparent-button4:pressed {
+    -fx-scale-x: 0.9; /* Thu nhỏ ngang */
+    -fx-scale-y: 0.9; /* Thu nhỏ dọc */
+}
+.new-chat-button {
+    -fx-background-color: #019A5A; /* Màu xanh lá cây */
+    -fx-width: 250px; /* Chiều rộng tối đa */
+    -fx-height: 40px; /* Chiều cao tối thiểu */
+    -fx-background-radius: 10px;
+    -fx-graphic: url("@/img/Vector.png"); /* Đường dẫn đến hình ảnh dấu "+" */
+    -fx-graphic-text-gap: 30px; /* Khoảng cách giữa hình ảnh và chữ */
+    -fx-content-display: left; /* Hiển thị hình ảnh bên trái chữ */
+}
 
 
 
