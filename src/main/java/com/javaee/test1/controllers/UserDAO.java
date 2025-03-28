@@ -326,7 +326,7 @@ public class UserDAO {
         }
     }
 
-    ///xóa tất cả các cuộc hội thoại
+    /// xóa tất cả các cuộc hội thoại
     //Nang cấp gói
     public boolean updateSubscriptionPlan(User user, String newPlan) {
         String query = "UPDATE Users SET SubscriptionPlan = ? WHERE UserID = ?";
@@ -419,5 +419,5 @@ public class UserDAO {
         }
         return null; // Trả về null nếu không có kết quả
     }
-    
+
 }
