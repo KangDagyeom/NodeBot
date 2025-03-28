@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.*?>
-<BorderPane maxHeight="668.0" maxWidth="1187.0" minHeight="668.0" minWidth="1187.0" prefHeight="668.0"
-            prefWidth="1187.0" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javaee.test1.PrimaryController">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="668.0" maxWidth="1187.0" minHeight="668.0" minWidth="1187.0"
+            prefHeight="668.0" prefWidth="1187.0" stylesheets="@../../../css/style.css"
+            xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.javaee.test1.PrimaryController">
     <center>
         <AnchorPane BorderPane.alignment="CENTER">
             <children>
@@ -58,6 +58,20 @@
                                             <cursor>
                                                 <Cursor fx:constant="HAND"/>
                                             </cursor>
+                                        </ImageView>
+                                        <ImageView fx:id="btnSearch" fitHeight="30.0" fitWidth="96.0" layoutX="56.0"
+                                                   layoutY="70.0" onMouseClicked="#searchAction" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <image>
+                                                <Image url="@../../../img/btnSearch.png"/>
+                                            </image>
+                                        </ImageView>
+                                        <ImageView fx:id="btnTranslate" fitHeight="45.0" fitWidth="103.0"
+                                                   layoutX="159.0" layoutY="71.0" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <image>
+                                                <Image url="@../../../img/btnTranslate.png"/>
+                                            </image>
                                         </ImageView>
                                     </children>
                                 </AnchorPane>

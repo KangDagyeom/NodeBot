@@ -63,11 +63,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -75,11 +76,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.stage.Modality;
 
 // Import controller theo từng chức năng
 
@@ -89,8 +85,8 @@ import javafx.stage.Modality;
  */
 public class MainViewController {
     UserDAO userDAO = new UserDAO();
+    UserSession session = UserSession.getInstance();
     private List<String> historyList = new ArrayList<>();
-
     @FXML
     private Label labelNangcap;
     @FXML
@@ -107,11 +103,8 @@ public class MainViewController {
     private Label lbuserplan;
     @FXML
     private ImageView avatar;
-    private String saveTitle;
     //gán sự kiện cho từng nút
-
-    UserSession session = UserSession.getInstance();
-    
+    private String saveTitle;
 
     @FXML
     private void initialize() {
@@ -162,7 +155,7 @@ public class MainViewController {
         ButtonType renameOption = new ButtonType("Đổi tên hội thoại");
         ButtonType deleteOption = new ButtonType("Xóa hội thoại");
         ButtonType cancelOption = new ButtonType("Hủy", ButtonBar.ButtonData.CANCEL_CLOSE);
-alert.getButtonTypes().setAll(renameOption, deleteOption, cancelOption);
+        alert.getButtonTypes().setAll(renameOption, deleteOption, cancelOption);
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent()) {
@@ -174,17 +167,17 @@ alert.getButtonTypes().setAll(renameOption, deleteOption, cancelOption);
         }
     }
 
-// Mở cửa sổ đổi tên hội thoại
+    // Mở cửa sổ đổi tên hội thoại
     private void openRenameConversation() {
         openWindow("/com/javaee/test1/Thongbaodoiten.fxml", "Đổi tên hội thoại");
     }
 
-// Mở cửa sổ xóa hội thoại
+    // Mở cửa sổ xóa hội thoại
     private void openDeleteConversation() {
         openWindow("/com/javaee/test1/Thongbaoxoacuoctrochuyen.fxml", "Xóa hội thoại");
     }
 
-// Hàm dùng chung để mở cửa sổ
+    // Hàm dùng chung để mở cửa sổ
     private void openWindow(String fxmlPath, String title) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
@@ -200,7 +193,7 @@ alert.getButtonTypes().setAll(renameOption, deleteOption, cancelOption);
         }
     }
 
-// Hiển thị thông báo lỗi
+    // Hiển thị thông báo lỗi
     private void showError(String title, String message) {
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
         errorAlert.setTitle(title);
@@ -240,7 +233,7 @@ alert.getButtonTypes().setAll(renameOption, deleteOption, cancelOption);
         alert.setContentText("Chọn OK để đăng xuất.");
 
         Optional<ButtonType> result = alert.showAndWait();
-if (result.isPresent() && result.get() == ButtonType.OK) {
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             // Đóng cửa sổ hiện tại
             ((Stage) labelLogout.getScene().getWindow()).close();
 
@@ -258,7 +251,7 @@ if (result.isPresent() && result.get() == ButtonType.OK) {
         }
     }
 
-//delete all
+    //delete all
     @FXML
     private void deleteAllConversations() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -281,7 +274,7 @@ if (result.isPresent() && result.get() == ButtonType.OK) {
         labelLichsutrochuyen.setText("Không có cuộc hội thoại nào"); // Cập nhật label
     }
 
-//// thêm cuộc trò chuyện
+    /// / thêm cuộc trò chuyện
 //    @FXML
 //    private void startNewConversation() {
 //        // Lấy nội dung cuộc trò chuyện hiện tại
@@ -315,7 +308,7 @@ if (result.isPresent() && result.get() == ButtonType.OK) {
 
         // Kiểm tra xem cuộc trò chuyện có nội dung không trước khi lưu vào lịch sử
         if (currentConversation != null && !currentConversation.trim().isEmpty()) {
-historyList.add(0, currentConversation); // Thêm vào đầu danh sách thay vì cuối
+            historyList.add(0, currentConversation); // Thêm vào đầu danh sách thay vì cuối
         }
 
         // Hiển thị lịch sử cuộc trò chuyện
@@ -591,8 +584,6 @@ historyList.add(0, currentConversation); // Thêm vào đầu danh sách thay v�
 //            updateUIAfterDelete();
 //        }
 //    }
-        
-        
-        
-       
+
+
 }

@@ -22,15 +22,21 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
+import org.asynchttpclient.AsyncHttpClient;
+import org.asynchttpclient.DefaultAsyncHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -64,7 +70,12 @@ public class PrimaryController {
     private Label lbuserplan;
     @FXML
     private ImageView avatar;
+    @FXML
+    private ImageView btnSearch;
+    @FXML
+    private ImageView btnTranslate;
     private String saveTitle;
+    private AsyncHttpClient client = new DefaultAsyncHttpClient();
 
     @FXML
     private void handleMouseEnter(MouseEvent event) {
@@ -497,6 +508,158 @@ public class PrimaryController {
                 Platform.runLater(() -> addMessageToChat(msg.getMessageText(), msg.getSentAt().toLocalDateTime().format(formatter), isUser, true));
             }
         });
+    }
+
+    @FXML
+    private void searchAction() {
+        String userInput = inputField.getText().trim(); // Lấy nội dung nhập vào
+
+        if (!userInput.isEmpty()) {
+            addMessageToChat(userInput, "", true, false); // Hiển thị tin nhắn của người dùng
+            inputField.clear(); // Xóa ô nhập
+
+            // Gửi tin nhắn đến API
+            sendRequestToAPI(userInput);
+        }
+    }
+
+    private void sendRequestToAPI(String query) {
+        client.prepare("POST", "https://google-api-unlimited.p.rapidapi.com/search_image")
+                .setHeader("x-rapidapi-key", "79e9925fedmsh5ece400febbd5d0p1e7721jsna398b5210fa7")
+                .setHeader("x-rapidapi-host", "google-api-unlimited.p.rapidapi.com")
+                .setHeader("Content-Type", "application/x-www-form-urlencoded")
+                .setBody("query=" + URLEncoder.encode(query, StandardCharsets.UTF_8)) // Encode query
+                .execute()
+                .toCompletableFuture()
+                .thenAccept(response -> {
+                    String responseBody = response.getResponseBody();
+                    ArrayList<String> imageUrls = extractMessageFromJson(responseBody);
+                    System.out.println("Response: " + responseBody);
+
+                    Platform.runLater(() -> {
+                        if (!imageUrls.isEmpty()) {
+                            VBox mainContainer = new VBox(10);
+                            mainContainer.setAlignment(Pos.CENTER_LEFT);
+
+                            HBox currentRow = new HBox(10);
+                            currentRow.setAlignment(Pos.CENTER_LEFT);
+
+                            for (int i = 0; i < imageUrls.size(); i++) {
+                                String imageUrl = imageUrls.get(i);
+                                ImageView imageView = new ImageView(new Image(imageUrl, true));
+                                imageView.setFitWidth(200);
+                                imageView.setFitHeight(200);
+
+                                imageView.setPreserveRatio(true);
+
+                                currentRow.getChildren().add(imageView);
+
+
+                                if ((i + 1) % 3 == 0 || i == imageUrls.size() - 1) {
+                                    mainContainer.getChildren().add(currentRow);
+                                    currentRow = new HBox(10);
+                                    currentRow.setAlignment(Pos.CENTER_LEFT);
+                                }
+
+                            }
+                            StringBuilder sb = new StringBuilder();
+                            for (String item : imageUrls) {
+                                sb.append(item).append(" | ");
+                            }
+
+                            if (sb.length() > 0) {
+                                sb.setLength(sb.length() - 3);
+                            }
+
+                            String result = sb.toString();
+                            System.out.println(result);
+
+                            addImageToChat(mainContainer, "", false, false);
+                            chatMessageDAO.saveMessageToDB(userDAO.getConversationIdByTitle(saveTitle), userDAO.getUserIdByUsername(session.getUsername()), "bot", result);
+                        }
+                    });
+                })
+                .exceptionally(e -> {
+                    e.printStackTrace();
+                    Platform.runLater(() -> addMessageToChat("Lỗi khi gửi yêu cầu!", "", false, false));
+                    return null;
+                });
+    }
+
+
+    private ArrayList<String> extractMessageFromJson(String json) {
+        ArrayList<String> imageUrls = new ArrayList<>();
+
+        try {
+            JSONArray jsonArray = new JSONArray(json);
+
+            int limit = Math.min(9, jsonArray.length());
+
+            for (int i = 0; i < limit; i++) {
+                JSONObject item = jsonArray.getJSONObject(i);
+
+                if (item.has("preview")) {
+                    JSONObject preview = item.getJSONObject("preview");
+                    imageUrls.add(preview.getString("url"));
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            imageUrls.add("Lỗi xử lý JSON!");
+        }
+
+        return imageUrls; // Trả về danh sách 10 ảnh đầu tiên
+    }
+
+    private void addImageToChat(VBox imgContainer, String timestamp, boolean isUser, boolean isFetch) {
+        if (!isFetch) {
+            timestamp = new SimpleDateFormat("HH:mm").format(new Date());
+        }
+
+        if (!isUser) {
+            Label messageLabel = new Label("Here is your answer: ");
+            messageLabel.setWrapText(true);
+            messageLabel.setTextFill(Color.WHITE);
+            messageLabel.setMaxWidth(280);
+            ImageView likeImageView = new ImageView(new Image(getClass().getResource("/img/Like.png").toExternalForm()));
+            likeImageView.setFitWidth(16);
+            likeImageView.setFitHeight(16);
+
+            ImageView dislikeImageView = new ImageView(new Image(getClass().getResource("/img/Dislike.png").toExternalForm()));
+            dislikeImageView.setFitWidth(16);
+            dislikeImageView.setFitHeight(16);
+
+
+            Button btnLike = new Button();
+            btnLike.setGraphic(likeImageView);
+            btnLike.setCursor(Cursor.HAND);
+            btnLike.setStyle("-fx-background-color: transparent; -fx-margin:0; -fx-padding:5px;");
+
+            Button btnDislike = new Button();
+            btnDislike.setGraphic(dislikeImageView);
+            btnDislike.setCursor(Cursor.HAND);
+            btnDislike.setStyle("-fx-background-color: transparent; -fx-margin:0; -fx-padding:5px;");
+            btnLike.setOnMouseEntered(e -> btnLike.setStyle("-fx-background-color: #2c2c2c; -fx-padding: 5px; -fx-background-radius: 10px;"));
+            btnLike.setOnMouseExited(e -> btnLike.setStyle("-fx-background-color: transparent; -fx-padding: 5px; "));
+
+            btnDislike.setOnMouseEntered(e -> btnDislike.setStyle("-fx-background-color: #2c2c2c; -fx-padding: 5px; -fx-background-radius: 10px;"));
+            btnDislike.setOnMouseExited(e -> btnDislike.setStyle("-fx-background-color: transparent; -fx-padding: 5px; "));
+
+
+            HBox buttonContainer = new HBox(5, btnLike, btnDislike);
+
+            buttonContainer.setSpacing(0);
+            buttonContainer.setAlignment(Pos.BOTTOM_LEFT);
+            imgContainer.getChildren().add(buttonContainer);
+
+
+            Platform.runLater(() -> {
+                chatBox.getChildren().addAll(messageLabel, imgContainer);
+                scrollPane.setVvalue(1.0);
+            });
+        }
+
     }
 
 }
