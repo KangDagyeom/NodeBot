@@ -66,7 +66,7 @@ public class DangKyController {
         String password = txtPass.getText().trim();
 
         if (email.isEmpty() || username.isEmpty() || password.isEmpty()) {
-            showAlert(AlertType.WARNING, "Thông báo", "Vui lòng nhập đầy đủ thông tin!");
+            showAlert(AlertType.WARNING, "Thông báo", "Vui lòng nhập đầy đủ thông tin!!");
             return;
         }
 
