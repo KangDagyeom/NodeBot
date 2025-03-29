@@ -14,3 +14,4 @@ com\javaee\test1\controllers\ChatMessageDAO.class
 com\javaee\test1\DoiThongTinCaNhan.class
 com\javaee\test1\models\User.class
 com\javaee\test1\NangCapController.class
+com\javaee\test1\NutDangXuatController.class
