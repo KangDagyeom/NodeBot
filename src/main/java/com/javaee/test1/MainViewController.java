@@ -55,10 +55,9 @@ package com.javaee.test1;
 //import com.javaee.test1.DoiTenCuocHoiThoaiController;
 /// /import com.javaee.test1.controllers.DeleteConversationController;
 //import com.javaee.test1.NangCapController;
-
-
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.controllers.UserSession;
+import java.io.File;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -76,14 +75,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import javafx.scene.image.Image;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.shape.Circle;
 
 // Import controller theo từng chức năng
-
-
 /**
  * @author dokie
  */
 public class MainViewController {
+
     UserDAO userDAO = new UserDAO();
     UserSession session = UserSession.getInstance();
     private List<String> historyList = new ArrayList<>();
@@ -98,24 +100,76 @@ public class MainViewController {
     @FXML
     private VBox conversationCon;
     @FXML
-    private Label lbusername;
+    private Label txtTenND;
     @FXML
-    private Label lbuserplan;
+    private Label txtTaiKhoanND;
     @FXML
-    private ImageView avatar;
+    private ImageView imgAvatar;
     //gán sự kiện cho từng nút
     private String saveTitle;
 
+    private void loadUserInfo() {
+        // Lấy thông tin từ UserSession
+        UserSession userSession = UserSession.getInstance();
+        UUID userId = userSession.getUserId();
+
+        if (userId == null) {
+            showAlert("Lỗi", "Không tìm thấy thông tin người dùng từ phiên đăng nhập!", Alert.AlertType.ERROR);
+            return;
+        }
+        // Cập nhật tên và loại tài khoản từ UserSession lên giao diện
+        txtTenND.setText(userSession.getUsername() != null ? userSession.getUsername() : "Chưa có tên");
+        txtTaiKhoanND.setText(userSession.getSubscriptionPlan() != null ? userSession.getSubscriptionPlan() : "Không xác định");
+
+        // Hiển thị avatar từ UserSession (nếu có)
+        String avatarPath = userSession.getAvatar();
+        if (avatarPath != null && !avatarPath.isEmpty()) {
+            try {
+                File avatarFile = new File(avatarPath);
+                if (avatarFile.exists()) {
+                    Image avatarImage = new Image(avatarFile.toURI().toString());
+                    imgAvatar.setImage(avatarImage);
+
+                    // 📌 Căn ảnh sát trái
+                    imgAvatar.setPreserveRatio(true);  // Giữ tỷ lệ ảnh
+                    imgAvatar.setFitWidth(55);        // Điều chỉnh chiều rộng
+                    imgAvatar.setFitHeight(55);       // Điều chỉnh chiều cao
+                    imgAvatar.setSmooth(true);        // Làm mịn ảnh
+                    imgAvatar.setCache(true);         // Tăng hiệu suất load ảnh
+
+                    imgAvatar.setTranslateX(500); // Di chuyển ảnh sang trái (âm là trái, dương là phải)
+                    imgAvatar.setTranslateY(0);   // Di chuyển ảnh xuống dưới (âm là lên trên, dương là xuống dưới)
+
+                    // 📌 Làm tròn avatar
+                    Circle clip = new Circle(25, 25, 25); // Tạo clip hình tròn (bán kính 25px)
+                    imgAvatar.setClip(clip); // Đặt hình cắt tròn vào avatar
+
+                    // 📌 Nếu imgAvatar nằm trong HBox, căn sát trái
+                    HBox.setHgrow(imgAvatar, Priority.NEVER);
+                    imgAvatar.setTranslateX(-10); // Dịch ảnh về bên trái (tùy chỉnh)
+
+                } else {
+                    showAlert("Lỗi", "Không tìm thấy tệp ảnh đại diện!", Alert.AlertType.ERROR);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                showAlert("Lỗi", "Không thể tải ảnh đại diện!", Alert.AlertType.ERROR);
+            }
+        }
+
+    }
+
+    private void showAlert(String title, String content, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
     @FXML
     private void initialize() {
-        // Gán sự kiện click cho button
-        lbusername.setText(session.getUsername());
-        lbuserplan.setText(session.getSubscriptionPlan());
-        System.out.println("Username: " + session.getUsername());
-        System.out.println("Avatar: " + session.getAvatar());
-        System.out.println("Subscription Plan: " + session.getSubscriptionPlan());
-        loadConversations(userDAO.getUserIdByUsername(session.getUsername()));
-
+        loadUserInfo(); // Gọi loadUserInfo() khi view được hiển thị
         //gán sự kiện bấm vào label nâng cấp chuyển sang trang nâng cấp gói
         labelNangcap.setOnMouseClicked(event -> openUpgradePlan());
 
@@ -134,7 +188,7 @@ public class MainViewController {
             Parent root = loader.load();
 
             // Lấy stage hiện tại từ button avatar
-            Stage stage = (Stage) avatar.getScene().getWindow();
+            Stage stage = (Stage) imgAvatar.getScene().getWindow();
 
             // Cập nhật scene với root mới
             stage.setScene(new Scene(root));
@@ -584,6 +638,5 @@ public class MainViewController {
 //            updateUIAfterDelete();
 //        }
 //    }
-
 
 }

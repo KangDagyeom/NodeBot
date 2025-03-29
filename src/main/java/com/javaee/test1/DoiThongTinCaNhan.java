@@ -104,7 +104,7 @@ public class DoiThongTinCaNhan {
         UUID userId = userSession.getUserId();
 
         if (userId == null) {
-            showAlert("Lỗi", "Không tìm thấy thông tin người dùng từ phiên đăng nhập!", Alert.AlertType.ERROR);
+            showAlert("Lỗi", "Không tìm thấy thông tin người dùng từ phiên đăng nhập!!", Alert.AlertType.ERROR);
             return;
         }
         // Cập nhật tên và loại tài khoản từ UserSession lên giao diện
