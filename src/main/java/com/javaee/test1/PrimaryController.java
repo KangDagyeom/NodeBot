@@ -74,6 +74,8 @@ public class PrimaryController {
     private ImageView btnSearch;
     @FXML
     private ImageView btnTranslate;
+    @FXML
+    private Button btnNewCon;
     private String saveTitle;
     private AsyncHttpClient client = new DefaultAsyncHttpClient();
 
@@ -158,7 +160,8 @@ public class PrimaryController {
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:11434/api/generate")).header("Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(json.toString())).build();
 
             HttpResponse<InputStream> response = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
-            BufferedReader reader = new BufferedReader(new InputStreamReader(response.body()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response.body(), StandardCharsets.UTF_8));
+
 
             VBox botMessageContainer = new VBox();
             botMessageContainer.setMaxWidth(700);
@@ -662,4 +665,26 @@ public class PrimaryController {
 
     }
 
+    @FXML
+    private void handleNewConversation() {
+        TextInputDialog dialog = new TextInputDialog("Cuộc trò chuyện mới");
+        dialog.setTitle("Nhập tên cuộc hội thoại");
+        dialog.setHeaderText("Nhập tiêu đề cho cuộc trò chuyện (tối đa 50 ký tự):");
+        dialog.setContentText("Tiêu đề:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(title -> {
+            title = title.trim();
+            if (title.isEmpty()) {
+                title = "Cuộc trò chuyện mới";
+            } else if (title.length() > 50) {
+                title = title.substring(0, 50);
+            }
+
+            userDAO.insertChatHistory(userDAO.getUserIdByUsername(session.getUsername()), title);
+        });
+
+
+        loadConversations(userDAO.getUserIdByUsername(session.getUsername()));
+    }
 }

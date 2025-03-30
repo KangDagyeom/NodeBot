@@ -3,31 +3,30 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.javaee.test1;
+
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.application.Platform;
+
 import java.io.IOException;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 
 /**
- *
  * @author xinch
  */
 public class NutDangXuatController {
-    
+
     @FXML
     private Button exit;
     @FXML
     private Button Logout;
 
-    
-    
-     @FXML
+
+    @FXML
     private void handleLogoutAndExit(MouseEvent event) {
         System.out.println("Đăng xuất và thoát ứng dụng!"); // Debug
         Platform.exit(); // Thoát toàn bộ ứng dụng

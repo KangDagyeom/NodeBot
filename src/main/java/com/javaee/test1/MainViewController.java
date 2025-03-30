@@ -55,32 +55,34 @@ package com.javaee.test1;
 //import com.javaee.test1.DoiTenCuocHoiThoaiController;
 /// /import com.javaee.test1.controllers.DeleteConversationController;
 //import com.javaee.test1.NangCapController;
+
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.controllers.UserSession;
-import java.io.File;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import javafx.scene.image.Image;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.shape.Circle;
 
 // Import controller theo từng chức năng
+
 /**
  * @author dokie
  */
@@ -279,26 +281,26 @@ public class MainViewController {
 
     //=======================================
     //log out
-@FXML
+    @FXML
 
-private void handleLogout(MouseEvent event) {
-    System.out.println("Label Đăng xuất đã được click!"); // Debug
+    private void handleLogout(MouseEvent event) {
+        System.out.println("Label Đăng xuất đã được click!"); // Debug
 
-    try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/nutdangxuat.fxml")); // Đúng file cần mở
-        Parent root = loader.load();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/nutdangxuat.fxml")); // Đúng file cần mở
+            Parent root = loader.load();
 
-        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow(); // Lấy stage hiện tại
-        stage.setTitle("Đăng xuất");
-        stage.setScene(new Scene(root));
-        stage.show();
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow(); // Lấy stage hiện tại
+            stage.setTitle("Đăng xuất");
+            stage.setScene(new Scene(root));
+            stage.show();
 
-        System.out.println("Chuyển đến màn hình Đăng xuất thành công!"); // Debug
-    } catch (IOException e) {
-        System.out.println("Lỗi khi mở trang Đăng xuất: " + e.getMessage());
-        e.printStackTrace();
+            System.out.println("Chuyển đến màn hình Đăng xuất thành công!"); // Debug
+        } catch (IOException e) {
+            System.out.println("Lỗi khi mở trang Đăng xuất: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
-}
 
 
     //delete all

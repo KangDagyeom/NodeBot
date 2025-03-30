@@ -420,4 +420,19 @@ public class UserDAO {
         return null; // Trả về null nếu không có kết quả
     }
 
+    public void insertChatHistory(UUID userID, String title) {
+        String sql = "INSERT INTO ChatHistory (UserID, Title) VALUES (?, ?)";
+
+        try (Connection conn = getConnect(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setObject(1, userID);
+            stmt.setString(2, title);
+
+            int rowsInserted = stmt.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Thêm cuộc hội thoại thành công!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

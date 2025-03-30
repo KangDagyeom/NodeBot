@@ -52,7 +52,7 @@ public class LoginController {
             showStatus("Vui lòng nhập đầy đủ Email/Username và Password.", false);
             return;
         }
-    
+
         // Kiểm tra thông tin đăng nhập với CSDL
         boolean loginSuccessful = userDAO.validateUser(usernameOrEmail, password);
 
@@ -63,7 +63,7 @@ public class LoginController {
                     User userLogged = userDAO.getUserInfoByUsername(usernameOrEmail);
                     // ➜ Lưu toàn bộ thông tin người dùng vào UserSession
                     UserSession.getInstance().setUserInfo(userLogged.getUserID(), userLogged.getAvatar(), userLogged.getUsername(), userLogged.getSubscriptionPlan(), userLogged.getEmail(), userLogged.getPasswordHash());
-                    FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("mainview.fxml"));
+                    FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("primary.fxml"));
                     Parent root = fXMLLoader.load();
                     Scene newScene = new Scene(root, 1187, 668);
 

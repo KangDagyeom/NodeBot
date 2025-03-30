@@ -12,6 +12,7 @@
      -fx-padding: 8px;
      -fx-focus-color: transparent; /* Xóa hiệu ứng khi focus */
      -fx-faint-focus-color: transparent;
+
  }
 .scroll-pane{
     -fx-background-color: transparent;
@@ -221,6 +222,11 @@
     -fx-graphic: url("@/img/Vector.png"); /* Đường dẫn đến hình ảnh dấu "+" */
     -fx-graphic-text-gap: 30px; /* Khoảng cách giữa hình ảnh và chữ */
     -fx-content-display: left; /* Hiển thị hình ảnh bên trái chữ */
+}
+.text-area {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: white; /* Giữ màu chữ trắng để dễ đọc */
 }
 
 

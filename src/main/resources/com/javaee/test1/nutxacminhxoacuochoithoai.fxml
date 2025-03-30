@@ -7,28 +7,33 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="450.0" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javaee.test1.DoiTenCuocHoiThoaiController">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="180.0" prefWidth="450.0" stylesheets="@../../../css/style.css"
+            xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.javaee.test1.DoiTenCuocHoiThoaiController">
     <center>
         <AnchorPane BorderPane.alignment="CENTER">
             <children>
                 <ImageView fitHeight="180.0" fitWidth="751.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../../img/Doitenchocuoctrotruyen.png" />
+                        <Image url="@../../../img/Doitenchocuoctrotruyen.png"/>
                     </image>
                 </ImageView>
-                <Label layoutX="28.0" layoutY="14.0" prefHeight="30.0" prefWidth="362.0" text="Bạn chắc muốn xóa tất cả cuộc hội thoại" textFill="WHITE">
+                <Label layoutX="28.0" layoutY="14.0" prefHeight="30.0" prefWidth="362.0"
+                       text="Bạn chắc muốn xóa tất cả cuộc hội thoại" textFill="WHITE">
                     <font>
-                        <Font size="20.0" />
+                        <Font size="20.0"/>
                     </font>
                 </Label>
-                <Button fx:id="btnCancel" layoutX="283.0" layoutY="61.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="96.0" styleClass="red-button" text="Đúng" />
-                <Button fx:id="btnConfirm" layoutX="75.0" layoutY="61.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="77.0" styleClass="green-button" text="Không" />
-            <Label layoutX="28.0" layoutY="144.0" prefHeight="19.0" prefWidth="303.0" text="Tất cả thay đổi bạn đang làm sẽ không thể hoàn tác" textFill="WHITE">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </Label>
+                <Button fx:id="btnCancel" layoutX="283.0" layoutY="61.0" mnemonicParsing="false" prefHeight="52.0"
+                        prefWidth="96.0" styleClass="red-button" text="Đúng"/>
+                <Button fx:id="btnConfirm" layoutX="75.0" layoutY="61.0" mnemonicParsing="false" prefHeight="52.0"
+                        prefWidth="77.0" styleClass="green-button" text="Không"/>
+                <Label layoutX="28.0" layoutY="144.0" prefHeight="19.0" prefWidth="303.0"
+                       text="Tất cả thay đổi bạn đang làm sẽ không thể hoàn tác" textFill="WHITE">
+                    <font>
+                        <Font size="13.0"/>
+                    </font>
+                </Label>
             </children>
         </AnchorPane>
     </center>
