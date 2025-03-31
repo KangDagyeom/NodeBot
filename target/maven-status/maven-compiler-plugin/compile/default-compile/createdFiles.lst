@@ -5,6 +5,7 @@ com\javaee\test1\controllers\UserDAO.class
 com\javaee\test1\DangKyController.class
 com\javaee\test1\SecondaryController.class
 com\javaee\test1\models\ChatMessage.class
+com\javaee\test1\controllers\EmailService.class
 com\javaee\test1\MainViewController.class
 com\javaee\test1\QuenMatKhauController.class
 com\javaee\test1\LoginController.class
@@ -14,4 +15,5 @@ com\javaee\test1\controllers\ChatMessageDAO.class
 com\javaee\test1\DoiThongTinCaNhan.class
 com\javaee\test1\models\User.class
 com\javaee\test1\NangCapController.class
+com\javaee\test1\controllers\EmailService$1.class
 com\javaee\test1\NutDangXuatController.class
