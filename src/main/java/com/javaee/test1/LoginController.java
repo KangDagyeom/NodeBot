@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -63,14 +64,15 @@ public class LoginController {
                     User userLogged = userDAO.getUserInfoByUsername(usernameOrEmail);
                     // ➜ Lưu toàn bộ thông tin người dùng vào UserSession
                     UserSession.getInstance().setUserInfo(userLogged.getUserID(), userLogged.getAvatar(), userLogged.getUsername(), userLogged.getSubscriptionPlan(), userLogged.getEmail(), userLogged.getPasswordHash());
-                    FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("primary.fxml"));
+                    FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("mainview.fxml"));
                     Parent root = fXMLLoader.load();
                     Scene newScene = new Scene(root, 1187, 668);
 
                     Stage newStage = (Stage) buttonLogin.getScene().getWindow();
                     newStage.setScene(newScene);
                     newStage.centerOnScreen();
-
+                    newStage.setTitle("Home");
+                    newStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/Node_logo.jpg")));
                     newStage.setResizable(false);
 
                     newStage.show();
@@ -112,6 +114,8 @@ public class LoginController {
             Scene newScene = new Scene(root);
             Stage stage = (Stage) buttonQuenMK.getScene().getWindow();
             stage.setScene(newScene);
+            stage.setTitle("Forgot password");
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/img/Node_logo.jpg")));
             stage.centerOnScreen();  // 🔹 Căn giữa màn hình
             stage.show();
         } catch (IOException e) {
@@ -129,6 +133,8 @@ public class LoginController {
             Scene newScene = new Scene(root);
             Stage stage = (Stage) buttonDangKy.getScene().getWindow();
             stage.setScene(newScene);
+            stage.setTitle("Sign up");
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/img/Node_logo.jpg")));
             stage.centerOnScreen(); // 🔹 Căn giữa màn hình
             stage.show();
         } catch (IOException e) {

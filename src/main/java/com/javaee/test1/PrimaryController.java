@@ -4,12 +4,18 @@ import com.javaee.test1.controllers.ChatMessageDAO;
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.controllers.UserSession;
 import com.javaee.test1.models.ChatMessage;
-import javafx.animation.*;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,10 +23,13 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.DefaultAsyncHttpClient;
@@ -28,9 +37,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -69,44 +76,36 @@ public class PrimaryController {
     @FXML
     private Label lbuserplan;
     @FXML
-    private ImageView avatar;
+    private ImageView imgAvatar;
     @FXML
     private ImageView btnSearch;
     @FXML
     private ImageView btnTranslate;
     @FXML
     private Button btnNewCon;
+    @FXML
+    private Label labelXoatatca;
+    @FXML
+    private Label labelUpgrade;
+    @FXML
+    private Label labelLogout;
     private String saveTitle;
     private AsyncHttpClient client = new DefaultAsyncHttpClient();
 
-    @FXML
-    private void handleMouseEnter(MouseEvent event) {
-        ScaleTransition scaleUp = new ScaleTransition(Duration.millis(200), resultLabel);
-        scaleUp.setToX(1.2); // Phóng to 20%
-        scaleUp.setToY(1.2);
-        scaleUp.play();
-    }
-
-    @FXML
-    private void handleMouseExit(MouseEvent event) {
-        ScaleTransition scaleDown = new ScaleTransition(Duration.millis(300), resultLabel);
-        scaleDown.setToX(1); // Trả về kích thước ban đầu
-        scaleDown.setToY(1);
-        scaleDown.play();
+    public void savedTitle(String currentTitle) {
+        saveTitle = currentTitle;
     }
 
     @FXML
     public void initialize() {
 
-        lbusername.setText(session.getUsername());
-        lbuserplan.setText(session.getSubscriptionPlan());
+        loadUserInfo();
         System.out.println("Username: " + session.getUsername());
         System.out.println("Avatar: " + session.getAvatar());
         System.out.println("Subscription Plan: " + session.getSubscriptionPlan());
 
         scrollPane.setFitToWidth(true);
         loadConversations(userDAO.getUserIdByUsername(session.getUsername()));
-        // Đảm bảo VBox mở rộng theo nội dung
         chatBox.setMinHeight(Region.USE_PREF_SIZE);
         chatBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
         chatBox.setFillWidth(true);
@@ -477,7 +476,7 @@ public class PrimaryController {
             });
 
             conversationLabel.setOnMouseClicked(event -> {
-                saveTitle = conversationLabel.getText();
+                savedTitle(conversationLabel.getText());
                 loadChatHistory(userDAO.getConversationIdByTitle(saveTitle));
 
                 System.out.println(saveTitle);
@@ -686,5 +685,114 @@ public class PrimaryController {
 
 
         loadConversations(userDAO.getUserIdByUsername(session.getUsername()));
+    }
+
+    private void loadUserInfo() {
+        // Lấy thông tin từ UserSession
+        UserSession userSession = UserSession.getInstance();
+        UUID userId = userSession.getUserId();
+
+        if (userId == null) {
+            showAlert("Lỗi", "Không tìm thấy thông tin người dùng từ phiên đăng nhập!", Alert.AlertType.ERROR);
+            return;
+        }
+        // Cập nhật tên và loại tài khoản từ UserSession lên giao diện
+        lbusername.setText(userSession.getUsername() != null ? userSession.getUsername() : "Chưa có tên");
+        lbuserplan.setText(userSession.getSubscriptionPlan() != null ? userSession.getSubscriptionPlan() : "Không xác định");
+
+        // Hiển thị avatar từ UserSession (nếu có)
+        String avatarPath = userSession.getAvatar();
+        if (avatarPath != null && !avatarPath.isEmpty()) {
+            try {
+                File avatarFile = new File(avatarPath);
+                if (avatarFile.exists()) {
+                    Image avatarImage = new Image(avatarFile.toURI().toString());
+                    imgAvatar.setImage(avatarImage);
+
+                    // 📌 Căn ảnh sát trái
+                    imgAvatar.setPreserveRatio(true);  // Giữ tỷ lệ ảnh
+                    imgAvatar.setFitWidth(55);        // Điều chỉnh chiều rộng
+                    imgAvatar.setFitHeight(55);       // Điều chỉnh chiều cao
+                    imgAvatar.setSmooth(true);        // Làm mịn ảnh
+                    imgAvatar.setCache(true);         // Tăng hiệu suất load ảnh
+
+                    imgAvatar.setTranslateX(500); // Di chuyển ảnh sang trái (âm là trái, dương là phải)
+                    imgAvatar.setTranslateY(0);   // Di chuyển ảnh xuống dưới (âm là lên trên, dương là xuống dưới)
+
+                    // 📌 Làm tròn avatar
+                    Circle clip = new Circle(25, 25, 25); // Tạo clip hình tròn (bán kính 25px)
+                    imgAvatar.setClip(clip); // Đặt hình cắt tròn vào avatar
+
+                    // 📌 Nếu imgAvatar nằm trong HBox, căn sát trái
+                    HBox.setHgrow(imgAvatar, Priority.NEVER);
+                    imgAvatar.setTranslateX(-10); // Dịch ảnh về bên trái (tùy chỉnh)
+
+                } else {
+                    showAlert("Lỗi", "Không tìm thấy tệp ảnh đại diện!", Alert.AlertType.ERROR);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                showAlert("Lỗi", "Không thể tải ảnh đại diện!", Alert.AlertType.ERROR);
+            }
+        }
+
+    }
+
+    private void showAlert(String title, String content, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    @FXML
+    private void openUpgradePlan() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/Nanngcap.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Nâng cấp gói");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            System.out.println("Lỗi khi mở trang nâng cấp: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+
+    private void handleLogout(MouseEvent event) {
+        System.exit(0);
+    }
+
+
+    //delete all
+    @FXML
+    private void deleteAllConversations() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Xác nhận xóa");
+        alert.setHeaderText("Bạn có chắc muốn xóa tất cả cuộc hội thoại không?");
+        alert.setContentText("Hành động này không thể hoàn tác!");
+
+    }
+
+    @FXML
+    private void openEditProfile() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/Thongtincanhan.fxml"));
+            Parent root = loader.load();
+
+            // Lấy stage hiện tại từ button avatar
+            Stage stage = (Stage) imgAvatar.getScene().getWindow();
+
+            // Cập nhật scene với root mới
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
