@@ -160,7 +160,7 @@
                         <Image url="@../../../img/Fonctionnality%20List.png"/>
                     </image>
                 </ImageView>
-                <TextArea fx:id="textAreaChat" layoutX="470.0" layoutY="333.0" prefHeight="14.0" prefWidth="619.0"
+                <TextArea fx:id="textAreaChat" layoutX="470.0" layoutY="333.0" prefHeight="59.0" prefWidth="562.0"
                           promptText="Example : “Explain quantum computing in simple terms”" styleClass="inputField"
                           stylesheets="@../../../css/style.css" wrapText="true"/>
                 <Label layoutX="533.0" layoutY="169.0" text="Welcome to" textFill="WHITE">
@@ -174,7 +174,7 @@
                         <Font size="16.0"/>
                     </font>
                 </Label>
-                <ImageView fitHeight="52.0" fitWidth="56.0" layoutX="1033.0" layoutY="339.0" pickOnBounds="true"
+                <ImageView fitHeight="52.0" fitWidth="56.0" layoutX="1043.0" layoutY="340.0" pickOnBounds="true"
                            preserveRatio="true">
                     <image>
                         <Image url="@../../../img/btnSend.png"/>

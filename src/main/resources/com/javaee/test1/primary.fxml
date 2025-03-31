@@ -39,7 +39,8 @@
                                             styleClass="inputField">
                                     <children>
                                         <TextArea fx:id="inputField" layoutX="8.0" layoutY="9.0" prefHeight="58.0"
-                                                  prefWidth="643.0" promptText="Ask anything" wrapText="true"/>
+                                                  prefWidth="643.0" promptText="Ask anything" styleClass="txt-area"
+                                                  wrapText="true"/>
                                         <ImageView fitHeight="87.0" fitWidth="42.0" layoutX="648.0" layoutY="65.0"
                                                    onMouseClicked="#sendMessage" pickOnBounds="true"
                                                    preserveRatio="true">
@@ -50,24 +51,15 @@
                                                 <Cursor fx:constant="HAND"/>
                                             </cursor>
                                         </ImageView>
-                                        <ImageView fitHeight="38.0" fitWidth="34.0" layoutX="13.0" layoutY="68.0"
-                                                   pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../../../img/appendFile.png"/>
-                                            </image>
-                                            <cursor>
-                                                <Cursor fx:constant="HAND"/>
-                                            </cursor>
-                                        </ImageView>
-                                        <ImageView fx:id="btnSearch" fitHeight="30.0" fitWidth="96.0" layoutX="56.0"
-                                                   layoutY="70.0" onMouseClicked="#searchAction" pickOnBounds="true"
+                                        <ImageView fx:id="btnSearch" fitHeight="30.0" fitWidth="96.0" layoutX="8.0"
+                                                   layoutY="69.0" onMouseClicked="#searchAction" pickOnBounds="true"
                                                    preserveRatio="true">
                                             <image>
                                                 <Image url="@../../../img/btnSearch.png"/>
                                             </image>
                                         </ImageView>
                                         <ImageView fx:id="btnTranslate" fitHeight="45.0" fitWidth="103.0"
-                                                   layoutX="159.0" layoutY="71.0" pickOnBounds="true"
+                                                   layoutX="111.0" layoutY="70.0" pickOnBounds="true"
                                                    preserveRatio="true">
                                             <image>
                                                 <Image url="@../../../img/btnTranslate.png"/>
@@ -98,8 +90,8 @@
                                 <Cursor fx:constant="HAND"/>
                             </cursor>
                         </Circle>
-                        <ImageView fx:id="avatar" fitHeight="36.0" fitWidth="36.0" layoutX="59.0" layoutY="27.0"
-                                   pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgAvatar" fitHeight="36.0" fitWidth="36.0" layoutX="59.0" layoutY="27.0"
+                                   onMouseClicked="#openEditProfile" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../../img/avatar.png"/>
                             </image>
@@ -134,8 +126,9 @@
                                 <Image url="@../../../img/delete.png"/>
                             </image>
                         </ImageView>
-                        <Label fx:id="labelXoahoithoai" layoutX="74.0" layoutY="537.0"
-                               text="Xóa tất cả các cuộc hội thoại" textFill="WHITE">
+                        <Label fx:id="labelXoatatca" layoutX="74.0" layoutY="537.0"
+                               onMouseClicked="#deleteAllConversations" text="Xóa tất cả các cuộc hội thoại"
+                               textFill="WHITE">
                             <font>
                                 <Font size="14.0"/>
                             </font>
@@ -143,13 +136,14 @@
                                 <Cursor fx:constant="HAND"/>
                             </cursor>
                         </Label>
-                        <Label fx:id="labelNangcap" layoutX="75.0" layoutY="582.0" text="Nâng cấp lên Node Plus "
-                               textFill="WHITE">
+                        <Label fx:id="labelNangcap" layoutX="75.0" layoutY="582.0" onMouseClicked="#openUpgradePlan"
+                               text="Nâng cấp lên Node Plus " textFill="WHITE">
                             <font>
                                 <Font size="14.0"/>
                             </font>
                         </Label>
-                        <Label fx:id="labelLogout" layoutX="74.0" layoutY="626.0" text="Log out" textFill="#d45454">
+                        <Label fx:id="labelLogout" layoutX="74.0" layoutY="626.0" onMouseClicked="#handleLogout"
+                               text="Log out" textFill="#d45454">
                             <font>
                                 <Font size="14.0"/>
                             </font>

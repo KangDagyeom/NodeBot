@@ -56,8 +56,10 @@ package com.javaee.test1;
 /// /import com.javaee.test1.controllers.DeleteConversationController;
 //import com.javaee.test1.NangCapController;
 
+import com.javaee.test1.controllers.ChatMessageDAO;
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.controllers.UserSession;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -90,6 +92,12 @@ public class MainViewController {
 
     UserDAO userDAO = new UserDAO();
     UserSession session = UserSession.getInstance();
+    ChatMessageDAO chatMessageDAO = new ChatMessageDAO();
+    UserSession userSession = UserSession.getInstance();
+    @FXML
+    private VBox chatBox;
+    @FXML
+    private ScrollPane scrollPane;
     private List<String> historyList = new ArrayList<>();
     @FXML
     private Label labelNangcap;
@@ -112,7 +120,7 @@ public class MainViewController {
 
     private void loadUserInfo() {
         // Lấy thông tin từ UserSession
-        UserSession userSession = UserSession.getInstance();
+
         UUID userId = userSession.getUserId();
 
         if (userId == null) {
@@ -172,7 +180,7 @@ public class MainViewController {
     @FXML
     private void initialize() {
         loadUserInfo(); // Gọi loadUserInfo() khi view được hiển thị
-        //gán sự kiện bấm vào label nâng cấp chuyển sang trang nâng cấp gói
+        loadConversations(userDAO.getUserIdByUsername(userSession.getUsername()));
         labelNangcap.setOnMouseClicked(event -> openUpgradePlan());
 
         //gán sự kiện cho xóa hết cuộc hội thoại
@@ -412,14 +420,38 @@ public class MainViewController {
                 conversationLabel.setContentDisplay(ContentDisplay.LEFT);
             });
 
-//            conversationLabel.setOnMouseClicked(event -> {
-//                saveTitle = conversationLabel.getText();
-//                loadChatHistory(userDAO.getConversationIdByTitle(saveTitle));
-//
-//                System.out.println(saveTitle);
-//            });
+            conversationLabel.setOnMouseClicked(event -> {
+
+                saveTitle = conversationLabel.getText();
+                Platform.runLater(() -> {
+                    try {
+
+                        FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("primary.fxml"));
+                        Parent root = fXMLLoader.load();
+                        Scene newScene = new Scene(root, 1187, 668);
+                        PrimaryController primaryController = fXMLLoader.getController();
+                        primaryController.savedTitle(saveTitle);
+                        Stage newStage = new Stage();
+                        newStage.setScene(newScene);
+                        newStage.centerOnScreen();
+                        newStage.setTitle("Home");
+                        newStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/Node_logo.jpg")));
+                        newStage.setResizable(false);
+
+                        newStage.show();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+
+                    }
+                });
+                System.out.println(saveTitle);
+            });
+
             conversationCon.getChildren().add(conversationLabel);
         }
 
     }
+
+
 }

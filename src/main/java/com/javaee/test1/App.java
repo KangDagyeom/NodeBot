@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -33,6 +34,8 @@ public class App extends Application {
 
         scene = new Scene(loadFXML("login"));
         stage.setScene(scene);
+        stage.setTitle("Login");
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/img/Node_logo.jpg")));
         stage.show();
     }
 
