@@ -1,95 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="668.0" prefWidth="1187.0" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javaee.test1.DoiThongTinCaNhan">
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="668.0" prefWidth="1187.0" stylesheets="@../../../css/style.css"
+            xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.javaee.test1.DoiThongTinCaNhan">
     <left>
-        
+
         <AnchorPane prefHeight="671.0" prefWidth="1209.0" styleClass="black-background" BorderPane.alignment="CENTER">
             <children>
-                <VBox layoutX="-2.0" prefHeight="673.0" prefWidth="335.0" styleClass="gray-background" />
+                <VBox layoutX="-2.0" prefHeight="673.0" prefWidth="335.0" styleClass="gray-background"/>
 
                 <VBox layoutX="334.0" layoutY="1.0" prefHeight="668.0" prefWidth="872.0">
                     <children>
-                        <VBox fx:id="chatBox" prefHeight="668.0" prefWidth="865.0" />
+                        <VBox fx:id="chatBox" prefHeight="668.0" prefWidth="865.0"/>
                     </children>
                 </VBox>
 
 
-                <ImageView fitHeight="642.0" fitWidth="842.0" layoutX="348.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="642.0" fitWidth="842.0" layoutX="348.0" layoutY="21.0" pickOnBounds="true"
+                           preserveRatio="true">
                     <image>
-                        <Image url="@../../../img/Main-container.png" />
+                        <Image url="@../../../img/Main-container.png"/>
                     </image>
                 </ImageView>
-                <ImageView fitHeight="124.0" fitWidth="807.0" layoutX="365.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="124.0" fitWidth="807.0" layoutX="365.0" layoutY="55.0" pickOnBounds="true"
+                           preserveRatio="true">
                     <image>
-                        <Image url="@../../../img/thongtin1.png" />
+                        <Image url="@../../../img/thongtin1.png"/>
                     </image>
                 </ImageView>
-                <ImageView fitHeight="282.0" fitWidth="810.0" layoutX="363.0" layoutY="209.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="282.0" fitWidth="810.0" layoutX="363.0" layoutY="209.0" pickOnBounds="true"
+                           preserveRatio="true">
                     <image>
-                        <Image url="@../../../img/thongtin2.png" />
+                        <Image url="@../../../img/thongtin2.png"/>
                     </image>
                 </ImageView>
-                <Button layoutX="13.0" layoutY="91.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="210.0" styleClass="transparent-button2" />
-                <Button layoutX="13.0" layoutY="136.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="225.0" styleClass="transparent-button2" />
-                <Button layoutX="13.0" layoutY="185.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="211.0" styleClass="transparent-button2" />
-                <Button layoutX="13.0" layoutY="235.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="211.0" styleClass="transparent-button2" />
-                <Button layoutX="21.0" layoutY="497.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="268.0" styleClass="transparent-button2" />
-                <Button layoutX="11.0" layoutY="494.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="268.0" styleClass="transparent-button2" />
-                <Button layoutX="11.0" layoutY="550.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="291.0" styleClass="transparent-button2" />
-                <Button layoutX="13.0" layoutY="607.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="243.0" styleClass="transparent-button2" />
-                <Button layoutX="293.0" layoutY="104.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="21.0" styleClass="transparent-button2" />
-                <Button layoutX="293.0" layoutY="201.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="21.0" styleClass="transparent-button2" />
-                <Button layoutX="-8.0" layoutY="295.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="331.0" styleClass="transparent-button3" />
+                <Button layoutX="13.0" layoutY="91.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="210.0"
+                        styleClass="transparent-button2"/>
+                <Button layoutX="13.0" layoutY="136.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="225.0"
+                        styleClass="transparent-button2"/>
+                <Button layoutX="13.0" layoutY="185.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="211.0"
+                        styleClass="transparent-button2"/>
+                <Button layoutX="13.0" layoutY="235.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="211.0"
+                        styleClass="transparent-button2"/>
+                <Button layoutX="21.0" layoutY="497.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="268.0"
+                        styleClass="transparent-button2"/>
+                <Button layoutX="11.0" layoutY="494.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="268.0"
+                        styleClass="transparent-button2"/>
+                <Button layoutX="11.0" layoutY="550.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="291.0"
+                        styleClass="transparent-button2"/>
+                <Button layoutX="13.0" layoutY="607.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="243.0"
+                        styleClass="transparent-button2"/>
+                <Button layoutX="293.0" layoutY="104.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="21.0"
+                        styleClass="transparent-button2"/>
+                <Button layoutX="293.0" layoutY="201.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="21.0"
+                        styleClass="transparent-button2"/>
+                <Button layoutX="-8.0" layoutY="295.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="331.0"
+                        styleClass="transparent-button3"/>
                 <Label layoutX="376.0" layoutY="60.0" text="Thông Tin Cá Nhân" textFill="WHITE">
                     <font>
-                        <Font name="System Bold" size="18.0" />
+                        <Font name="System Bold" size="18.0"/>
                     </font>
                 </Label>
-                <Label layoutX="377.0" layoutY="91.0" prefHeight="34.0" prefWidth="239.0" text="Đây là thông tin riêng tư và sẽ không được chia sẻ cho người khác." textFill="WHITE" wrapText="true" />
+                <Label layoutX="377.0" layoutY="91.0" prefHeight="34.0" prefWidth="239.0"
+                       text="Đây là thông tin riêng tư và sẽ không được chia sẻ cho người khác." textFill="WHITE"
+                       wrapText="true"/>
                 <Label layoutX="376.0" layoutY="221.0" text="Đăng nhập thông tin" textFill="WHITE">
                     <font>
-                        <Font name="System Bold" size="18.0" />
+                        <Font name="System Bold" size="18.0"/>
                     </font>
                 </Label>
-                <Label layoutX="377.0" layoutY="252.0" prefHeight="58.0" prefWidth="239.0" text="Bạn nên thay đổi mật khẩu định kỳ để giảm thiểu khả năng tài khoản bị truy cập bởi kẻ gian." textFill="WHITE" wrapText="true" />
-                <TextField fx:id="txtEmailMoi" layoutX="644.0" layoutY="66.0" prefHeight="47.0" prefWidth="508.0" promptText=" Email@gmail.com" />
-                <Label layoutX="653.0" layoutY="59.0" prefHeight="34.0" prefWidth="239.0" text="Địa chỉ Email" textFill="WHITE" wrapText="true">
+                <Label layoutX="377.0" layoutY="252.0" prefHeight="58.0" prefWidth="239.0"
+                       text="Bạn nên thay đổi mật khẩu định kỳ để giảm thiểu khả năng tài khoản bị truy cập bởi kẻ gian."
+                       textFill="WHITE" wrapText="true"/>
+                <TextField fx:id="txtEmailMoi" layoutX="644.0" layoutY="66.0" prefHeight="47.0" prefWidth="508.0"
+                           promptText=" Email@gmail.com"/>
+                <Label layoutX="653.0" layoutY="59.0" prefHeight="34.0" prefWidth="239.0" text="Địa chỉ Email"
+                       textFill="WHITE" wrapText="true">
                     <font>
-                        <Font size="10.0" />
+                        <Font size="10.0"/>
                     </font>
                 </Label>
-                <TextField fx:id="txtUsername" layoutX="644.0" layoutY="220.0" prefHeight="47.0" prefWidth="507.0" promptText=" Tên người dùng" />
-                <Label layoutX="654.0" layoutY="213.0" prefHeight="34.0" prefWidth="239.0" text="Tên người dùng" textFill="WHITE" wrapText="true">
+                <TextField fx:id="txtUsername" layoutX="644.0" layoutY="220.0" prefHeight="47.0" prefWidth="507.0"
+                           promptText=" Tên người dùng"/>
+                <Label layoutX="654.0" layoutY="213.0" prefHeight="34.0" prefWidth="239.0" text="Tên người dùng"
+                       textFill="WHITE" wrapText="true">
                     <font>
-                        <Font size="10.0" />
+                        <Font size="10.0"/>
                     </font>
                 </Label>
-                <Label layoutX="645.0" layoutY="265.0" prefHeight="34.0" prefWidth="239.0" text="Đổi mật khẩu" textFill="WHITE" wrapText="true">
+                <Label layoutX="645.0" layoutY="265.0" prefHeight="34.0" prefWidth="239.0" text="Đổi mật khẩu"
+                       textFill="WHITE" wrapText="true">
                     <font>
-                        <Font size="16.0" />
+                        <Font size="16.0"/>
                     </font>
                 </Label>
-                <Button fx:id="btnLuuVaXacMinh" layoutX="1046.0" layoutY="131.0" mnemonicParsing="false" onAction="#luuVaXacMinhEmail" styleClass="transparent-button4" text="Lưu và Xác nhận" />
-                <Button fx:id="btnLuuThayDoi" layoutX="1046.0" layoutY="457.0" mnemonicParsing="false" onAction="#luuThayDoi" styleClass="transparent-button4" text="Lưu và Xác nhận" />
-                <PasswordField fx:id="txtCurrentPassword" layoutX="644.0" layoutY="297.0" prefHeight="47.0" prefWidth="508.0" promptText="Mật khẩu cũ" />
-                <PasswordField fx:id="txtNewPassword" layoutX="644.0" layoutY="349.0" prefHeight="47.0" prefWidth="508.0" promptText="Mật khẩu mới" />
-                <PasswordField fx:id="txtConfirmPassword" layoutX="644.0" layoutY="402.0" prefHeight="47.0" prefWidth="508.0" promptText="Nhập lại mật khẩu" />
-                <TextField fx:id="txtEmailCu" layoutX="645.0" layoutY="122.0" prefHeight="47.0" prefWidth="378.0" promptText=" Email@gmail.com" />
-                
+                <Button fx:id="btnLuuVaXacMinh" layoutX="1046.0" layoutY="131.0" mnemonicParsing="false"
+                        onAction="#luuVaXacMinhEmail" styleClass="transparent-button4" text="Lưu và Xác nhận"/>
+                <Button fx:id="btnLuuThayDoi" layoutX="1046.0" layoutY="457.0" mnemonicParsing="false"
+                        onAction="#luuThayDoi" styleClass="transparent-button4" text="Lưu và Xác nhận"/>
+                <PasswordField fx:id="txtCurrentPassword" layoutX="644.0" layoutY="297.0" prefHeight="47.0"
+                               prefWidth="508.0" promptText="Mật khẩu cũ"/>
+                <PasswordField fx:id="txtNewPassword" layoutX="644.0" layoutY="349.0" prefHeight="47.0"
+                               prefWidth="508.0" promptText="Mật khẩu mới"/>
+                <PasswordField fx:id="txtConfirmPassword" layoutX="644.0" layoutY="402.0" prefHeight="47.0"
+                               prefWidth="508.0" promptText="Nhập lại mật khẩu"/>
+                <TextField fx:id="txtEmailCu" layoutX="645.0" layoutY="122.0" prefHeight="47.0" prefWidth="378.0"
+                           promptText=" Email@gmail.com"/>
+
 
             </children>
         </AnchorPane>
-        
+
     </left>
 </BorderPane>

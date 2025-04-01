@@ -55,6 +55,7 @@ package com.javaee.test1;
 //import com.javaee.test1.DoiTenCuocHoiThoaiController;
 /// /import com.javaee.test1.controllers.DeleteConversationController;
 //import com.javaee.test1.NangCapController;
+
 import com.javaee.test1.controllers.ChatMessageDAO;
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.controllers.UserSession;
@@ -72,7 +73,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -83,6 +83,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 // Import controller theo từng chức năng
+
 /**
  * @author dokie
  */

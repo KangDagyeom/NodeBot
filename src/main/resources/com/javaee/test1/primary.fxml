@@ -59,8 +59,8 @@
                                             </image>
                                         </ImageView>
                                         <ImageView fx:id="btnTranslate" fitHeight="45.0" fitWidth="103.0"
-                                                   layoutX="111.0" layoutY="70.0" pickOnBounds="true"
-                                                   preserveRatio="true">
+                                                   layoutX="111.0" layoutY="70.0" onMouseClicked="#translateAction"
+                                                   pickOnBounds="true" preserveRatio="true">
                                             <image>
                                                 <Image url="@../../../img/btnTranslate.png"/>
                                             </image>

@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -28,6 +29,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -375,6 +377,7 @@ public class PrimaryController {
                 textLabel.setWrapText(true);
                 textLabel.setMaxWidth(700);
                 textLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: white;");
+                textLabel.setMouseTransparent(false);
                 textLabel.setText(message);
                 messageContainer.getChildren().add(textLabel);
             }
@@ -517,15 +520,38 @@ public class PrimaryController {
         String userInput = inputField.getText().trim(); // Lấy nội dung nhập vào
 
         if (!userInput.isEmpty()) {
+            chatMessageDAO.saveMessageToDB(userDAO.getConversationIdByTitle(saveTitle), // conversationId
+                    userDAO.getUserIdByUsername(session.getUsername()), // senderId
+                    "user", // senderType
+                    userInput // Nội dung tin nhắn
+            );
             addMessageToChat(userInput, "", true, false); // Hiển thị tin nhắn của người dùng
             inputField.clear(); // Xóa ô nhập
 
             // Gửi tin nhắn đến API
-            sendRequestToAPI(userInput);
+            sendSearchRequestToAPI(userInput);
         }
     }
 
-    private void sendRequestToAPI(String query) {
+    @FXML
+    private void translateAction() {
+        String userInput = inputField.getText().trim(); // Lấy nội dung nhập vào
+
+        if (!userInput.isEmpty()) {
+            chatMessageDAO.saveMessageToDB(userDAO.getConversationIdByTitle(saveTitle), // conversationId
+                    userDAO.getUserIdByUsername(session.getUsername()), // senderId
+                    "user", // senderType
+                    userInput // Nội dung tin nhắn
+            );
+            addMessageToChat(userInput, "", true, false); // Hiển thị tin nhắn của người dùng
+            inputField.clear(); // Xóa ô nhập
+
+            // Gửi tin nhắn đến API
+            sendTranslationRequestToAPI(userInput, "vi");
+        }
+    }
+
+    private void sendSearchRequestToAPI(String query) {
         client.prepare("POST", "https://google-api-unlimited.p.rapidapi.com/search_image")
                 .setHeader("x-rapidapi-key", "79e9925fedmsh5ece400febbd5d0p1e7721jsna398b5210fa7")
                 .setHeader("x-rapidapi-host", "google-api-unlimited.p.rapidapi.com")
@@ -535,7 +561,7 @@ public class PrimaryController {
                 .toCompletableFuture()
                 .thenAccept(response -> {
                     String responseBody = response.getResponseBody();
-                    ArrayList<String> imageUrls = extractMessageFromJson(responseBody);
+                    ArrayList<String> imageUrls = extractImageFromJson(responseBody);
                     System.out.println("Response: " + responseBody);
 
                     Platform.runLater(() -> {
@@ -548,22 +574,38 @@ public class PrimaryController {
 
                             for (int i = 0; i < imageUrls.size(); i++) {
                                 String imageUrl = imageUrls.get(i);
-                                ImageView imageView = new ImageView(new Image(imageUrl, true));
-                                imageView.setFitWidth(200);
-                                imageView.setFitHeight(200);
+                                Image image = new Image(imageUrl, true);
+                                ImageView imageView = new ImageView(image);
 
-                                imageView.setPreserveRatio(true);
+                                double size = 260;
+                                imageView.setFitWidth(size);
+                                imageView.setFitHeight(size);
+                                imageView.setPreserveRatio(false);
+
+
+                                Rectangle clip = new Rectangle(size, size);
+                                clip.setArcWidth(15);
+                                clip.setArcHeight(15);
+                                imageView.setClip(clip);
+
+                                // Cắt ảnh về vùng trung tâm để tránh méo
+                                double viewportSize = Math.min(image.getWidth(), image.getHeight());
+                                imageView.setViewport(new Rectangle2D(
+                                        (image.getWidth() - viewportSize) / 2,
+                                        (image.getHeight() - viewportSize) / 2,
+                                        viewportSize,
+                                        viewportSize
+                                ));
 
                                 currentRow.getChildren().add(imageView);
-
 
                                 if ((i + 1) % 3 == 0 || i == imageUrls.size() - 1) {
                                     mainContainer.getChildren().add(currentRow);
                                     currentRow = new HBox(10);
                                     currentRow.setAlignment(Pos.CENTER_LEFT);
                                 }
-
                             }
+
                             StringBuilder sb = new StringBuilder();
                             for (String item : imageUrls) {
                                 sb.append(item).append(" | ");
@@ -588,8 +630,39 @@ public class PrimaryController {
                 });
     }
 
+    private void sendTranslationRequestToAPI(String text, String targetLanguage) {
+        client.prepare("POST", "https://google-api-unlimited.p.rapidapi.com/translate")
+                .setHeader("x-rapidapi-key", "79e9925fedmsh5ece400febbd5d0p1e7721jsna398b5210fa7")
+                .setHeader("x-rapidapi-host", "google-api-unlimited.p.rapidapi.com")
+                .setHeader("Content-Type", "application/x-www-form-urlencoded")
+                .setBody("texte=" + URLEncoder.encode(text, StandardCharsets.UTF_8) + "&to_lang=" + targetLanguage)
+                .execute()
+                .toCompletableFuture()
+                .thenAccept(response -> {
+                    String responseBody = response.getResponseBody();
+                    String translatedText = extractMessageFromJson(responseBody);
 
-    private ArrayList<String> extractMessageFromJson(String json) {
+                    System.out.println("Translated: " + translatedText);
+
+                    Platform.runLater(() -> {
+                        addMessageToChat(translatedText, "", false, false);
+                        chatMessageDAO.saveMessageToDB(
+                                userDAO.getConversationIdByTitle(saveTitle),
+                                userDAO.getUserIdByUsername(session.getUsername()),
+                                "bot",
+                                translatedText
+                        );
+                    });
+                })
+                .exceptionally(e -> {
+                    e.printStackTrace();
+                    Platform.runLater(() -> addMessageToChat("Lỗi khi gửi yêu cầu!", "", false, false));
+                    return null;
+                });
+    }
+
+
+    private ArrayList<String> extractImageFromJson(String json) {
         ArrayList<String> imageUrls = new ArrayList<>();
 
         try {
@@ -614,6 +687,20 @@ public class PrimaryController {
         return imageUrls; // Trả về danh sách 10 ảnh đầu tiên
     }
 
+    private String extractMessageFromJson(String json) {
+
+
+        JSONObject translatedText = null;
+        try {
+            translatedText = new JSONObject(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+        }
+
+        return translatedText.getString("translation");
+    }
+
     private void addImageToChat(VBox imgContainer, String timestamp, boolean isUser, boolean isFetch) {
         if (!isFetch) {
             timestamp = new SimpleDateFormat("HH:mm").format(new Date());
@@ -624,6 +711,7 @@ public class PrimaryController {
             messageLabel.setWrapText(true);
             messageLabel.setTextFill(Color.WHITE);
             messageLabel.setMaxWidth(280);
+            messageLabel.setAlignment(Pos.CENTER_LEFT);
             ImageView likeImageView = new ImageView(new Image(getClass().getResource("/img/Like.png").toExternalForm()));
             likeImageView.setFitWidth(16);
             likeImageView.setFitHeight(16);
