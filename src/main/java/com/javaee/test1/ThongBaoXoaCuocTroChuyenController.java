@@ -4,12 +4,8 @@
  */
 package com.javaee.test1;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Optional;
-
+import com.javaee.test1.controllers.UserDAO;
+import com.javaee.test1.controllers.UserSession;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -17,12 +13,13 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import com.javaee.test1.controllers.UserSession;
-import com.javaee.test1.controllers.UserDAO;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Optional;
 
 
 /**
- *
  * @author xinch
  */
 public class ThongBaoXoaCuocTroChuyenController {
