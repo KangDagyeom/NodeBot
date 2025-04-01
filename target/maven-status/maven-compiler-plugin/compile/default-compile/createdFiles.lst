@@ -7,6 +7,7 @@ com\javaee\test1\SecondaryController.class
 com\javaee\test1\models\ChatMessage.class
 com\javaee\test1\controllers\EmailService.class
 com\javaee\test1\MainViewController.class
+com\javaee\test1\ThongBaoXoaCuocTroChuyenController.class
 com\javaee\test1\HanhDongCuocHoiThoai.class
 com\javaee\test1\QuenMatKhauController.class
 com\javaee\test1\LoginController.class

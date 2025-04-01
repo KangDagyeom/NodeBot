@@ -23,12 +23,38 @@ import javafx.stage.Stage;
  * @author xinch
  */
 public class HanhDongCuocHoiThoai {
+
     @FXML
     private Label doiten;
     @FXML
     private Label xoa;
-    
-//        //====================================================================================================================================
+
+    @FXML
+    private void handleRenameConversation(MouseEvent event) {
+        openWindow("/com/javaee/test1/Thongbaodoiten.fxml", "Đổi tên hội thoại");
+    }
+
+    @FXML
+    private void handleDeleteConversation(MouseEvent event) {
+        openWindow("/com/javaee/test1/Thongbaoxoacuoctrochuyen.fxml", "Xóa hội thoại");
+    }
+
+    private void openWindow(String fxmlPath, String title) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle(title);
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (IOException e) {
+            System.out.println("Lỗi khi mở cửa sổ: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    //        //====================================================================================================================================
 ////    //Click vào hội thoại chuyên sang đổi tên hội thoại và xóa hội thoại
 //    @FXML
 //    private void handleClick() {
@@ -86,29 +112,4 @@ public class HanhDongCuocHoiThoai {
 //        errorAlert.setContentText(message);
 //        errorAlert.showAndWait();
 //    }
-    @FXML
-    private void handleRenameConversation(MouseEvent event) {
-        openWindow("/com/javaee/test1/Thongbaodoiten.fxml", "Đổi tên hội thoại");
-    }
-
-    @FXML
-    private void handleDeleteConversation(MouseEvent event) {
-        openWindow("/com/javaee/test1/Thongbaoxoacuoctrochuyen.fxml", "Xóa hội thoại");
-    }
-
-    private void openWindow(String fxmlPath, String title) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setTitle(title);
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.showAndWait();
-        } catch (IOException e) {
-            System.out.println("Lỗi khi mở cửa sổ: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
 }
