@@ -14,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import javafx.event.ActionEvent;
 
 /**
  * @author xinch
@@ -23,32 +24,24 @@ public class NutDangXuatController {
     @FXML
     private Button exit;
     @FXML
-    private Button Logout;
-
+    private Button logout;
 
     @FXML
-    private void handleLogoutAndExit(MouseEvent event) {
-        System.out.println("Đăng xuất và thoát ứng dụng!"); // Debug
-        Platform.exit(); // Thoát toàn bộ ứng dụng
+    private void handleLogoutAndExit(ActionEvent event) {
+        System.exit(0); // Thoát hoàn toàn ứng dụng
     }
 
     @FXML
-    private void handleLogout(MouseEvent event) {
-        System.out.println("Label Đăng xuất đã được click!"); // Debug
-
+    private void handleLogout(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/login.fxml")); // Chuyển về màn hình đăng nhập
-            Parent root = loader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/login.fxml"));
+        Parent root = loader.load();
 
-            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow(); // Lấy stage hiện tại
-            stage.setTitle("Đăng nhập");
-            stage.setScene(new Scene(root));
-            stage.show();
-
-            System.out.println("Chuyển về màn hình đăng nhập thành công!"); // Debug
-        } catch (IOException e) {
-            System.out.println("Lỗi khi mở trang đăng nhập: " + e.getMessage());
-            e.printStackTrace();
-        }
+        Stage stage = (Stage) logout.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Đăng nhập");
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
     }
 }

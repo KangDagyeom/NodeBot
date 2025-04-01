@@ -290,7 +290,6 @@ public class MainViewController {
     //=======================================
     //log out
     @FXML
-
     private void handleLogout(MouseEvent event) {
         System.out.println("Label Đăng xuất đã được click!"); // Debug
 
