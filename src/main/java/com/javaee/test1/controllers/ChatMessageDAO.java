@@ -96,5 +96,20 @@ public class ChatMessageDAO {
         return chatMessages;
     }
 
+    public boolean updateConversationTitle(UUID conversationId, String newTitle) {
+        String query = "UPDATE ChatHistory SET Title = ? WHERE ConversationID = ?";
+        try (Connection conn = ChatMessageDAO.getConnect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, newTitle);
+            ps.setObject(2, conversationId); // UUID xử lý đúng kiểu
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    
+    
 
 }
