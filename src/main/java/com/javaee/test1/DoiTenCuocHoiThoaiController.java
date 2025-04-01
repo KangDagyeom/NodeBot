@@ -26,7 +26,6 @@ public class DoiTenCuocHoiThoaiController {
     private Button btnConfirm;   // Nút Xác nhận
 
     private UserDAO userDAO = new UserDAO();
-
     private UUID conversationId;
 
     // Được gọi từ bên ngoài, gán ConversationID và load tiêu đề hiện tại (nếu muốn)
@@ -35,11 +34,13 @@ public class DoiTenCuocHoiThoaiController {
         loadCurrentTitle();
     }
 
-    // Lấy tên cuộc trò chuyện hiện tại để hiển thị
+    // Lấy tên cuộc trò chuyện hiện tại để hiển thị ngay trong ô nhập
     private void loadCurrentTitle() {
         String currentTitle = userDAO.getConversationTitle(conversationId);
-        if (currentTitle != null) {
+        if (currentTitle != null && !currentTitle.isEmpty()) {
             txtNewTitle.setText(currentTitle);
+        } else {
+            txtNewTitle.setPromptText("Nhập tên mới...");
         }
     }
 
@@ -50,7 +51,7 @@ public class DoiTenCuocHoiThoaiController {
         stage.close();
     }
 
-    // Sự kiện nút Xác nhận: Đổi tên cuộc trò chuyện
+    // Sự kiện nút Xác nhận: Đổi tên cuộc trò chuyện và cập nhật vào SQL
     @FXML
     private void handleConfirm() {
         String newTitle = txtNewTitle.getText().trim();

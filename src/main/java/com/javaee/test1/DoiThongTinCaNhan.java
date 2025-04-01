@@ -213,9 +213,9 @@ public class DoiThongTinCaNhan {
 
         // Cập nhật mật khẩu
         if (userDAO.updatePassworduser(user, newPassword)) {
-            showAlert("Thành công", "Mật khẩu đã được cập nhật!", Alert.AlertType.INFORMATION);
+            showAlert("Thành công", "Mật khẩu đã được cập nhật!!", Alert.AlertType.INFORMATION);
         } else {
-            showAlert("Lỗi", "Không thể đổi mật khẩu. Vui lòng thử lại!", Alert.AlertType.ERROR);
+            showAlert("Lỗi", "Không thể đổi mật khẩu. Vui lòng thử lại!!", Alert.AlertType.ERROR);
         }
     }
 

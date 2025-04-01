@@ -22,8 +22,8 @@
                         <Font size="20.0" />
                     </font>
                 </Label>
-                <Button fx:id="huy" layoutX="25.0" layoutY="124.0" mnemonicParsing="false" styleClass="red-button" text="Hủy" />
-                <Button layoutX="105.0" layoutY="121.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="58.0" styleClass="green-button" text="Xóa" fx:id="xoa" />
+                <Button fx:id="huy" layoutX="25.0" layoutY="124.0" mnemonicParsing="false" onAction="#handleCancel" styleClass="red-button" text="Hủy" />
+                <Button layoutX="105.0" layoutY="121.0" mnemonicParsing="false" onAction="#handleDelete" prefHeight="33.0" prefWidth="58.0" styleClass="green-button" text="Xóa" fx:id="xoa" />
                 <Label layoutX="24.0" layoutY="52.0" prefHeight="54.0" prefWidth="402.0" text="Bạn sẽ không còn nhìn thấy cuộc trò chuyện này ở đây nữa. Thao tác này cũng sẽ xoá các hoạt động liên quan, chẳng hạn như các câu lệnh, câu trả lời và ý kiến phản hồi khỏi Hoạt động của bạn trên ứng dụng Node." textFill="WHITE" wrapText="true">
                     <font>
                         <Font size="10.0" />
