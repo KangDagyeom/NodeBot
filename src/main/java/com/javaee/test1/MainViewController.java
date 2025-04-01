@@ -55,7 +55,6 @@ package com.javaee.test1;
 //import com.javaee.test1.DoiTenCuocHoiThoaiController;
 /// /import com.javaee.test1.controllers.DeleteConversationController;
 //import com.javaee.test1.NangCapController;
-
 import com.javaee.test1.controllers.ChatMessageDAO;
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.controllers.UserSession;
@@ -84,7 +83,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 // Import controller theo từng chức năng
-
 /**
  * @author dokie
  */
@@ -207,65 +205,6 @@ public class MainViewController {
         }
     }
 
-    //====================================================================================================================================
-//    //Click vào hội thoại chuyên sang đổi tên hội thoại và xóa hội thoại
-    @FXML
-    private void handleClick() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Chọn hành động");
-        alert.setHeaderText("Bạn muốn làm gì??");
-        alert.setContentText("Chọn một trong hai hành động bên dưới:");
-
-        ButtonType renameOption = new ButtonType("Đổi tên hội thoại");
-        ButtonType deleteOption = new ButtonType("Xóa hội thoại");
-        ButtonType cancelOption = new ButtonType("Hủy", ButtonBar.ButtonData.CANCEL_CLOSE);
-        alert.getButtonTypes().setAll(renameOption, deleteOption, cancelOption);
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent()) {
-            if (result.get() == renameOption) {
-                openRenameConversation();
-            } else if (result.get() == deleteOption) {
-                openDeleteConversation();
-            }
-        }
-    }
-
-    // Mở cửa sổ đổi tên hội thoại
-    private void openRenameConversation() {
-        openWindow("/com/javaee/test1/Thongbaodoiten.fxml", "Đổi tên hội thoại");
-    }
-
-    // Mở cửa sổ xóa hội thoại
-    private void openDeleteConversation() {
-        openWindow("/com/javaee/test1/Thongbaoxoacuoctrochuyen.fxml", "Xóa hội thoại");
-    }
-
-    // Hàm dùng chung để mở cửa sổ
-    private void openWindow(String fxmlPath, String title) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setTitle(title);
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL); // Đặt chế độ MODAL
-            stage.showAndWait(); // Chờ người dùng thao tác xong
-        } catch (IOException e) {
-            showError("Lỗi mở cửa sổ", "Không thể tải giao diện: " + fxmlPath);
-            e.printStackTrace();
-        }
-    }
-
-    // Hiển thị thông báo lỗi
-    private void showError(String title, String message) {
-        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-        errorAlert.setTitle(title);
-        errorAlert.setHeaderText(null);
-        errorAlert.setContentText(message);
-        errorAlert.showAndWait();
-    }
-
     //clik vào sẽ chuyển sang trang nâng cấp node
     @FXML
     private void openUpgradePlan() {
@@ -308,7 +247,6 @@ public class MainViewController {
             e.printStackTrace();
         }
     }
-
 
     //delete all
     @FXML
@@ -419,21 +357,51 @@ public class MainViewController {
                 conversationLabel.setContentDisplay(ContentDisplay.LEFT);
             });
 
+//            conversationLabel.setOnMouseClicked(event -> {
+//
+//                saveTitle = conversationLabel.getText();
+//                Platform.runLater(() -> {
+//                    try {
+//
+//                        FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("primary.fxml"));
+//                        Parent root = fXMLLoader.load();
+//                        Scene newScene = new Scene(root, 1187, 668);
+//                        PrimaryController primaryController = fXMLLoader.getController();
+//                        primaryController.savedTitle(saveTitle);
+//                        Stage newStage = new Stage();
+//                        newStage.setScene(newScene);
+//                        newStage.centerOnScreen();
+//                        newStage.setTitle("Home");
+//                        newStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/Node_logo.jpg")));
+//                        newStage.setResizable(false);
+//
+//                        newStage.show();
+//
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//
+//                    }
+//                });
+//                System.out.println(saveTitle);
+//            });
             conversationLabel.setOnMouseClicked(event -> {
-
                 saveTitle = conversationLabel.getText();
                 Platform.runLater(() -> {
                     try {
-
-                        FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("primary.fxml"));
+                        // Chuyển sang giao diện HanhDongCuocHoiThoai.fxml
+                        FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("HanhDongCuocHoiThoai.fxml"));
                         Parent root = fXMLLoader.load();
-                        Scene newScene = new Scene(root, 1187, 668);
-                        PrimaryController primaryController = fXMLLoader.getController();
-                        primaryController.savedTitle(saveTitle);
+                        Scene newScene = new Scene(root, 125, 120);
+
+                        // Lấy controller của HanhDongCuocHoiThoai.fxml nếu cần truyền dữ liệu
+                        HanhDongCuocHoiThoai controller = fXMLLoader.getController();
+                        // Nếu có phương thức nào để nhận dữ liệu, ta truyền nó vào (ví dụ)
+                        // controller.setConversationTitle(saveTitle);
+
                         Stage newStage = new Stage();
                         newStage.setScene(newScene);
                         newStage.centerOnScreen();
-                        newStage.setTitle("Home");
+                        newStage.setTitle("Hành Động Cuộc Hội Thoại");
                         newStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/Node_logo.jpg")));
                         newStage.setResizable(false);
 
@@ -441,7 +409,6 @@ public class MainViewController {
 
                     } catch (Exception e) {
                         e.printStackTrace();
-
                     }
                 });
                 System.out.println(saveTitle);
@@ -451,6 +418,5 @@ public class MainViewController {
         }
 
     }
-
 
 }

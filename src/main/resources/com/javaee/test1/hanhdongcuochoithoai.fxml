@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="125.0" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javaee.test1.HanhDongCuocHoiThoai">
+    <center>
+        <AnchorPane prefHeight="138.0" prefWidth="201.0" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fitHeight="121.0" fitWidth="132.0" layoutX="2.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../img/Tùy%20chọn%20cuộc%20trò%20chuyện.png" />
+                    </image>
+                </ImageView>
+            <ImageView fitHeight="27.0" fitWidth="32.0" layoutX="17.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../img/Pen.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="21.0" fitWidth="20.0" layoutX="24.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../img/delete1.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="doiten" layoutX="65.0" layoutY="30.0" onMouseClicked="#handleRenameConversation" text="Đổi tên" textFill="#f7f6f6" />
+            <Label layoutX="65.0" layoutY="75.0" onMouseClicked="#handleDeleteConversation" text="Xóa" textFill="#ef0000" fx:id="xoa" />
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>
