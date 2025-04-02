@@ -19,7 +19,7 @@ import java.util.UUID;
 public class DoiTenCuocHoiThoaiController {
 
     @FXML
-    private TextField txtNewTitle;
+    private TextField txtTitle;
 
     @FXML
     private Button btnCancel; // Nút Hủy
@@ -42,14 +42,9 @@ public class DoiTenCuocHoiThoaiController {
 
     @FXML
     private void handleConfirm() {
-        /// Kiểm tra nếu không có userId (có thể do chưa chọn hoặc lỗi logic)
-        if (userID== null) {
-            showAlert("Lỗi", "Không tìm thấy cuộc hội thoại để cập nhật!", Alert.AlertType.ERROR);
-            return;
-        }
 
         // Lấy tên mới từ TextField và kiểm tra nếu trống
-        String newTitle = txtNewTitle.getText().trim();
+        String newTitle = txtTitle.getText().trim();
         if (newTitle.isEmpty()) {
             showAlert("Lỗi", "Vui lòng nhập tên cuộc hội thoại mới!", Alert.AlertType.ERROR);
             return;
