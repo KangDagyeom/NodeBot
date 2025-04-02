@@ -3,7 +3,6 @@ com\javaee\test1\controllers\UserSession.class
 com\javaee\test1\PrimaryController.class
 com\javaee\test1\controllers\UserDAO.class
 com\javaee\test1\DangKyController.class
-com\javaee\test1\SecondaryController.class
 com\javaee\test1\models\ChatMessage.class
 com\javaee\test1\controllers\EmailService.class
 com\javaee\test1\MainViewController.class

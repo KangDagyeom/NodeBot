@@ -390,7 +390,7 @@ public class MainViewController {
                 Platform.runLater(() -> {
                     try {
                         // Chuyển sang giao diện HanhDongCuocHoiThoai.fxml
-                        FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("HanhDongCuocHoiThoai.fxml"));
+                        FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("hanhdongcuochoithoai.fxml"));
                         Parent root = fXMLLoader.load();
                         Scene newScene = new Scene(root, 125, 120);
 
