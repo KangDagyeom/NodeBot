@@ -98,11 +98,10 @@ public class ChatMessageDAO {
 
     public boolean updateConversationTitle(UUID conversationId, String newTitle) {
         String query = "UPDATE ChatHistory SET Title = ? WHERE ConversationID = ?";
-        try (Connection conn = ChatMessageDAO.getConnect();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, newTitle);
-            ps.setObject(2, conversationId); // UUID xử lý đúng kiểu
-            return ps.executeUpdate() > 0;
+            ps.setObject(2, conversationId);
+            return ps.executeUpdate() > 0; // >0 nghĩa là update thành công
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

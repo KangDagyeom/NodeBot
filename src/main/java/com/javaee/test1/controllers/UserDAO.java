@@ -232,17 +232,17 @@ public class UserDAO {
     }
 
     // Cập nhật tên cuộc trò chuyện
-    public boolean updateConversationTitle(UUID conversationId, String newTitle) {
-        String query = "UPDATE ChatHistory SET Title = ? WHERE ConversationID = ?";
-        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setString(1, newTitle);
-            ps.setObject(2, conversationId);
-            return ps.executeUpdate() > 0; // >0 nghĩa là update thành công
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+    public boolean updateUserID(UUID userId, String newTitle) {
+    String query = "UPDATE ChatHistory SET Title = ? WHERE UserID = ?";
+    try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+        ps.setString(1, newTitle);
+        ps.setObject(2, userId); // Xác định đúng cuộc trò chuyện cần sửa
+        return ps.executeUpdate() > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
     }
+}
 
     // Thêm người dùng vào database
     public boolean createUser(String email, String username, String password, String avatar) {
