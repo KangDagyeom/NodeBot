@@ -6,6 +6,9 @@ package com.javaee.test1;
 
 import com.javaee.test1.controllers.ChatHistorySession;
 import com.javaee.test1.controllers.UserDAO;
+import com.javaee.test1.controllers.UserSession;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -13,6 +16,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.util.UUID;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.VBox;
 
 /**
  * Controller cho cửa sổ đổi tên cuộc hội thoại
@@ -28,9 +34,10 @@ public class DoiTenCuocHoiThoaiController {
     private Button btnConfirm; // Nút Xác nhận
 
     private UserDAO chatDAO = new UserDAO(); // Vẫn giữ UserDAO như bạn yêu cầu
-   
+    UserSession userSession = UserSession.getInstance();
+    @FXML
+    private VBox chatBox; // Đây là VBox chứa các hội thoại
 
-    
     @FXML
     private void handleCancel() {
         Stage stage = (Stage) btnCancel.getScene().getWindow();
@@ -57,6 +64,11 @@ public class DoiTenCuocHoiThoaiController {
             showAlert("Lỗi", "Không thể cập nhật tên cuộc hội thoại. Vui lòng thử lại!", Alert.AlertType.ERROR);
         }
     }
+   
+
+
+
+
 
     /**
      * Hiển thị thông báo lỗi hoặc thành công
