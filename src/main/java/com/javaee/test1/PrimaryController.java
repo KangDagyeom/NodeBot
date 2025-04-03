@@ -481,7 +481,7 @@ public class PrimaryController {
             conversationLabel.setOnMouseClicked(event -> {
                 savedTitle(conversationLabel.getText());
                 loadChatHistory(userDAO.getConversationIdByTitle(saveTitle));
-
+                
                 System.out.println(saveTitle);
             });
 

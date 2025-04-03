@@ -55,10 +55,11 @@ package com.javaee.test1;
 //import com.javaee.test1.DoiTenCuocHoiThoaiController;
 /// /import com.javaee.test1.controllers.DeleteConversationController;
 //import com.javaee.test1.NangCapController;
-
+import com.javaee.test1.controllers.ChatHistorySession;
 import com.javaee.test1.controllers.ChatMessageDAO;
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.controllers.UserSession;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -83,7 +84,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 // Import controller theo từng chức năng
-
 /**
  * @author dokie
  */
@@ -387,6 +387,8 @@ public class MainViewController {
 //            });
             conversationLabel.setOnMouseClicked(event -> {
                 saveTitle = conversationLabel.getText();
+                ChatHistorySession chatHistorySession = ChatHistorySession.getInstance();
+                chatHistorySession.setChatHistoryInfo(userDAO.getConversationIdByTitle(saveTitle), userDAO.getUserIdByUsername(session.getUsername()), saveTitle);
                 Platform.runLater(() -> {
                     try {
                         // Chuyển sang giao diện HanhDongCuocHoiThoai.fxml

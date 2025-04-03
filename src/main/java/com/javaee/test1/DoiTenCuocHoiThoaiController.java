@@ -4,6 +4,7 @@
  */
 package com.javaee.test1;
 
+import com.javaee.test1.controllers.ChatHistorySession;
 import com.javaee.test1.controllers.UserDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -27,13 +28,9 @@ public class DoiTenCuocHoiThoaiController {
     private Button btnConfirm; // Nút Xác nhận
 
     private UserDAO chatDAO = new UserDAO(); // Vẫn giữ UserDAO như bạn yêu cầu
-    private UUID userID; // Sử dụng UUID thay vì String
+   
 
-    public void setUserID(UUID id) {
-        this.userID = id;
-//        loadCurrentTitle();
-    }
-
+    
     @FXML
     private void handleCancel() {
         Stage stage = (Stage) btnCancel.getScene().getWindow();
@@ -49,11 +46,11 @@ public class DoiTenCuocHoiThoaiController {
             showAlert("Lỗi", "Vui lòng nhập tên cuộc hội thoại mới!", Alert.AlertType.ERROR);
             return;
         }
-        
-        if (chatDAO.updateUserID(userID, newTitle)) {
+        ChatHistorySession chatHistorySession = ChatHistorySession.getInstance();
+        if (chatDAO.updateUserID(chatHistorySession.getConversationId(), newTitle)) {
             showAlert("Thành công", "Tên cuộc hội thoại đã được cập nhật thành công!", Alert.AlertType.INFORMATION);
-
-            // Đóng cửa sổ sau khi đổi tên thành công
+            
+          
             Stage stage = (Stage) btnConfirm.getScene().getWindow();
             stage.close();
         } else {

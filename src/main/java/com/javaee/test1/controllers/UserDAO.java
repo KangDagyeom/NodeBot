@@ -4,6 +4,7 @@ import com.javaee.test1.models.User;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class UserDAO {
@@ -232,17 +233,17 @@ public class UserDAO {
     }
 
     // Cập nhật tên cuộc trò chuyện
-    public boolean updateUserID(UUID userId, String newTitle) {
-    String query = "UPDATE ChatHistory SET Title = ? WHERE UserID = ?";
-    try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
-        ps.setString(1, newTitle);
-        ps.setObject(2, userId); // Xác định đúng cuộc trò chuyện cần sửa
-        return ps.executeUpdate() > 0;
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return false;
+    public boolean updateUserID(UUID conversationId, String newTitle) {
+        String query = "UPDATE ChatHistory SET Title = ? WHERE ConversationID = ?";
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, newTitle);
+            ps.setObject(2, conversationId); // Xác định đúng cuộc trò chuyện cần sửa
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-}
 
     // Thêm người dùng vào database
     public boolean createUser(String email, String username, String password, String avatar) {
@@ -344,7 +345,6 @@ public class UserDAO {
         }
         return false;
     }
-
 
     public User getUserInfoByUsername(String username) {
         String query = "SELECT UserID,PasswordHash, Email, Avatar, Username, SubscriptionPlan FROM Users WHERE Username = ?";

@@ -1,8 +1,10 @@
 package com.javaee.test1;
 
+import com.javaee.test1.controllers.ChatHistorySession;
 import com.javaee.test1.controllers.ChatMessageDAO;
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.controllers.UserSession;
+
 import com.javaee.test1.models.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -62,8 +64,10 @@ public class LoginController {
             Platform.runLater(() -> {
                 try {
                     User userLogged = userDAO.getUserInfoByUsername(usernameOrEmail);
+
                     // ➜ Lưu toàn bộ thông tin người dùng vào UserSession
                     UserSession.getInstance().setUserInfo(userLogged.getUserID(), userLogged.getAvatar(), userLogged.getUsername(), userLogged.getSubscriptionPlan(), userLogged.getEmail(), userLogged.getPasswordHash());
+
                     FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("mainview.fxml"));
                     Parent root = fXMLLoader.load();
                     Scene newScene = new Scene(root, 1187, 668);
