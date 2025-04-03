@@ -4,94 +4,76 @@
  */
 package com.javaee.test1;
 
+import com.javaee.test1.controllers.ChatHistorySession;
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.controllers.UserSession;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Optional;
-
-
+import java.util.UUID;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.VBox;
 /**
  * @author xinch
  */
 public class ThongBaoXoaCuocTroChuyenController {
+
     @FXML
-    private Button huy;
+    private Button btnCancel;
     @FXML
-    private Button xoa;
+    private Button btnConfirm;
 
     private String conversationID;
+    
+    private UserDAO chatDAO = new UserDAO(); // Vẫn giữ UserDAO như bạn yêu cầu
+    UserSession userSession = UserSession.getInstance();
 
     public void setConversationID(String id) {
         this.conversationID = id;
     }
 
     @FXML
-    private void handleCancel(MouseEvent event) {
-        closeWindow(event);
+    private void handleCancel() {
+        Stage stage = (Stage) btnCancel.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
-    private void handleDelete(MouseEvent event) {
-        if (conversationID == null || conversationID.trim().isEmpty()) {
-            showAlert("Lỗi", "ID cuộc trò chuyện không hợp lệ!", Alert.AlertType.ERROR);
+    private void handleDelete() {
+        // Lấy ID cuộc hội thoại hiện tại
+        ChatHistorySession chatHistorySession = ChatHistorySession.getInstance();
+        UUID conversationId = chatHistorySession.getConversationId();
+
+        if (conversationId == null) {
+            showAlert("Lỗi", "Không tìm thấy cuộc trò chuyện!", Alert.AlertType.ERROR);
             return;
         }
 
-        // ✅ Lấy userId từ UserSession
-        String userId = UserSession.getInstance().getUserId().toString();
-        if (userId == null) {
-            showAlert("Lỗi", "Không tìm thấy thông tin người dùng!", Alert.AlertType.ERROR);
-            return;
-        }
+        // Hiển thị hộp thoại xác nhận trước khi xóa
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Xác nhận xóa");
+        alert.setHeaderText("Bạn có chắc chắn muốn xóa cuộc trò chuyện này?");
+        alert.setContentText("Hành động này không thể hoàn tác!");
 
-        // ✅ Xác nhận trước khi xóa
-        Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmDialog.setTitle("Xác nhận xóa");
-        confirmDialog.setHeaderText(null);
-        confirmDialog.setContentText("Bạn có chắc chắn muốn xóa cuộc trò chuyện này? Hành động này không thể hoàn tác!");
-
-        Optional<ButtonType> result = confirmDialog.showAndWait();
+        Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            boolean isDeleted = deleteConversationFromDatabase(conversationID, userId);
-
-            if (isDeleted) {
+            if (chatDAO.deleteConversation(conversationId)) {
                 showAlert("Thành công", "Cuộc trò chuyện đã được xóa!", Alert.AlertType.INFORMATION);
-                closeWindow(event);
+
+                // Đóng cửa sổ sau khi xóa thành công
+                Stage stage = (Stage) btnConfirm.getScene().getWindow();
+                stage.close();
             } else {
-                showAlert("Lỗi", "Không thể xóa cuộc trò chuyện!", Alert.AlertType.ERROR);
+                showAlert("Lỗi", "Không thể xóa cuộc trò chuyện. Vui lòng thử lại!", Alert.AlertType.ERROR);
             }
-        }
-    }
-
-    private boolean deleteConversationFromDatabase(String conversationId, String userId) {
-        String query = "DELETE FROM ChatHistory WHERE ConversationID = ? AND UserID = ?";
-        try (Connection connection = UserDAO.getConnect();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
-            if (connection == null) {
-                showAlert("Lỗi", "Không thể kết nối đến cơ sở dữ liệu!", Alert.AlertType.ERROR);
-                return false;
-            }
-
-            statement.setString(1, conversationId);
-            statement.setString(2, userId);
-
-            int rowsAffected = statement.executeUpdate();
-            return rowsAffected > 0; // Trả về true nếu xóa thành công
-
-        } catch (SQLException e) {
-            showAlert("Lỗi", "Lỗi khi xóa cuộc trò chuyện: " + e.getMessage(), Alert.AlertType.ERROR);
-            e.printStackTrace();
-            return false;
         }
     }
 
@@ -101,10 +83,5 @@ public class ThongBaoXoaCuocTroChuyenController {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
-    }
-
-    private void closeWindow(MouseEvent event) {
-        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        stage.close();
     }
 }

@@ -244,6 +244,18 @@ public class UserDAO {
             return false;
         }
     }
+    
+    // Xóa cuộc trò chuyện theo conversationId
+    public boolean deleteConversation(UUID conversationId) {
+        String query = "DELETE FROM ChatHistory WHERE ConversationID = ?";
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, conversationId); // Định danh cuộc trò chuyện cần xóa
+            return ps.executeUpdate() > 0; // Kiểm tra nếu có ít nhất một dòng bị ảnh hưởng thì trả về true
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     // Thêm người dùng vào database
     public boolean createUser(String email, String username, String password, String avatar) {
