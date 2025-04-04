@@ -244,7 +244,7 @@ public class UserDAO {
             return false;
         }
     }
-    
+
     // Xóa cuộc trò chuyện theo conversationId
     public boolean deleteConversation(UUID conversationId) {
         String query = "DELETE FROM ChatHistory WHERE ConversationID = ?";
@@ -340,6 +340,17 @@ public class UserDAO {
     }
 
     /// xóa tất cả các cuộc hội thoại
+    // Xóa tất cả cuộc trò chuyện
+    public boolean deleteAllConversations() {
+        String query = "DELETE FROM ChatHistory";
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+            return ps.executeUpdate() > 0; // Kiểm tra nếu có ít nhất một dòng bị ảnh hưởng thì trả về true
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     //Nang cấp gói
     public boolean updateSubscriptionPlan(User user, String newPlan) {
         String query = "UPDATE Users SET SubscriptionPlan = ? WHERE UserID = ?";

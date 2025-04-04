@@ -183,7 +183,7 @@ public class MainViewController {
         labelNangcap.setOnMouseClicked(event -> openUpgradePlan());
 
         //gán sự kiện cho xóa hết cuộc hội thoại
-        labelXoahoithoai.setOnMouseClicked(event -> deleteAllConversations());
+        labelXoahoithoai.setOnMouseClicked(event -> deleteall());
 
         labelLogout.setOnMouseClicked(event -> handleLogout(event));
     }
@@ -248,29 +248,51 @@ public class MainViewController {
             e.printStackTrace();
         }
     }
-
+    //==========
     //delete all
     @FXML
-    private void deleteAllConversations() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Xác nhận xóa");
-        alert.setHeaderText("Bạn có chắc muốn xóa tất cả cuộc hội thoại không?");
-        alert.setContentText("Hành động này không thể hoàn tác!");
+    private void deleteall() {
+        System.out.println("Label Delete ALL đã được click!"); // Debug
 
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            historyList.clear(); // Xóa hết danh sách hội thoại
-            System.out.println("Tất cả hội thoại đã bị xóa!");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/nutxacminhxoacuochoithoai.fxml"));
+            Parent root = loader.load();
 
-            // Cập nhật lại giao diện
-            updateUIAfterDelete();
+            Stage stage = new Stage();
+            stage.setTitle("Delete ALL");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            System.out.println("Cửa sổ Delete ALL đã mở!"); // Debug
+        } catch (IOException e) {
+            System.out.println("Lỗi khi mở trang: " + e.getMessage());
+            e.printStackTrace();
         }
     }
-// Hàm cập nhật giao diện sau khi xóa hội thoại
-
-    private void updateUIAfterDelete() {
-        labelLichsutrochuyen.setText("Không có cuộc hội thoại nào"); // Cập nhật label
-    }
+//    @FXML
+//    private void deleteAllConversations() {
+//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//        alert.setTitle("Xác nhận xóa");
+//        alert.setHeaderText("Bạn có chắc muốn xóa tất cả cuộc hội thoại không?");
+//        alert.setContentText("Hành động này không thể hoàn tác!");
+//
+//        Optional<ButtonType> result = alert.showAndWait();
+//        if (result.isPresent() && result.get() == ButtonType.OK) {
+//            historyList.clear(); // Xóa hết danh sách hội thoại
+//            System.out.println("Tất cả hội thoại đã bị xóa!");
+//
+//            // Cập nhật lại giao diện
+//            updateUIAfterDelete();
+//        }
+//    }
+//// Hàm cập nhật giao diện sau khi xóa hội thoại
+//
+//    private void updateUIAfterDelete() {
+//        labelLichsutrochuyen.setText("Không có cuộc hội thoại nào"); // Cập nhật label
+//    }
+    
+    
+    
 
     /// / thêm cuộc trò chuyện
 //    @FXML
