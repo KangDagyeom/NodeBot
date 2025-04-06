@@ -1,10 +1,8 @@
 package com.javaee.test1;
 
-import com.javaee.test1.controllers.ChatHistorySession;
 import com.javaee.test1.controllers.ChatMessageDAO;
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.controllers.UserSession;
-
 import com.javaee.test1.models.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;

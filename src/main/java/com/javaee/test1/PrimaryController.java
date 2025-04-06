@@ -1,6 +1,7 @@
 package com.javaee.test1;
 
 import com.javaee.test1.controllers.ChatMessageDAO;
+import com.javaee.test1.controllers.MessageHolder;
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.controllers.UserSession;
 import com.javaee.test1.models.ChatMessage;
@@ -93,6 +94,7 @@ public class PrimaryController {
     private Label labelLogout;
     private String saveTitle;
     private AsyncHttpClient client = new DefaultAsyncHttpClient();
+    private String currentConversationId;
 
     public void savedTitle(String currentTitle) {
         saveTitle = currentTitle;
@@ -111,6 +113,12 @@ public class PrimaryController {
         chatBox.setMinHeight(Region.USE_PREF_SIZE);
         chatBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
         chatBox.setFillWidth(true);
+        handleUserInput();
+        String timestamp = new SimpleDateFormat("HH:mm").format(new Date());
+        String message = MessageHolder.getInstance().getLastMessage();
+        addMessageToChat(message, timestamp, true, false);
+
+        System.out.println("User đã nhập: " + message);
 
         chatBox.heightProperty().addListener((obs, oldVal, newVal) -> {
             Platform.runLater(() -> {
@@ -481,7 +489,7 @@ public class PrimaryController {
             conversationLabel.setOnMouseClicked(event -> {
                 savedTitle(conversationLabel.getText());
                 loadChatHistory(userDAO.getConversationIdByTitle(saveTitle));
-                
+
                 System.out.println(saveTitle);
             });
 
@@ -775,6 +783,16 @@ public class PrimaryController {
         loadConversations(userDAO.getUserIdByUsername(session.getUsername()));
     }
 
+    @FXML
+    private void handleUserInput() {
+        String title = "Cuộc trò chuyện mới";
+
+        userDAO.insertChatHistory(userDAO.getUserIdByUsername(session.getUsername()), title);
+
+
+        loadConversations(userDAO.getUserIdByUsername(session.getUsername()));
+    }
+
     private void loadUserInfo() {
         // Lấy thông tin từ UserSession
         UserSession userSession = UserSession.getInstance();
@@ -883,5 +901,5 @@ public class PrimaryController {
             e.printStackTrace();
         }
     }
-    
+
 }

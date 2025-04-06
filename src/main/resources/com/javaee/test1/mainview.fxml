@@ -5,8 +5,8 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="668.0" maxWidth="1187.0" minHeight="668.0" minWidth="1187.0"
-            prefHeight="668.0" prefWidth="1187.0" stylesheets="@../../../css/style.css"
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="668.0" maxWidth="1220.0" minHeight="668.0" minWidth="1220.0"
+            prefHeight="668.0" prefWidth="1220.0" stylesheets="@../../../css/style.css"
             xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.javaee.test1.MainViewController">
     <center>
 
@@ -48,7 +48,7 @@
                                 <Image url="@../../../img/Account-container.png"/>
                             </image>
                         </ImageView>
-                        <ImageView fx:id="imgAvatar" fitHeight="36.0" fitWidth="36.0" layoutX="67.0" layoutY="21.0"
+                        <ImageView fx:id="imgAvatar" fitHeight="36.0" fitWidth="36.0" layoutX="67.0" layoutY="29.0"
                                    onMouseClicked="#openEditProfile" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../../img/avatar.png"/>
@@ -160,7 +160,7 @@
                         <Image url="@../../../img/Fonctionnality%20List.png"/>
                     </image>
                 </ImageView>
-                <TextArea fx:id="textAreaChat" layoutX="470.0" layoutY="333.0" prefHeight="59.0" prefWidth="562.0"
+                <TextArea fx:id="inputField" layoutX="470.0" layoutY="333.0" prefHeight="59.0" prefWidth="562.0"
                           promptText="Example : “Explain quantum computing in simple terms”" styleClass="inputField"
                           stylesheets="@../../../css/style.css" wrapText="true"/>
                 <Label layoutX="533.0" layoutY="169.0" text="Welcome to" textFill="WHITE">
@@ -174,11 +174,14 @@
                         <Font size="16.0"/>
                     </font>
                 </Label>
-                <ImageView fitHeight="52.0" fitWidth="56.0" layoutX="1043.0" layoutY="340.0" pickOnBounds="true"
-                           preserveRatio="true">
+                <ImageView fx:id="sendButton" fitHeight="52.0" fitWidth="56.0" layoutX="1043.0" layoutY="340.0"
+                           onMouseClicked="#openPrimaryChat" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../../../img/btnSend.png"/>
                     </image>
+                    <cursor>
+                        <Cursor fx:constant="HAND"/>
+                    </cursor>
                 </ImageView>
 
             </children>

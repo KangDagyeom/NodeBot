@@ -7,34 +7,27 @@ package com.javaee.test1;
 import com.javaee.test1.controllers.ChatHistorySession;
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.controllers.UserSession;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
+import java.util.Optional;
 import java.util.UUID;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.VBox;
+
 /**
  * @author xinch
  */
 public class ThongBaoXoaCuocTroChuyenController {
 
+    UserSession userSession = UserSession.getInstance();
     @FXML
     private Button btnCancel;
     @FXML
     private Button btnConfirm;
-
     private String conversationID;
-    
     private UserDAO chatDAO = new UserDAO(); // Vẫn giữ UserDAO như bạn yêu cầu
-    UserSession userSession = UserSession.getInstance();
 
     public void setConversationID(String id) {
         this.conversationID = id;

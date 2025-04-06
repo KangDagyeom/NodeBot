@@ -2,12 +2,12 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.*?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity"
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="732.0" prefWidth="429.0" stylesheets="@../../../css/style.css"
             xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.javaee.test1.DangKyController">
     <center>
@@ -74,13 +74,6 @@
                     <opaqueInsets>
                         <Insets/>
                     </opaqueInsets>
-                    <graphic>
-                        <ImageView fitHeight="43.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../../../img/Buttons-2.png"/>
-                            </image>
-                        </ImageView>
-                    </graphic>
                 </Button>
                 <TextField fx:id="txtUser" layoutX="93.0" layoutY="255.0" prefHeight="54.0" prefWidth="275.0"
                            promptText="User"/>
@@ -91,27 +84,12 @@
                     <opaqueInsets>
                         <Insets/>
                     </opaqueInsets>
-                    <graphic>
-                        <ImageView fitHeight="43.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../../../img/Buttons.png"/>
-                            </image>
-                        </ImageView>
-                    </graphic>
                 </Button>
                 <Button layoutX="265.0" layoutY="649.0" mnemonicParsing="false" prefHeight="61.0" prefWidth="77.0"
                         styleClass="transparent-button1">
                     <opaqueInsets>
                         <Insets/>
                     </opaqueInsets>
-                    <graphic>
-                        <ImageView fitHeight="41.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true"
-                                   styleClass="black-background">
-                            <image>
-                                <Image url="@../../../img/Buttons-1.png"/>
-                            </image>
-                        </ImageView>
-                    </graphic>
                 </Button>
                 <Label layoutX="58.0" layoutY="427.0" prefHeight="16.0" prefWidth="87.0" text="Avatar"
                        textFill="#c4bcbc">

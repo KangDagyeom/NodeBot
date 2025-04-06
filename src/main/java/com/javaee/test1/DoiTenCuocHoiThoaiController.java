@@ -7,34 +7,26 @@ package com.javaee.test1;
 import com.javaee.test1.controllers.ChatHistorySession;
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.controllers.UserSession;
-import java.util.ArrayList;
-import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-
-import java.util.UUID;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
  * Controller cho cửa sổ đổi tên cuộc hội thoại
  */
 public class DoiTenCuocHoiThoaiController {
 
+    UserSession userSession = UserSession.getInstance();
     @FXML
     private TextField txtTitle;
-
     @FXML
     private Button btnCancel; // Nút Hủy
     @FXML
     private Button btnConfirm; // Nút Xác nhận
-
     private UserDAO chatDAO = new UserDAO(); // Vẫn giữ UserDAO như bạn yêu cầu
-    UserSession userSession = UserSession.getInstance();
     @FXML
     private VBox chatBox; // Đây là VBox chứa các hội thoại
 
@@ -56,18 +48,14 @@ public class DoiTenCuocHoiThoaiController {
         ChatHistorySession chatHistorySession = ChatHistorySession.getInstance();
         if (chatDAO.updateUserID(chatHistorySession.getConversationId(), newTitle)) {
             showAlert("Thành công", "Tên cuộc hội thoại đã được cập nhật thành công!", Alert.AlertType.INFORMATION);
-            
-          
+
+
             Stage stage = (Stage) btnConfirm.getScene().getWindow();
             stage.close();
         } else {
             showAlert("Lỗi", "Không thể cập nhật tên cuộc hội thoại. Vui lòng thử lại!", Alert.AlertType.ERROR);
         }
     }
-   
-
-
-
 
 
     /**

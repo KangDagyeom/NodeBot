@@ -7,7 +7,6 @@ package com.javaee.test1.controllers;
 import java.util.UUID;
 
 /**
- *
  * @author xinch
  */
 public class ChatHistorySession {
@@ -15,7 +14,7 @@ public class ChatHistorySession {
     private UUID conversationId; // ➜ Lưu trữ ConversationID
     private UUID userId; // ➜ Lưu trữ UserID
     private String title; // ➜ Lưu trữ Tiêu đề cuộc hội thoại
- 
+
 
     public ChatHistorySession() {
     }
@@ -33,7 +32,7 @@ public class ChatHistorySession {
         this.conversationId = conversationId;
         this.userId = userId;
         this.title = title;
-        
+
     }
 
     // Getter cho ConversationID
@@ -49,13 +48,12 @@ public class ChatHistorySession {
         return title;
     }
 
-  
 
     // Xóa thông tin cuộc hội thoại (ví dụ khi người dùng đăng xuất)
     public void clearSession() {
         conversationId = null;
         userId = null;
         title = null;
-       
+
     }
 }

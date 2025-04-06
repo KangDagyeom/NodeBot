@@ -4,30 +4,27 @@
  */
 package com.javaee.test1;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import com.javaee.test1.controllers.ChatHistorySession;
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.controllers.UserSession;
-import java.util.Optional;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
 import javafx.scene.control.ButtonType;
+import javafx.stage.Stage;
+
+import java.util.Optional;
 
 /**
- *
  * @author dokie
  */
 public class XoaTatCaCuocHoiThoai {
 
+    UserSession userSession = UserSession.getInstance();
     @FXML
     private Button btnConfirm;
     @FXML
     private Button btnCancel;
     private UserDAO chatDAO = new UserDAO(); // Vẫn giữ UserDAO như bạn yêu cầu
-    UserSession userSession = UserSession.getInstance();
 
     @FXML
     private void handleCancel() {

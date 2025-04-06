@@ -4,62 +4,7 @@
  */
 package com.javaee.test1;
 
-//import java.io.IOException;
-//import java.util.ArrayList;
-//import java.util.List;
-//import java.util.Optional;
-//import com.javaee.test1.controllers.UserDAO;
-//import javafx.scene.control.Label;
-//import com.javaee.test1.controllers.ChatMessageDAO;
-//import com.javaee.test1.controllers.UserDAO;
-//import com.javaee.test1.models.ChatMessage;
-//import javafx.animation.Animation;
-//import javafx.animation.KeyFrame;
-//import javafx.animation.ScaleTransition;
-//import javafx.animation.Timeline;
-//import javafx.application.Platform;
-//import javafx.fxml.FXML;
-//import javafx.geometry.Insets;
-//import javafx.geometry.Pos;
-//import javafx.scene.control.*;
-//import javafx.scene.image.ImageView;
-//import javafx.scene.input.MouseEvent;
-//import javafx.scene.layout.Region;
-//import javafx.scene.layout.VBox;
-//import javafx.scene.paint.Color;
-//import javafx.scene.text.TextFlow;
-//import javafx.util.Duration;
-//import org.json.JSONObject;
-//
-//import java.io.BufferedReader;
-//import java.io.IOException;
-//import java.io.InputStream;
-//import java.io.InputStreamReader;
-//import java.net.URI;
-//import java.net.http.HttpClient;
-//import java.net.http.HttpRequest;
-//import java.net.http.HttpResponse;
-//import java.text.SimpleDateFormat;
-//import java.time.format.DateTimeFormatter;
-//import java.util.*;
-//import java.util.concurrent.CompletableFuture;
-//import java.util.regex.Matcher;
-//import java.util.regex.Pattern;
-//import javafx.fxml.FXMLLoader;
-//import javafx.scene.Parent;
-//import javafx.scene.Scene;
-//import javafx.scene.text.Text;
-//import javafx.stage.Stage;
-/// /đổi ten theo controller của từng cái
-//import com.javaee.test1.DoiThongTinCaNhan;
-//import com.javaee.test1.DoiTenCuocHoiThoaiController;
-/// /import com.javaee.test1.controllers.DeleteConversationController;
-//import com.javaee.test1.NangCapController;
-import com.javaee.test1.controllers.ChatHistorySession;
-import com.javaee.test1.controllers.ChatMessageDAO;
-import com.javaee.test1.controllers.UserDAO;
-import com.javaee.test1.controllers.UserSession;
-
+import com.javaee.test1.controllers.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -68,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -80,10 +26,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-// Import controller theo từng chức năng
+
 /**
  * @author dokie
  */
@@ -114,7 +59,10 @@ public class MainViewController {
     private Label txtTaiKhoanND;
     @FXML
     private ImageView imgAvatar;
-    //gán sự kiện cho từng nút
+    @FXML
+    private TextArea inputField;
+    @FXML
+    private ImageView sendButton;
     private String saveTitle;
 
     private void loadUserInfo() {
@@ -178,8 +126,17 @@ public class MainViewController {
 
     @FXML
     private void initialize() {
-        loadUserInfo(); // Gọi loadUserInfo() khi view được hiển thị
+        loadUserInfo();
+
         loadConversations(userDAO.getUserIdByUsername(userSession.getUsername()));
+        inputField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                handleSendMessage();
+            }
+        });
+        sendButton.setOnMouseClicked(event -> handleSendMessage());
+
+
         labelNangcap.setOnMouseClicked(event -> openUpgradePlan());
 
         //gán sự kiện cho xóa hết cuộc hội thoại
@@ -188,8 +145,30 @@ public class MainViewController {
         labelLogout.setOnMouseClicked(event -> handleLogout(event));
     }
 
-    //===========================================================================
-    //bấm vào button avatar thì chuyển sang trang  trỉnh sửa thông tin cá nhân
+    private void handleSendMessage() {
+        String userInput = inputField.getText().trim();
+
+        if (!userInput.isEmpty()) {
+            MessageHolder.getInstance().setLastMessage(userInput);
+            inputField.clear();
+            openPrimaryChat();
+        }
+    }
+
+    @FXML
+    private void openPrimaryChat() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/primary.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) inputField.getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     private void openEditProfile() {
         try {
@@ -248,6 +227,7 @@ public class MainViewController {
             e.printStackTrace();
         }
     }
+
     //==========
     //delete all
     @FXML
@@ -269,93 +249,8 @@ public class MainViewController {
             e.printStackTrace();
         }
     }
-//    @FXML
-//    private void deleteAllConversations() {
-//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-//        alert.setTitle("Xác nhận xóa");
-//        alert.setHeaderText("Bạn có chắc muốn xóa tất cả cuộc hội thoại không?");
-//        alert.setContentText("Hành động này không thể hoàn tác!");
-//
-//        Optional<ButtonType> result = alert.showAndWait();
-//        if (result.isPresent() && result.get() == ButtonType.OK) {
-//            historyList.clear(); // Xóa hết danh sách hội thoại
-//            System.out.println("Tất cả hội thoại đã bị xóa!");
-//
-//            // Cập nhật lại giao diện
-//            updateUIAfterDelete();
-//        }
-//    }
-//// Hàm cập nhật giao diện sau khi xóa hội thoại
-//
-//    private void updateUIAfterDelete() {
-//        labelLichsutrochuyen.setText("Không có cuộc hội thoại nào"); // Cập nhật label
-//    }
-    
-    
-    
 
-    /// / thêm cuộc trò chuyện
-//    @FXML
-//    private void startNewConversation() {
-//        // Lấy nội dung cuộc trò chuyện hiện tại
-//        String currentConversation = getCurrentConversation();
-//
-//        // Kiểm tra xem cuộc trò chuyện có nội dung không trước khi lưu vào lịch sử
-//        if (currentConversation != null && !currentConversation.trim().isEmpty()) {
-//            historyList.add(currentConversation);
-//        }
-//
-//        // Hiển thị lịch sử cuộc trò chuyện
-//        showHistory();
-//    }
-//
-//    @FXML
-//    private void showHistory() {
-//        if (historyList.isEmpty()) {
-//            labelLichsutrochuyen.setText("Không có cuộc hội thoại nào");
-//        } else {
-//            StringBuilder sb = new StringBuilder();
-//            for (String convo : historyList) {
-//                sb.append(convo).append("\n");
-//            }
-//            labelLichsutrochuyen.setText(sb.toString());
-//        }
-//    }
-    @FXML
-    private void startNewConversation() {
-        // Lấy nội dung cuộc trò chuyện hiện tại
-        String currentConversation = getCurrentConversation();
-
-        // Kiểm tra xem cuộc trò chuyện có nội dung không trước khi lưu vào lịch sử
-        if (currentConversation != null && !currentConversation.trim().isEmpty()) {
-            historyList.add(0, currentConversation); // Thêm vào đầu danh sách thay vì cuối
-        }
-
-        // Hiển thị lịch sử cuộc trò chuyện
-        showHistory();
-    }
-
-    @FXML
-    private void showHistory() {
-        if (historyList.isEmpty()) {
-            labelLichsutrochuyen.setText("Không có cuộc hội thoại nào");
-        } else {
-            StringBuilder sb = new StringBuilder();
-            for (String convo : historyList) {
-                sb.append(convo).append("\n");
-            }
-            labelLichsutrochuyen.setText(sb.toString()); // Hiển thị theo thứ tự mới nhất ở trên
-        }
-    }
-
-    //==================================================================================================
-    @FXML
-    private String getCurrentConversation() {
-        // Lấy nội dung chat hiện tại (tùy vào bạn hiển thị message như nào)
-        // Ví dụ:
-        return "Cuộc trò chuyện " + (historyList.size() + 1);
-    }
-
+    //
     public void loadConversations(UUID userId) {
         ArrayList<String> conversationNames = userDAO.loadConversation(userId);
         conversationCon.getChildren().clear();
@@ -380,33 +275,6 @@ public class MainViewController {
                 conversationLabel.setContentDisplay(ContentDisplay.LEFT);
             });
 
-//            conversationLabel.setOnMouseClicked(event -> {
-//
-//                saveTitle = conversationLabel.getText();
-//                Platform.runLater(() -> {
-//                    try {
-//
-//                        FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("primary.fxml"));
-//                        Parent root = fXMLLoader.load();
-//                        Scene newScene = new Scene(root, 1187, 668);
-//                        PrimaryController primaryController = fXMLLoader.getController();
-//                        primaryController.savedTitle(saveTitle);
-//                        Stage newStage = new Stage();
-//                        newStage.setScene(newScene);
-//                        newStage.centerOnScreen();
-//                        newStage.setTitle("Home");
-//                        newStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/Node_logo.jpg")));
-//                        newStage.setResizable(false);
-//
-//                        newStage.show();
-//
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//
-//                    }
-//                });
-//                System.out.println(saveTitle);
-//            });
             conversationLabel.setOnMouseClicked(event -> {
                 saveTitle = conversationLabel.getText();
                 ChatHistorySession chatHistorySession = ChatHistorySession.getInstance();
@@ -418,10 +286,8 @@ public class MainViewController {
                         Parent root = fXMLLoader.load();
                         Scene newScene = new Scene(root, 125, 120);
 
-                        // Lấy controller của HanhDongCuocHoiThoai.fxml nếu cần truyền dữ liệu
+
                         HanhDongCuocHoiThoai controller = fXMLLoader.getController();
-                        // Nếu có phương thức nào để nhận dữ liệu, ta truyền nó vào (ví dụ)
-                        // controller.setConversationTitle(saveTitle);
 
                         Stage newStage = new Stage();
                         newStage.setScene(newScene);
@@ -443,7 +309,6 @@ public class MainViewController {
         }
 
     }
-
 
 
 }
