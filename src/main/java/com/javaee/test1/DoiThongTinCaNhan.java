@@ -70,6 +70,8 @@ public class DoiThongTinCaNhan {
     @FXML
     private Label labelLogout;
     @FXML
+    private Label labelHome;
+    @FXML
     private VBox conversationCon;
     private String saveTitle;
 
@@ -338,6 +340,27 @@ public class DoiThongTinCaNhan {
             e.printStackTrace();
         }
     }
+    
+    @FXML
+private void handleBackToHome(MouseEvent event) {
+    System.out.println("Quay lại trang chủ!"); // Debug
+
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/mainview.fxml")); // File trang chủ
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow(); // Lấy stage hiện tại
+        stage.setTitle("Trang chủ");
+        stage.setScene(new Scene(root));
+        stage.show();
+
+        System.out.println("Chuyển đến trang chủ thành công!"); // Debug
+    } catch (IOException e) {
+        System.out.println("Lỗi khi mở trang chủ: " + e.getMessage());
+        e.printStackTrace();
+    }
+}
+
 
 
     public void loadConversations(UUID userId) {
