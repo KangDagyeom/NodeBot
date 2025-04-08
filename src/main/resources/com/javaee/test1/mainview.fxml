@@ -50,7 +50,7 @@
                                 <Image url="@../../../img/Account-container.png" />
                             </image>
                         </ImageView>
-                        <ImageView fx:id="imgAvatar" fitHeight="36.0" fitWidth="36.0" layoutX="67.0" layoutY="22.0" onMouseClicked="#openEditProfile" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgAvatar" fitHeight="36.0" fitWidth="36.0" layoutX="62.0" layoutY="22.0" onMouseClicked="#openEditProfile" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../../img/avatar.png" />
                             </image>

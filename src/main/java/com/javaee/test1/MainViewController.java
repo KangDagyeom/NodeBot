@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-
 /**
  * @author dokie
  */
@@ -136,13 +135,17 @@ public class MainViewController {
         });
         sendButton.setOnMouseClicked(event -> handleSendMessage());
 
-
         labelNangcap.setOnMouseClicked(event -> openUpgradePlan());
 
         //gán sự kiện cho xóa hết cuộc hội thoại
         labelXoahoithoai.setOnMouseClicked(event -> deleteall());
 
         labelLogout.setOnMouseClicked(event -> handleLogout(event));
+    }
+
+    public void loadAllData() {
+        loadUserInfo();
+        loadConversations(userDAO.getUserIdByUsername(userSession.getUsername()));
     }
 
     private void handleSendMessage() {
@@ -286,8 +289,10 @@ public class MainViewController {
                         Parent root = fXMLLoader.load();
                         Scene newScene = new Scene(root, 125, 120);
 
-
                         HanhDongCuocHoiThoai controller = fXMLLoader.getController();
+
+                        // ✅ Truyền MainViewController vào HanhDongCuocHoiThoaiController
+                        controller.setMainViewController(this);  // <-- thêm dòng này
 
                         Stage newStage = new Stage();
                         newStage.setScene(newScene);
@@ -309,6 +314,5 @@ public class MainViewController {
         }
 
     }
-
 
 }

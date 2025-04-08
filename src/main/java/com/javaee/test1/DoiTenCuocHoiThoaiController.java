@@ -36,6 +36,12 @@ public class DoiTenCuocHoiThoaiController {
         stage.close();
     }
 
+    private MainViewController mainViewController;
+
+    public void setMainViewController(MainViewController controller) {
+        this.mainViewController = controller;
+    }
+
     @FXML
     private void handleConfirm() {
 
@@ -49,6 +55,10 @@ public class DoiTenCuocHoiThoaiController {
         if (chatDAO.updateUserID(chatHistorySession.getConversationId(), newTitle)) {
             showAlert("Thành công", "Tên cuộc hội thoại đã được cập nhật thành công!", Alert.AlertType.INFORMATION);
 
+            // ✅ Gọi lại hàm loadAllData nếu controller chính đã được truyền vào
+            if (mainViewController != null) {
+                mainViewController.loadAllData();
+            }
 
             Stage stage = (Stage) btnConfirm.getScene().getWindow();
             stage.close();
@@ -56,7 +66,6 @@ public class DoiTenCuocHoiThoaiController {
             showAlert("Lỗi", "Không thể cập nhật tên cuộc hội thoại. Vui lòng thử lại!", Alert.AlertType.ERROR);
         }
     }
-
 
     /**
      * Hiển thị thông báo lỗi hoặc thành công

@@ -34,6 +34,11 @@ public class HanhDongCuocHoiThoai {
     private void handleDeleteConversation(MouseEvent event) {
         openWindow("/com/javaee/test1/Thongbaoxoacuoctrochuyen.fxml", "Xóa hội thoại");
     }
+    private MainViewController mainViewController;
+
+    public void setMainViewController(MainViewController controller) {
+        this.mainViewController = controller;
+    }
 
     private void openWindow(String fxmlPath, String title) {
         try {
