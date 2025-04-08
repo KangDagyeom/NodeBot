@@ -5,10 +5,7 @@ import com.javaee.test1.controllers.MessageHolder;
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.controllers.UserSession;
 import com.javaee.test1.models.ChatMessage;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +13,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -24,10 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -92,6 +87,8 @@ public class PrimaryController {
     private Label labelUpgrade;
     @FXML
     private Label labelLogout;
+    @FXML
+    private AnchorPane mainContainer;
     private String saveTitle;
     private AsyncHttpClient client = new DefaultAsyncHttpClient();
     private String currentConversationId;
@@ -102,7 +99,32 @@ public class PrimaryController {
 
     @FXML
     public void initialize() {
+        Platform.runLater(() -> {
+            Duration delay = Duration.millis(150);
+            int index = 0;
 
+            for (Node node : mainContainer.getChildren()) {
+                // Ban đầu ẩn đi
+                node.setOpacity(0);
+                node.setTranslateY(20);
+
+                // Hiệu ứng trượt và mờ
+                TranslateTransition slide = new TranslateTransition(Duration.millis(300), node);
+                slide.setFromY(20);
+                slide.setToY(0);
+                slide.setInterpolator(Interpolator.EASE_OUT);
+
+                FadeTransition fade = new FadeTransition(Duration.millis(300), node);
+                fade.setFromValue(0);
+                fade.setToValue(1);
+
+                ParallelTransition transition = new ParallelTransition(slide, fade);
+                transition.setDelay(delay.multiply(index));
+                transition.play();
+
+                index++;
+            }
+        });
         loadUserInfo();
         System.out.println("Username: " + session.getUsername());
         System.out.println("Avatar: " + session.getAvatar());

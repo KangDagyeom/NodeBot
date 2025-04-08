@@ -9,10 +9,7 @@ import com.javaee.test1.controllers.UserSession;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
-
-import java.util.Optional;
 
 /**
  * @author dokie
@@ -32,7 +29,7 @@ public class XoaTatCaCuocHoiThoai {
         stage.close();
     }
 
-//    @FXML
+    //    @FXML
 //    private void handleDelete() {
 //        // Hiển thị hộp thoại xác nhận trước khi xóa tất cả cuộc trò chuyện
 //        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -54,18 +51,18 @@ public class XoaTatCaCuocHoiThoai {
 //        }
 //    }
     @FXML
-private void handleDelete() {
-    // Xóa tất cả cuộc trò chuyện mà không cần xác nhận
-    if (chatDAO.deleteAllConversations()) {
-        showAlert("Thành công", "Tất cả cuộc trò chuyện đã được xóa!", Alert.AlertType.INFORMATION);
+    private void handleDelete() {
+        // Xóa tất cả cuộc trò chuyện mà không cần xác nhận
+        if (chatDAO.deleteAllConversations()) {
+            showAlert("Thành công", "Tất cả cuộc trò chuyện đã được xóa!", Alert.AlertType.INFORMATION);
 
-        // Đóng cửa sổ sau khi xóa thành công
-        Stage stage = (Stage) btnConfirm.getScene().getWindow();
-        stage.close();
-    } else {
-        showAlert("Lỗi", "Không thể xóa tất cả cuộc trò chuyện. Vui lòng thử lại!", Alert.AlertType.ERROR);
+            // Đóng cửa sổ sau khi xóa thành công
+            Stage stage = (Stage) btnConfirm.getScene().getWindow();
+            stage.close();
+        } else {
+            showAlert("Lỗi", "Không thể xóa tất cả cuộc trò chuyện. Vui lòng thử lại!", Alert.AlertType.ERROR);
+        }
     }
-}
 
     private void showAlert(String title, String content, Alert.AlertType type) {
         Alert alert = new Alert(type);

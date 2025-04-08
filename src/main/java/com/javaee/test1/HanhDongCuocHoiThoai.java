@@ -24,6 +24,7 @@ public class HanhDongCuocHoiThoai {
     private Label doiten;
     @FXML
     private Label xoa;
+    private MainViewController mainViewController;
 
     @FXML
     private void handleRenameConversation(MouseEvent event) {
@@ -34,7 +35,6 @@ public class HanhDongCuocHoiThoai {
     private void handleDeleteConversation(MouseEvent event) {
         openWindow("/com/javaee/test1/Thongbaoxoacuoctrochuyen.fxml", "Xóa hội thoại");
     }
-    private MainViewController mainViewController;
 
     public void setMainViewController(MainViewController controller) {
         this.mainViewController = controller;
@@ -44,6 +44,17 @@ public class HanhDongCuocHoiThoai {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
+
+            // Lấy controller của cửa sổ vừa load
+            Object controller = loader.getController();
+
+            // Truyền mainViewController nếu controller có method setMainViewController
+            if (controller instanceof ThongBaoXoaCuocTroChuyenController) {
+                ((ThongBaoXoaCuocTroChuyenController) controller).setMainViewController(mainViewController);
+            } else if (controller instanceof DoiTenCuocHoiThoaiController) {
+                ((DoiTenCuocHoiThoaiController) controller).setMainViewController(mainViewController);
+            }
+
             Stage stage = new Stage();
             stage.setTitle(title);
             stage.setScene(new Scene(root));
@@ -54,6 +65,7 @@ public class HanhDongCuocHoiThoai {
             e.printStackTrace();
         }
     }
+
 
     //        //====================================================================================================================================
 ////    //Click vào hội thoại chuyên sang đổi tên hội thoại và xóa hội thoại

@@ -457,29 +457,31 @@ public class UserDAO {
             e.printStackTrace();
         }
     }
+
     public boolean addNewConversation(UUID userId, String title) {
-    String sql = "INSERT INTO ChatHistory (ConversationID, UserID, Title) VALUES (?, ?, ?)";
-    try (Connection conn = getConnect(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setObject(1, UUID.randomUUID());
-        stmt.setObject(2, userId);
-        stmt.setString(3, title);
-        return stmt.executeUpdate() > 0;
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return false;
-    }
-}
-    public int countConversationByUserId(UUID userId) {
-    String sql = "SELECT COUNT(*) FROM ChatHistory WHERE UserID = ?";
-    try (Connection conn = getConnect(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setObject(1, userId);
-        ResultSet rs = stmt.executeQuery();
-        if (rs.next()) {
-            return rs.getInt(1);
+        String sql = "INSERT INTO ChatHistory (ConversationID, UserID, Title) VALUES (?, ?, ?)";
+        try (Connection conn = getConnect(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setObject(1, UUID.randomUUID());
+            stmt.setObject(2, userId);
+            stmt.setString(3, title);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
     }
-    return 0;
-}
+
+    public int countConversationByUserId(UUID userId) {
+        String sql = "SELECT COUNT(*) FROM ChatHistory WHERE UserID = ?";
+        try (Connection conn = getConnect(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setObject(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

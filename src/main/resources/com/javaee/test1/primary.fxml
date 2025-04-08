@@ -4,13 +4,12 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.*?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="668.0" maxWidth="1187.0" minHeight="668.0" minWidth="1187.0"
             prefHeight="668.0" prefWidth="1187.0" stylesheets="@../../../css/style.css"
             xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.javaee.test1.PrimaryController">
     <center>
-        <AnchorPane BorderPane.alignment="CENTER">
+        <AnchorPane fx:id="mainContainer" BorderPane.alignment="CENTER">
             <children>
                 <ScrollPane fitToWidth="true" layoutX="312.0" layoutY="1.0" prefHeight="676.0" prefWidth="911.0">
                     <content>
@@ -84,13 +83,7 @@
                                 <Image url="@../../../img/Account-container.png"/>
                             </image>
                         </ImageView>
-                        <Circle centerX="36.0" centerY="36.0" fill="TRANSPARENT" layoutX="41.0" layoutY="9.0"
-                                radius="19.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0">
-                            <cursor>
-                                <Cursor fx:constant="HAND"/>
-                            </cursor>
-                        </Circle>
-                        <ImageView fx:id="imgAvatar" fitHeight="36.0" fitWidth="36.0" layoutX="59.0" layoutY="27.0"
+                        <ImageView fx:id="imgAvatar" fitHeight="36.0" fitWidth="36.0" layoutX="67.0" layoutY="23.0"
                                    onMouseClicked="#openEditProfile" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../../img/avatar.png"/>

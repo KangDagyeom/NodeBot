@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.*?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity"
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="732.0" prefWidth="429.0" stylesheets="@../../../css/style.css"
             xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.javaee.test1.LoginController">
     <center>
@@ -53,8 +52,6 @@
                         <Font size="10.0"/>
                     </font>
                 </Label>
-                <TextField fx:id="txtPass" layoutX="95.0" layoutY="408.0" prefHeight="54.0" prefWidth="275.0"
-                           promptText="Password"/>
                 <TextField fx:id="txtUser" layoutX="95.0" layoutY="312.0" prefHeight="54.0" prefWidth="275.0"
                            promptText="User name"/>
                 <Button fx:id="buttonLogin" layoutX="90.0" layoutY="545.0" mnemonicParsing="false"
@@ -69,6 +66,8 @@
                 <Button fx:id="buttonDangKy" layoutX="179.0" layoutY="613.0" mnemonicParsing="false"
                         onAction="#handleDangKy" styleClass="transparent-button" text="Or sign up"
                         textAlignment="CENTER"/>
+                <PasswordField layoutX="95.0" layoutY="407.0" prefHeight="54.0" prefWidth="275.0" promptText="Password"
+                               fx:id="txtPass"/>
             </children>
         </AnchorPane>
     </center>

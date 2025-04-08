@@ -5,9 +5,14 @@
 package com.javaee.test1;
 
 import com.javaee.test1.controllers.*;
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.ParallelTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -15,18 +20,19 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -65,6 +71,8 @@ public class MainViewController {
     private ImageView sendButton;
     @FXML
     private Button btnthemcuochoithoai;
+    @FXML
+    private AnchorPane mainContainer;
     private String saveTitle;
 
     private void loadUserInfo() {
@@ -128,6 +136,32 @@ public class MainViewController {
 
     @FXML
     private void initialize() {
+        Platform.runLater(() -> {
+            Duration delay = Duration.millis(150);
+            int index = 0;
+
+            for (Node node : mainContainer.getChildren()) {
+                // Ban đầu ẩn đi
+                node.setOpacity(0);
+                node.setTranslateY(20);
+
+                // Hiệu ứng trượt và mờ
+                TranslateTransition slide = new TranslateTransition(Duration.millis(300), node);
+                slide.setFromY(20);
+                slide.setToY(0);
+                slide.setInterpolator(Interpolator.EASE_OUT);
+
+                FadeTransition fade = new FadeTransition(Duration.millis(300), node);
+                fade.setFromValue(0);
+                fade.setToValue(1);
+
+                ParallelTransition transition = new ParallelTransition(slide, fade);
+                transition.setDelay(delay.multiply(index));
+                transition.play();
+
+                index++;
+            }
+        });
         loadUserInfo();
 
         loadConversations(userDAO.getUserIdByUsername(userSession.getUsername()));
@@ -144,7 +178,7 @@ public class MainViewController {
         labelXoahoithoai.setOnMouseClicked(event -> deleteall());
 
         labelLogout.setOnMouseClicked(event -> handleLogout(event));
-        
+
         btnthemcuochoithoai.setOnAction(event -> themCuocHoiThoaiMoi());
     }
 
@@ -282,11 +316,7 @@ public class MainViewController {
                 conversationLabel.setGraphic(imageView1);
                 conversationLabel.setContentDisplay(ContentDisplay.LEFT);
             });
-
-            conversationLabel.setOnMouseClicked(event -> {
-                saveTitle = conversationLabel.getText();
-                ChatHistorySession chatHistorySession = ChatHistorySession.getInstance();
-                chatHistorySession.setChatHistoryInfo(userDAO.getConversationIdByTitle(saveTitle), userDAO.getUserIdByUsername(session.getUsername()), saveTitle);
+            imageView2.setOnMouseClicked(event -> {
                 Platform.runLater(() -> {
                     try {
                         // Chuyển sang giao diện HanhDongCuocHoiThoai.fxml
@@ -312,27 +342,37 @@ public class MainViewController {
                         e.printStackTrace();
                     }
                 });
+            });
+            conversationLabel.setOnMouseClicked(event -> {
+                saveTitle = conversationLabel.getText();
+                ChatHistorySession chatHistorySession = ChatHistorySession.getInstance();
+                chatHistorySession.setChatHistoryInfo(userDAO.getConversationIdByTitle(saveTitle), userDAO.getUserIdByUsername(session.getUsername()), saveTitle);
+
                 System.out.println(saveTitle);
             });
 
             conversationCon.getChildren().add(conversationLabel);
+            FadeTransition ft = new FadeTransition(Duration.millis(300), conversationLabel);
+            ft.setFromValue(0.0);
+            ft.setToValue(1.0);
+            ft.play();
         }
 
     }
-    
+
     @FXML
-private void themCuocHoiThoaiMoi() {
-    // Tạo tiêu đề mặc định, ví dụ: "Cuộc hội thoại 1", "Cuộc hội thoại 2",...
-    int stt = userDAO.countConversationByUserId(userSession.getUserId()) + 1;
-    String newTitle = "Cuộc hội thoại " + stt;
+    private void themCuocHoiThoaiMoi() {
+        // Tạo tiêu đề mặc định, ví dụ: "Cuộc hội thoại 1", "Cuộc hội thoại 2",...
+        int stt = userDAO.countConversationByUserId(userSession.getUserId()) + 1;
+        String newTitle = "Cuộc hội thoại " + stt;
 
-    boolean success = userDAO.addNewConversation(userSession.getUserId(), newTitle);
+        boolean success = userDAO.addNewConversation(userSession.getUserId(), newTitle);
 
-    if (success) {
-        showAlert("Thành công", "Đã thêm cuộc hội thoại mới!", Alert.AlertType.INFORMATION);
-        loadConversations(userSession.getUserId());
-    } else {
-        showAlert("Lỗi", "Không thể thêm cuộc hội thoại mới!", Alert.AlertType.ERROR);
+        if (success) {
+            showAlert("Thành công", "Đã thêm cuộc hội thoại mới!", Alert.AlertType.INFORMATION);
+            loadConversations(userSession.getUserId());
+        } else {
+            showAlert("Lỗi", "Không thể thêm cuộc hội thoại mới!", Alert.AlertType.ERROR);
+        }
     }
-}
 }

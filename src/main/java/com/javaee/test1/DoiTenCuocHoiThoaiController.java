@@ -29,14 +29,13 @@ public class DoiTenCuocHoiThoaiController {
     private UserDAO chatDAO = new UserDAO(); // Vẫn giữ UserDAO như bạn yêu cầu
     @FXML
     private VBox chatBox; // Đây là VBox chứa các hội thoại
+    private MainViewController mainViewController;
 
     @FXML
     private void handleCancel() {
         Stage stage = (Stage) btnCancel.getScene().getWindow();
         stage.close();
     }
-
-    private MainViewController mainViewController;
 
     public void setMainViewController(MainViewController controller) {
         this.mainViewController = controller;
@@ -54,6 +53,7 @@ public class DoiTenCuocHoiThoaiController {
         ChatHistorySession chatHistorySession = ChatHistorySession.getInstance();
         if (chatDAO.updateUserID(chatHistorySession.getConversationId(), newTitle)) {
             showAlert("Thành công", "Tên cuộc hội thoại đã được cập nhật thành công!", Alert.AlertType.INFORMATION);
+            mainViewController.loadConversations(chatDAO.getUserIdByUsername(userSession.getUsername()));
 
             // ✅ Gọi lại hàm loadAllData nếu controller chính đã được truyền vào
             if (mainViewController != null) {

@@ -28,9 +28,14 @@ public class ThongBaoXoaCuocTroChuyenController {
     private Button btnConfirm;
     private String conversationID;
     private UserDAO chatDAO = new UserDAO(); // Vẫn giữ UserDAO như bạn yêu cầu
+    private MainViewController mainViewController;
 
     public void setConversationID(String id) {
         this.conversationID = id;
+    }
+
+    public void setMainViewController(MainViewController controller) {
+        this.mainViewController = controller;
     }
 
     @FXML
@@ -60,6 +65,7 @@ public class ThongBaoXoaCuocTroChuyenController {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             if (chatDAO.deleteConversation(conversationId)) {
                 showAlert("Thành công", "Cuộc trò chuyện đã được xóa!", Alert.AlertType.INFORMATION);
+                mainViewController.loadConversations(chatDAO.getUserIdByUsername(userSession.getUsername()));
 
                 // Đóng cửa sổ sau khi xóa thành công
                 Stage stage = (Stage) btnConfirm.getScene().getWindow();

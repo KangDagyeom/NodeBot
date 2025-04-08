@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -28,7 +29,7 @@ public class LoginController {
     @FXML
     private TextField txtUser;
     @FXML
-    private TextField txtPass;
+    private PasswordField txtPass;
     @FXML
     private Button buttonLogin;
     @FXML
@@ -68,7 +69,7 @@ public class LoginController {
 
                     FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("mainview.fxml"));
                     Parent root = fXMLLoader.load();
-                    Scene newScene = new Scene(root, 1187, 668);
+                    Scene newScene = new Scene(root, 1220, 668);
 
                     Stage newStage = (Stage) buttonLogin.getScene().getWindow();
                     newStage.setScene(newScene);

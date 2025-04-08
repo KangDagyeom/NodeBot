@@ -8,21 +8,28 @@ import com.javaee.test1.controllers.ChatHistorySession;
 import com.javaee.test1.controllers.ChatMessageDAO;
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.controllers.UserSession;
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.ParallelTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
@@ -73,10 +80,38 @@ public class DoiThongTinCaNhan {
     private Label labelHome;
     @FXML
     private VBox conversationCon;
+    @FXML
+    private AnchorPane mainContainer;
     private String saveTitle;
 
     @FXML
     public void initialize() {
+        Platform.runLater(() -> {
+            Duration delay = Duration.millis(150);
+            int index = 0;
+
+            for (Node node : mainContainer.getChildren()) {
+                // Ban đầu ẩn đi
+                node.setOpacity(0);
+                node.setTranslateY(20);
+
+                // Hiệu ứng trượt và mờ
+                TranslateTransition slide = new TranslateTransition(Duration.millis(300), node);
+                slide.setFromY(20);
+                slide.setToY(0);
+                slide.setInterpolator(Interpolator.EASE_OUT);
+
+                FadeTransition fade = new FadeTransition(Duration.millis(300), node);
+                fade.setFromValue(0);
+                fade.setToValue(1);
+
+                ParallelTransition transition = new ParallelTransition(slide, fade);
+                transition.setDelay(delay.multiply(index));
+                transition.play();
+
+                index++;
+            }
+        });
         loadUserInfo();
         loadConversations(userDAO.getUserIdByUsername(userSession.getUsername()));
         labelNangcap.setOnMouseClicked(event -> openUpgradePlan());
@@ -340,27 +375,26 @@ public class DoiThongTinCaNhan {
             e.printStackTrace();
         }
     }
-    
+
     @FXML
-private void handleBackToHome(MouseEvent event) {
-    System.out.println("Quay lại trang chủ!"); // Debug
+    private void handleBackToHome(MouseEvent event) {
+        System.out.println("Quay lại trang chủ!"); // Debug
 
-    try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/mainview.fxml")); // File trang chủ
-        Parent root = loader.load();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/mainview.fxml")); // File trang chủ
+            Parent root = loader.load();
 
-        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow(); // Lấy stage hiện tại
-        stage.setTitle("Trang chủ");
-        stage.setScene(new Scene(root));
-        stage.show();
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow(); // Lấy stage hiện tại
+            stage.setTitle("Trang chủ");
+            stage.setScene(new Scene(root));
+            stage.show();
 
-        System.out.println("Chuyển đến trang chủ thành công!"); // Debug
-    } catch (IOException e) {
-        System.out.println("Lỗi khi mở trang chủ: " + e.getMessage());
-        e.printStackTrace();
+            System.out.println("Chuyển đến trang chủ thành công!"); // Debug
+        } catch (IOException e) {
+            System.out.println("Lỗi khi mở trang chủ: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
-}
-
 
 
     public void loadConversations(UUID userId) {
