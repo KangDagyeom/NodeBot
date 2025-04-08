@@ -32,27 +32,40 @@ public class XoaTatCaCuocHoiThoai {
         stage.close();
     }
 
+//    @FXML
+//    private void handleDelete() {
+//        // Hiển thị hộp thoại xác nhận trước khi xóa tất cả cuộc trò chuyện
+//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//        alert.setTitle("Xác nhận xóa");
+//        alert.setHeaderText("Bạn có chắc chắn muốn xóa tất cả cuộc trò chuyện?");
+//        alert.setContentText("Hành động này không thể hoàn tác!");
+//
+//        Optional<ButtonType> result = alert.showAndWait();
+//        if (result.isPresent() && result.get() == ButtonType.OK) {
+//            if (chatDAO.deleteAllConversations()) {
+//                showAlert("Thành công", "Tất cả cuộc trò chuyện đã được xóa!", Alert.AlertType.INFORMATION);
+//
+//                // Đóng cửa sổ sau khi xóa thành công
+//                Stage stage = (Stage) btnConfirm.getScene().getWindow();
+//                stage.close();
+//            } else {
+//                showAlert("Lỗi", "Không thể xóa tất cả cuộc trò chuyện. Vui lòng thử lại!", Alert.AlertType.ERROR);
+//            }
+//        }
+//    }
     @FXML
-    private void handleDelete() {
-        // Hiển thị hộp thoại xác nhận trước khi xóa tất cả cuộc trò chuyện
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Xác nhận xóa");
-        alert.setHeaderText("Bạn có chắc chắn muốn xóa tất cả cuộc trò chuyện?");
-        alert.setContentText("Hành động này không thể hoàn tác!");
+private void handleDelete() {
+    // Xóa tất cả cuộc trò chuyện mà không cần xác nhận
+    if (chatDAO.deleteAllConversations()) {
+        showAlert("Thành công", "Tất cả cuộc trò chuyện đã được xóa!", Alert.AlertType.INFORMATION);
 
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            if (chatDAO.deleteAllConversations()) {
-                showAlert("Thành công", "Tất cả cuộc trò chuyện đã được xóa!", Alert.AlertType.INFORMATION);
-
-                // Đóng cửa sổ sau khi xóa thành công
-                Stage stage = (Stage) btnConfirm.getScene().getWindow();
-                stage.close();
-            } else {
-                showAlert("Lỗi", "Không thể xóa tất cả cuộc trò chuyện. Vui lòng thử lại!", Alert.AlertType.ERROR);
-            }
-        }
+        // Đóng cửa sổ sau khi xóa thành công
+        Stage stage = (Stage) btnConfirm.getScene().getWindow();
+        stage.close();
+    } else {
+        showAlert("Lỗi", "Không thể xóa tất cả cuộc trò chuyện. Vui lòng thử lại!", Alert.AlertType.ERROR);
     }
+}
 
     private void showAlert(String title, String content, Alert.AlertType type) {
         Alert alert = new Alert(type);

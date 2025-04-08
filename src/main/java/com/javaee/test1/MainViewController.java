@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -62,6 +63,8 @@ public class MainViewController {
     private TextArea inputField;
     @FXML
     private ImageView sendButton;
+    @FXML
+    private Button btnthemcuochoithoai;
     private String saveTitle;
 
     private void loadUserInfo() {
@@ -141,6 +144,8 @@ public class MainViewController {
         labelXoahoithoai.setOnMouseClicked(event -> deleteall());
 
         labelLogout.setOnMouseClicked(event -> handleLogout(event));
+        
+        btnthemcuochoithoai.setOnAction(event -> themCuocHoiThoaiMoi());
     }
 
     public void loadAllData() {
@@ -314,5 +319,20 @@ public class MainViewController {
         }
 
     }
+    
+    @FXML
+private void themCuocHoiThoaiMoi() {
+    // Tạo tiêu đề mặc định, ví dụ: "Cuộc hội thoại 1", "Cuộc hội thoại 2",...
+    int stt = userDAO.countConversationByUserId(userSession.getUserId()) + 1;
+    String newTitle = "Cuộc hội thoại " + stt;
 
+    boolean success = userDAO.addNewConversation(userSession.getUserId(), newTitle);
+
+    if (success) {
+        showAlert("Thành công", "Đã thêm cuộc hội thoại mới!", Alert.AlertType.INFORMATION);
+        loadConversations(userSession.getUserId());
+    } else {
+        showAlert("Lỗi", "Không thể thêm cuộc hội thoại mới!", Alert.AlertType.ERROR);
+    }
+}
 }
