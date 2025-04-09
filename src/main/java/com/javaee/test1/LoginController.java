@@ -4,10 +4,15 @@ import com.javaee.test1.controllers.ChatMessageDAO;
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.controllers.UserSession;
 import com.javaee.test1.models.User;
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.ParallelTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -15,7 +20,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 
@@ -31,7 +39,7 @@ public class LoginController {
     @FXML
     private PasswordField txtPass;
     @FXML
-    private Button buttonLogin;
+    private ImageView buttonLogin;
     @FXML
     private Button buttonQuenMK;
     @FXML
@@ -42,6 +50,38 @@ public class LoginController {
     private Button buttonFace;
     @FXML
     private Button buttonIOS;
+    @FXML
+    private AnchorPane mainContainer;
+
+    @FXML
+    public void initialize() {
+        Platform.runLater(() -> {
+            Duration delay = Duration.millis(150);
+            int index = 0;
+
+            for (Node node : mainContainer.getChildren()) {
+                // Ban đầu ẩn đi
+                node.setOpacity(0);
+                node.setTranslateY(20);
+
+                // Hiệu ứng trượt và mờ
+                TranslateTransition slide = new TranslateTransition(Duration.millis(300), node);
+                slide.setFromY(20);
+                slide.setToY(0);
+                slide.setInterpolator(Interpolator.EASE_OUT);
+
+                FadeTransition fade = new FadeTransition(Duration.millis(300), node);
+                fade.setFromValue(0);
+                fade.setToValue(1);
+
+                ParallelTransition transition = new ParallelTransition(slide, fade);
+                transition.setDelay(delay.multiply(index));
+                transition.play();
+
+                index++;
+            }
+        });
+    }
 
     @FXML
     private void handleLogin() {

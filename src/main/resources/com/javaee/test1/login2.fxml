@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="668.0" prefWidth="1187.0" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javaee.test1.LoginController">
+    <center>
+        <AnchorPane fx:id="mainContainer" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fitHeight="669.0" fitWidth="1195.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../img/Loginimg.png" />
+                    </image>
+                </ImageView>
+                <TextField fx:id="txtUser" layoutX="89.0" layoutY="224.0" prefHeight="36.0" prefWidth="405.0" promptText="Username" />
+                <PasswordField fx:id="txtPass" layoutX="89.0" layoutY="305.0" prefHeight="36.0" prefWidth="405.0" promptText="Password" />
+                <ImageView fx:id="buttonLogin" fitHeight="36.0" fitWidth="415.0" layoutX="89.0" layoutY="376.0" onMouseClicked="#handleLogin" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../img/btnLogin.png" />
+                    </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+                </ImageView>
+                <Button fx:id="buttonQuenMK" layoutX="381.0" layoutY="349.0" mnemonicParsing="false" onAction="#handleQuenMK" styleClass="transparent-button1" text="Forgot Password?">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+                <Button fx:id="buttonDangKy" layoutX="349.0" layoutY="465.0" mnemonicParsing="false" onAction="#handleDangKy" styleClass="transparent-button1" text="Sign up" textFill="#0f3dde">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Button>
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>
