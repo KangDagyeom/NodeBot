@@ -5,7 +5,8 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="668.0" maxWidth="-Infinity" minHeight="668.0" minWidth="-Infinity"
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="668.0" maxWidth="-Infinity" minHeight="668.0"
+            minWidth="-Infinity"
             prefHeight="668.0" prefWidth="1202.0" stylesheets="@../../../css/style.css"
             xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.javaee.test1.DoiThongTinCaNhan">
     <left>

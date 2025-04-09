@@ -135,11 +135,16 @@ public class PrimaryController {
         chatBox.setMinHeight(Region.USE_PREF_SIZE);
         chatBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
         chatBox.setFillWidth(true);
-        handleUserInput();
+        themCuocHoiThoaiMoi();
         String timestamp = new SimpleDateFormat("HH:mm").format(new Date());
         String message = MessageHolder.getInstance().getLastMessage();
+        chatMessageDAO.saveMessageToDB(userDAO.getConversationIdByTitle(saveTitle), // conversationId
+                userDAO.getUserIdByUsername(session.getUsername()), // senderId
+                "user", // senderType
+                message // Nội dung tin nhắn
+        );
         addMessageToChat(message, timestamp, true, false);
-
+        sendResponse(message);
         System.out.println("User đã nhập: " + message);
 
         chatBox.heightProperty().addListener((obs, oldVal, newVal) -> {
@@ -805,14 +810,16 @@ public class PrimaryController {
         loadConversations(userDAO.getUserIdByUsername(session.getUsername()));
     }
 
+
     @FXML
-    private void handleUserInput() {
-        String title = "Cuộc trò chuyện mới";
+    private void themCuocHoiThoaiMoi() {
+        // Tạo tiêu đề mặc định, ví dụ: "Cuộc hội thoại 1", "Cuộc hội thoại 2",...
+        int stt = userDAO.countConversationByUserId(session.getUserId()) + 1;
+        String newTitle = "Cuộc hội thoại " + stt;
+        saveTitle = newTitle;
+        userDAO.addNewConversation(session.getUserId(), newTitle);
+        loadConversations(session.getUserId());
 
-        userDAO.insertChatHistory(userDAO.getUserIdByUsername(session.getUsername()), title);
-
-
-        loadConversations(userDAO.getUserIdByUsername(session.getUsername()));
     }
 
     private void loadUserInfo() {
