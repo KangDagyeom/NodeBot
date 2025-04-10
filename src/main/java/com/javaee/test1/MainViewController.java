@@ -323,7 +323,9 @@ private void openUpgradePlan() {
                 conversationLabel.setGraphic(imageView1);
                 conversationLabel.setContentDisplay(ContentDisplay.LEFT);
             });
-            imageView2.setOnMouseClicked(event -> {
+            imageView2.setOnMouseClicked(event -> {               
+            });
+            conversationLabel.setOnMouseClicked(event -> {
                 Platform.runLater(() -> {
                     try {
                         // Chuyển sang giao diện HanhDongCuocHoiThoai.fxml
@@ -349,16 +351,13 @@ private void openUpgradePlan() {
                         e.printStackTrace();
                     }
                 });
-            });
-            conversationLabel.setOnMouseClicked(event -> {
                 saveTitle = conversationLabel.getText();
                 ChatHistorySession chatHistorySession = ChatHistorySession.getInstance();
                 chatHistorySession.setChatHistoryInfo(userDAO.getConversationIdByTitle(saveTitle), userDAO.getUserIdByUsername(session.getUsername()), saveTitle);
 
                 System.out.println(saveTitle);
             });
-
-            conversationCon.getChildren().add(conversationLabel);
+conversationCon.getChildren().add(conversationLabel);
             FadeTransition ft = new FadeTransition(Duration.millis(300), conversationLabel);
             ft.setFromValue(0.0);
             ft.setToValue(1.0);
