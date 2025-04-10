@@ -229,24 +229,31 @@ public class MainViewController {
 
     //clik vào sẽ chuyển sang trang nâng cấp node
     @FXML
-    private void openUpgradePlan() {
-        System.out.println("Label Nâng cấp đã được click!"); // Debug
+private void openUpgradePlan() {
+    System.out.println("Label Nâng cấp đã được click!"); // Debug
 
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/Nanngcap.fxml"));
-            Parent root = loader.load();
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/Nanngcap.fxml"));
+        Parent root = loader.load();
 
-            Stage stage = new Stage();
-            stage.setTitle("Nâng cấp gói");
-            stage.setScene(new Scene(root));
-            stage.show();
+        // Lấy controller và truyền UserSession
+        NangCapController controller = loader.getController();
+        controller.setUserSession(UserSession.getInstance()); // Truyền session
+        controller.setData(); // Cập nhật giao diện
 
-            System.out.println("Cửa sổ nâng cấp đã mở!"); // Debug
-        } catch (IOException e) {
-            System.out.println("Lỗi khi mở trang nâng cấp: " + e.getMessage());
-            e.printStackTrace();
-        }
+        // Tạo một cửa sổ mới (Stage)
+        Stage upgradeStage = new Stage();
+        upgradeStage.setTitle("Nâng cấp gói");
+        upgradeStage.setScene(new Scene(root));
+        upgradeStage.setResizable(false); // Nếu bạn không muốn cho resize cửa sổ
+        upgradeStage.show();
+
+        System.out.println("Cửa sổ nâng cấp đã mở!"); // Debug
+    } catch (IOException e) {
+        System.out.println("Lỗi khi mở trang nâng cấp: " + e.getMessage());
+        e.printStackTrace();
     }
+}
 
     //=======================================
     //log out

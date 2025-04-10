@@ -67,5 +67,11 @@ public class UserSession {
         email = null;
         passwordHash = null;
     }
-
+public UserSession(UUID userId, String avatar, String subscriptionPlan, String email, String passwordHash) {
+    this.userId = userId;
+    this.avatar = avatar;
+    this.subscriptionPlan = subscriptionPlan;
+    this.email = email;
+    this.passwordHash = passwordHash;
+}
 }
