@@ -22,6 +22,8 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 
 /**
  * @author xinch
@@ -37,7 +39,7 @@ public class DangKyController {
     @FXML
     private TextField txtPass;
     @FXML
-    private Button buttonSigh;
+    private ImageView buttonSigh;
     @FXML
     private Button buttonLogin;
     @FXML
@@ -47,20 +49,22 @@ public class DangKyController {
     @FXML
     private Button buttonFace;
     @FXML
+    private Button lblLogin;
+    @FXML
     private ImageView imageAvatar; // ImageView để hiển thị ảnh
 
     private String avatarPath = ""; // Lưu đường dẫn ảnh đã chọn
 
     @FXML
     private void initialize() {
-        buttonSigh.setOnAction(event -> handleSignUp());
+        //buttonSigh.setOnAction(event -> handleDangKy());
 
         // Khi người dùng bấm vào imageAvatar, mở hộp thoại chọn file
         imageAvatar.setOnMouseClicked(event -> selectAvatar());
     }
 
     @FXML
-    private void handleSignUp() {
+    private void handleDangKy() {
         String email = txtEmail.getText().trim();
         String username = txtUser.getText().trim();
         String password = txtPass.getText().trim();
@@ -79,6 +83,8 @@ public class DangKyController {
             showAlert(AlertType.ERROR, "Lỗi", "Email đã tồn tại hoặc có lỗi hệ thống.");
         }
     }
+ 
+
 
     private void selectAvatar() {
         FileChooser fileChooser = new FileChooser();
@@ -116,19 +122,19 @@ public class DangKyController {
     }
 
     @FXML
-    private void handleLogin(ActionEvent event) {
+    private void handleLoginLabelClick(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("login.fxml"));
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("login2.fxml"));
             Parent root = loader.load();
 
             Scene newScene = new Scene(root);
-            Stage stage = (Stage) buttonLogin.getScene().getWindow();
+            Stage stage = (Stage) buttonLogin.getScene().getWindow(); // Lấy từ Label
             stage.setScene(newScene);
-            stage.centerOnScreen(); // Căn giữa màn hình
+            stage.centerOnScreen();
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert(AlertType.ERROR, "Lỗi", "Không thể mở giao diện Đăng nhập.");
+            showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể mở giao diện Đăng nhập.");
         }
     }
 

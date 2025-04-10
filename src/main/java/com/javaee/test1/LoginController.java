@@ -170,7 +170,7 @@ public class LoginController {
     @FXML
     private void handleDangKy(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("DangKy.fxml"));
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("DangKy2.fxml"));
             Parent root = loader.load();
 
             Scene newScene = new Scene(root);
