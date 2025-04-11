@@ -48,6 +48,7 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.stage.Modality;
 
 public class PrimaryController {
 
@@ -92,7 +93,11 @@ public class PrimaryController {
     private String saveTitle;
     private AsyncHttpClient client = new DefaultAsyncHttpClient();
     private String currentConversationId;
-
+    
+    @FXML
+    private Label doiten;
+    @FXML
+    private Label xoa;
     public void savedTitle(String currentTitle) {
         saveTitle = currentTitle;
     }
@@ -159,6 +164,10 @@ public class PrimaryController {
         labelXoahoithoai.setOnMouseClicked(event -> deleteall());
 
         labelLogout.setOnMouseClicked(event -> handleLogout(event));
+        
+        doiten.setOnMouseClicked(event -> RenameConversation());
+        
+        xoa.setOnMouseClicked(event -> deleteConversation());
     }
 
     @FXML
@@ -974,5 +983,47 @@ public class PrimaryController {
             e.printStackTrace();
         }
     }
+    
+    //==========
+    //Delete
+    @FXML
+    private void deleteConversation() {
+        System.out.println("Label Delete đã được click!"); // Debug
 
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/Thongbaoxoacuoctrochuyen.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Delete");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            System.out.println("Cửa sổ Delete đã mở!"); // Debug
+        } catch (IOException e) {
+            System.out.println("Lỗi khi mở trang: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    //==========
+    //Đổi tên
+    @FXML
+    private void RenameConversation() {
+        System.out.println("Label đổi tên đã được click!"); // Debug
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/Thongbaodoiten.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Rename");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            System.out.println("Cửa sổ đổi tên đã mở!"); // Debug
+        } catch (IOException e) {
+            System.out.println("Lỗi khi mở trang: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }

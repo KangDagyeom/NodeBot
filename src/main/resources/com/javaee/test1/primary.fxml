@@ -158,6 +158,18 @@
                                 <VBox fx:id="conversationCon" prefHeight="265.0" prefWidth="246.0" />
                             </content>
                         </ScrollPane>
+                  <ImageView fitHeight="24.0" fitWidth="18.0" layoutX="47.0" layoutY="484.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../img/delete1.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="31.0" fitWidth="30.0" layoutX="148.0" layoutY="479.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../img/Pen.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="84.0" layoutY="485.0" onMouseClicked="#deleteConversation" text="Xóa" textFill="#ed3737" fx:id="xoa" />
+                  <Label fx:id="doiten" layoutX="192.0" layoutY="485.0" onMouseClicked="#RenameConversation" text="Đổi tên" textFill="WHITE" />
                     </children>
                 </AnchorPane>
 
