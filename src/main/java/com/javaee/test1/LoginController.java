@@ -151,7 +151,7 @@ public class LoginController {
     @FXML
     private void handleQuenMK(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("Quenmk.fxml"));
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("ForgotPassword.fxml"));
             Parent root = loader.load();
 
             Scene newScene = new Scene(root);
