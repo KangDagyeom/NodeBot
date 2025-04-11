@@ -229,31 +229,31 @@ public class MainViewController {
 
     //clik vào sẽ chuyển sang trang nâng cấp node
     @FXML
-private void openUpgradePlan() {
-    System.out.println("Label Nâng cấp đã được click!"); // Debug
+    private void openUpgradePlan() {
+        System.out.println("Label Nâng cấp đã được click!"); // Debug
 
-    try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/Nanngcap.fxml"));
-        Parent root = loader.load();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/Nanngcap.fxml"));
+            Parent root = loader.load();
 
-        // Lấy controller và truyền UserSession
-        NangCapController controller = loader.getController();
-        controller.setUserSession(UserSession.getInstance()); // Truyền session
-        controller.setData(); // Cập nhật giao diện
+            // Lấy controller và truyền UserSession
+            NangCapController controller = loader.getController();
+            controller.setUserSession(UserSession.getInstance()); // Truyền session
+            controller.setData(); // Cập nhật giao diện
 
-        // Tạo một cửa sổ mới (Stage)
-        Stage upgradeStage = new Stage();
-        upgradeStage.setTitle("Nâng cấp gói");
-        upgradeStage.setScene(new Scene(root));
-        upgradeStage.setResizable(false); // Nếu bạn không muốn cho resize cửa sổ
-        upgradeStage.show();
+            // Tạo một cửa sổ mới (Stage)
+            Stage upgradeStage = new Stage();
+            upgradeStage.setTitle("Nâng cấp gói");
+            upgradeStage.setScene(new Scene(root));
+            upgradeStage.setResizable(false); // Nếu bạn không muốn cho resize cửa sổ
+            upgradeStage.show();
 
-        System.out.println("Cửa sổ nâng cấp đã mở!"); // Debug
-    } catch (IOException e) {
-        System.out.println("Lỗi khi mở trang nâng cấp: " + e.getMessage());
-        e.printStackTrace();
+            System.out.println("Cửa sổ nâng cấp đã mở!"); // Debug
+        } catch (IOException e) {
+            System.out.println("Lỗi khi mở trang nâng cấp: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
-}
 
     //=======================================
     //log out
@@ -323,41 +323,42 @@ private void openUpgradePlan() {
                 conversationLabel.setGraphic(imageView1);
                 conversationLabel.setContentDisplay(ContentDisplay.LEFT);
             });
-            imageView2.setOnMouseClicked(event -> {               
+            imageView2.setOnMouseClicked(event -> {
             });
             conversationLabel.setOnMouseClicked(event -> {
                 Platform.runLater(() -> {
                     try {
-                        // Chuyển sang giao diện HanhDongCuocHoiThoai.fxml
-                        FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("hanhdongcuochoithoai.fxml"));
+                        // Load giao diện primary.fxml
+                        FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("primary.fxml"));
                         Parent root = fXMLLoader.load();
-                        Scene newScene = new Scene(root, 125, 120);
+                        Scene newScene = new Scene(root);
 
-                        HanhDongCuocHoiThoai controller = fXMLLoader.getController();
-
-                        // ✅ Truyền MainViewController vào HanhDongCuocHoiThoaiController
-                        controller.setMainViewController(this);  // <-- thêm dòng này
-
-                        Stage newStage = new Stage();
-                        newStage.setScene(newScene);
-                        newStage.centerOnScreen();
-                        newStage.setTitle("Hành Động Cuộc Hội Thoại");
-                        newStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/Node_logo.jpg")));
-                        newStage.setResizable(false);
-
-                        newStage.show();
+                        // Lấy Stage hiện tại từ conversationLabel
+                        Stage currentStage = (Stage) conversationLabel.getScene().getWindow();
+                        currentStage.setScene(newScene);
+                        currentStage.centerOnScreen();
+                        currentStage.setTitle("Giao Diện Chính");
+                        currentStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/Node_logo.jpg")));
+                        currentStage.setResizable(false);
 
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 });
+
+                // Lưu tiêu đề hội thoại được click
                 saveTitle = conversationLabel.getText();
                 ChatHistorySession chatHistorySession = ChatHistorySession.getInstance();
-                chatHistorySession.setChatHistoryInfo(userDAO.getConversationIdByTitle(saveTitle), userDAO.getUserIdByUsername(session.getUsername()), saveTitle);
+                chatHistorySession.setChatHistoryInfo(
+                        userDAO.getConversationIdByTitle(saveTitle),
+                        userDAO.getUserIdByUsername(session.getUsername()),
+                        saveTitle
+                );
 
-                System.out.println(saveTitle);
+                System.out.println("Đã chọn hội thoại: " + saveTitle);
             });
-conversationCon.getChildren().add(conversationLabel);
+
+            conversationCon.getChildren().add(conversationLabel);
             FadeTransition ft = new FadeTransition(Duration.millis(300), conversationLabel);
             ft.setFromValue(0.0);
             ft.setToValue(1.0);

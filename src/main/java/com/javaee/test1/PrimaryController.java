@@ -82,9 +82,9 @@ public class PrimaryController {
     @FXML
     private Button btnNewCon;
     @FXML
-    private Label labelXoatatca;
+    private Label labelNangcap;
     @FXML
-    private Label labelUpgrade;
+    private Label labelXoahoithoai; // Label nút xóa
     @FXML
     private Label labelLogout;
     @FXML
@@ -152,6 +152,13 @@ public class PrimaryController {
                 scrollPane.setVvalue(1.0); // Cuộn xuống dòng cuối cùng
             });
         });
+        
+        labelNangcap.setOnMouseClicked(event -> openUpgradePlan());
+
+        //gán sự kiện cho xóa hết cuộc hội thoại
+        labelXoahoithoai.setOnMouseClicked(event -> deleteall());
+
+        labelLogout.setOnMouseClicked(event -> handleLogout(event));
     }
 
     @FXML
@@ -881,40 +888,77 @@ public class PrimaryController {
         alert.showAndWait();
     }
 
+    //clik vào sẽ chuyển sang trang nâng cấp node
     @FXML
     private void openUpgradePlan() {
+        System.out.println("Label Nâng cấp đã được click!"); // Debug
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/Nanngcap.fxml"));
             Parent root = loader.load();
 
-            Stage stage = new Stage();
-            stage.setTitle("Nâng cấp gói");
-            stage.setScene(new Scene(root));
-            stage.show();
+            // Lấy controller và truyền UserSession
+            NangCapController controller = loader.getController();
+            controller.setUserSession(UserSession.getInstance()); // Truyền session
+            controller.setData(); // Cập nhật giao diện
 
+            // Tạo một cửa sổ mới (Stage)
+            Stage upgradeStage = new Stage();
+            upgradeStage.setTitle("Nâng cấp gói");
+            upgradeStage.setScene(new Scene(root));
+            upgradeStage.setResizable(false); // Nếu bạn không muốn cho resize cửa sổ
+            upgradeStage.show();
+
+            System.out.println("Cửa sổ nâng cấp đã mở!"); // Debug
         } catch (IOException e) {
             System.out.println("Lỗi khi mở trang nâng cấp: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
+    //=======================================
+    //log out
     @FXML
-
     private void handleLogout(MouseEvent event) {
-        System.exit(0);
+        System.out.println("Label Đăng xuất đã được click!"); // Debug
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/nutdangxuat.fxml")); // Đúng file cần mở
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow(); // Lấy stage hiện tại
+            stage.setTitle("Đăng xuất");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            System.out.println("Chuyển đến màn hình Đăng xuất thành công!"); // Debug
+        } catch (IOException e) {
+            System.out.println("Lỗi khi mở trang Đăng xuất: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
-
+    //==========
     //delete all
     @FXML
-    private void deleteAllConversations() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Xác nhận xóa");
-        alert.setHeaderText("Bạn có chắc muốn xóa tất cả cuộc hội thoại không?");
-        alert.setContentText("Hành động này không thể hoàn tác!");
+    private void deleteall() {
+        System.out.println("Label Delete ALL đã được click!"); // Debug
 
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/nutxacminhxoacuochoithoai.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Delete ALL");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            System.out.println("Cửa sổ Delete ALL đã mở!"); // Debug
+        } catch (IOException e) {
+            System.out.println("Lỗi khi mở trang: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
-
     @FXML
     private void openEditProfile() {
         try {
