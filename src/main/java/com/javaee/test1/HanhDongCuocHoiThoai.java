@@ -24,7 +24,7 @@ public class HanhDongCuocHoiThoai {
     private Label doiten;
     @FXML
     private Label xoa;
-    private MainViewController mainViewController;
+    private PrimaryController primaryController;
 
     @FXML
     private void handleRenameConversation(MouseEvent event) {
@@ -36,8 +36,8 @@ public class HanhDongCuocHoiThoai {
         openWindow("/com/javaee/test1/Thongbaoxoacuoctrochuyen.fxml", "Xóa hội thoại");
     }
 
-    public void setMainViewController(MainViewController controller) {
-        this.mainViewController = controller;
+    public void setPrimaryController(PrimaryController controller) {
+        this.primaryController = controller;
     }
 
     private void openWindow(String fxmlPath, String title) {
@@ -50,9 +50,9 @@ public class HanhDongCuocHoiThoai {
 
             // Truyền mainViewController nếu controller có method setMainViewController
             if (controller instanceof ThongBaoXoaCuocTroChuyenController) {
-                ((ThongBaoXoaCuocTroChuyenController) controller).setMainViewController(mainViewController);
+                ((ThongBaoXoaCuocTroChuyenController) controller).setPrimaryController(primaryController);
             } else if (controller instanceof DoiTenCuocHoiThoaiController) {
-                ((DoiTenCuocHoiThoaiController) controller).setMainViewController(mainViewController);
+                ((DoiTenCuocHoiThoaiController) controller).setPrimaryController(primaryController);
             }
 
             Stage stage = new Stage();

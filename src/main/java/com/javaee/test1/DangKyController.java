@@ -22,8 +22,6 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 
 /**
  * @author xinch
@@ -83,7 +81,6 @@ public class DangKyController {
             showAlert(AlertType.ERROR, "Lỗi", "Email đã tồn tại hoặc có lỗi hệ thống.");
         }
     }
- 
 
 
     private void selectAvatar() {

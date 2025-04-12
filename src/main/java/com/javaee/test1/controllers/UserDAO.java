@@ -352,19 +352,19 @@ public class UserDAO {
 
     //Nang cấp gói
     // Nâng cấp gói bằng username
-public boolean updateSubscriptionPlan(String username, String newPlan) {
-    String query = "UPDATE Users SET SubscriptionPlan = ? WHERE Username = ?";
-    try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
-        ps.setString(1, newPlan);
-        ps.setString(2, username);  // vì đang truyền username
-        int rowsAffected = ps.executeUpdate();
+    public boolean updateSubscriptionPlan(String username, String newPlan) {
+        String query = "UPDATE Users SET SubscriptionPlan = ? WHERE Username = ?";
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, newPlan);
+            ps.setString(2, username);  // vì đang truyền username
+            int rowsAffected = ps.executeUpdate();
 
-        return rowsAffected > 0;
-    } catch (SQLException e) {
-        e.printStackTrace();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
-    return false;
-}
 
     public User getUserInfoByUsername(String username) {
         String query = "SELECT UserID,PasswordHash, Email, Avatar, Username, SubscriptionPlan FROM Users WHERE Username = ?";

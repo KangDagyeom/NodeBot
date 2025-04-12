@@ -1,64 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-
-<BorderPane maxHeight="668.0" maxWidth="1187.0" minHeight="668.0" minWidth="1187.0" prefHeight="668.0" prefWidth="1187.0" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javaee.test1.PrimaryController">
+<?import javafx.scene.control.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="668.0" maxWidth="1187.0" minHeight="668.0" minWidth="1187.0"
+            prefHeight="668.0" prefWidth="1187.0" stylesheets="@../../../css/style.css"
+            xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.javaee.test1.PrimaryController">
     <center>
         <AnchorPane fx:id="mainContainer" BorderPane.alignment="CENTER">
             <children>
                 <ScrollPane fitToWidth="true" layoutX="312.0" layoutY="1.0" prefHeight="676.0" prefWidth="911.0">
                     <content>
-                        <AnchorPane maxHeight="668.0" maxWidth="852.0" minHeight="668.0" minWidth="852.0" prefHeight="668.0" prefWidth="852.0">
+                        <AnchorPane maxHeight="668.0" maxWidth="852.0" minHeight="668.0" minWidth="852.0"
+                                    prefHeight="668.0" prefWidth="852.0">
                             <children>
                                 <ImageView fitHeight="675.0" fitWidth="923.0" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../../img/Main-background.png" />
+                                        <Image url="@../../../img/Main-background.png"/>
                                     </image>
                                 </ImageView>
-                                <ImageView fitHeight="632.0" fitWidth="857.0" layoutX="35.0" layoutY="19.0" preserveRatio="true">
+                                <ImageView fitHeight="632.0" fitWidth="857.0" layoutX="35.0" layoutY="19.0"
+                                           preserveRatio="true">
                                     <image>
-                                        <Image url="@../../../img/Main-container.png" />
+                                        <Image url="@../../../img/Main-container.png"/>
                                     </image>
                                 </ImageView>
-                                <ScrollPane fx:id="scrollPane" layoutX="52.0" layoutY="31.0" prefHeight="469.0" prefWidth="839.0" styleClass="inputField" viewOrder="-1">
+                                <ScrollPane fx:id="scrollPane" layoutX="52.0" layoutY="31.0" prefHeight="469.0"
+                                            prefWidth="839.0" styleClass="inputField" viewOrder="-1">
                                     <content>
-                                        <VBox fx:id="chatBox" prefHeight="460.0" prefWidth="809.0" viewOrder="-1" />
+                                        <VBox fx:id="chatBox" prefHeight="460.0" prefWidth="809.0" viewOrder="-1"/>
                                     </content>
                                 </ScrollPane>
-                                <AnchorPane layoutX="105.0" layoutY="506.0" maxHeight="110.0" maxWidth="696.0" minHeight="110.0" minWidth="696.0" prefHeight="110.0" prefWidth="684.0" styleClass="inputField">
+                                <AnchorPane layoutX="105.0" layoutY="506.0" maxHeight="110.0" maxWidth="696.0"
+                                            minHeight="110.0" minWidth="696.0" prefHeight="110.0" prefWidth="684.0"
+                                            styleClass="inputField">
                                     <children>
-                                        <TextArea fx:id="inputField" layoutX="8.0" layoutY="9.0" prefHeight="58.0" prefWidth="643.0" promptText="Ask anything" styleClass="txt-area" wrapText="true" />
-                                        <ImageView fitHeight="87.0" fitWidth="42.0" layoutX="648.0" layoutY="65.0" onMouseClicked="#sendMessage" pickOnBounds="true" preserveRatio="true">
+                                        <TextArea fx:id="inputField" layoutX="8.0" layoutY="9.0" prefHeight="58.0"
+                                                  prefWidth="643.0" promptText="Ask anything" styleClass="txt-area"
+                                                  wrapText="true"/>
+                                        <ImageView fitHeight="87.0" fitWidth="42.0" layoutX="648.0" layoutY="65.0"
+                                                   onMouseClicked="#sendMessage" pickOnBounds="true"
+                                                   preserveRatio="true">
                                             <image>
-                                                <Image url="@../../../img/sendBtn.png" />
+                                                <Image url="@../../../img/sendBtn.png"/>
                                             </image>
                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
+                                                <Cursor fx:constant="HAND"/>
                                             </cursor>
                                         </ImageView>
-                                        <ImageView fx:id="btnSearch" fitHeight="30.0" fitWidth="96.0" layoutX="8.0" layoutY="69.0" onMouseClicked="#searchAction" pickOnBounds="true" preserveRatio="true">
+                                        <ImageView fx:id="btnSearch" fitHeight="30.0" fitWidth="96.0" layoutX="8.0"
+                                                   layoutY="69.0" onMouseClicked="#searchAction" pickOnBounds="true"
+                                                   preserveRatio="true">
                                             <image>
-                                                <Image url="@../../../img/btnSearch.png" />
+                                                <Image url="@../../../img/btnSearch.png"/>
                                             </image>
                                         </ImageView>
-                                        <ImageView fx:id="btnTranslate" fitHeight="45.0" fitWidth="103.0" layoutX="111.0" layoutY="70.0" onMouseClicked="#translateAction" pickOnBounds="true" preserveRatio="true">
+                                        <ImageView fx:id="btnTranslate" fitHeight="45.0" fitWidth="103.0"
+                                                   layoutX="111.0" layoutY="70.0" onMouseClicked="#translateAction"
+                                                   pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@../../../img/btnTranslate.png" />
+                                                <Image url="@../../../img/btnTranslate.png"/>
                                             </image>
                                         </ImageView>
                                     </children>
                                 </AnchorPane>
-                                <Label layoutX="317.0" layoutY="625.0" text="Node can make mistakes. Check important info." textAlignment="CENTER" textFill="WHITE" />
+                                <Label layoutX="317.0" layoutY="625.0"
+                                       text="Node can make mistakes. Check important info." textAlignment="CENTER"
+                                       textFill="WHITE"/>
 
 
                             </children>
@@ -67,109 +77,127 @@
                 </ScrollPane>
                 <AnchorPane layoutX="-2.0" prefHeight="672.0" prefWidth="335.0" styleClass="gray-background">
                     <children>
-                        <ImageView fitHeight="57.0" fitWidth="281.0" layoutX="47.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="57.0" fitWidth="281.0" layoutX="47.0" layoutY="18.0" pickOnBounds="true"
+                                   preserveRatio="true">
                             <image>
-                                <Image url="@../../../img/Account-container.png" />
+                                <Image url="@../../../img/Account-container.png"/>
                             </image>
                         </ImageView>
-                        <ImageView fx:id="imgAvatar" fitHeight="36.0" fitWidth="36.0" layoutX="67.0" layoutY="23.0" onMouseClicked="#openEditProfile" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgAvatar" fitHeight="36.0" fitWidth="36.0" layoutX="67.0" layoutY="23.0"
+                                   onMouseClicked="#openEditProfile" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../../img/avatar.png" />
+                                <Image url="@../../../img/avatar.png"/>
                             </image>
                             <cursor>
-                                <Cursor fx:constant="HAND" />
+                                <Cursor fx:constant="HAND"/>
                             </cursor>
                         </ImageView>
                         <Label fx:id="lbusername" layoutX="111.0" layoutY="22.0" text="Node" textFill="WHITE">
                             <font>
-                                <Font size="18.0" />
+                                <Font size="18.0"/>
                             </font>
                         </Label>
-                        <Label fx:id="lbuserplan" layoutX="111.0" layoutY="47.0" text="Tài khoản miễn phí " textFill="#ffffffa8">
+                        <Label fx:id="lbuserplan" layoutX="111.0" layoutY="47.0" text="Tài khoản miễn phí "
+                               textFill="#ffffffa8">
                             <font>
-                                <Font size="14.0" />
+                                <Font size="14.0"/>
                             </font>
                         </Label>
-                        <Button fx:id="btnNewCon" layoutX="38.0" layoutY="401.0" mnemonicParsing="false" onAction="#handleNewConversation" prefHeight="55.0" prefWidth="286.0" styleClass="green-button" textAlignment="RIGHT" textFill="WHITE">
+                        <Button fx:id="btnNewCon" layoutX="38.0" layoutY="401.0" mnemonicParsing="false"
+                                onAction="#handleNewConversation" prefHeight="55.0" prefWidth="286.0"
+                                styleClass="green-button" textAlignment="RIGHT" textFill="WHITE">
                             <font>
-                                <Font size="16.0" />
+                                <Font size="16.0"/>
                             </font>
                             <cursor>
-                                <Cursor fx:constant="HAND" />
+                                <Cursor fx:constant="HAND"/>
                             </cursor>
                         </Button>
-                        <ImageView fitHeight="50.0" fitWidth="250.0" layoutX="30.0" layoutY="528.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="50.0" fitWidth="250.0" layoutX="30.0" layoutY="528.0" pickOnBounds="true"
+                                   preserveRatio="true">
                             <image>
-                                <Image url="@../../../img/delete.png" />
+                                <Image url="@../../../img/delete.png"/>
                             </image>
                         </ImageView>
-                        <ImageView fitHeight="50.0" fitWidth="251.0" layoutX="30.0" layoutY="572.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="50.0" fitWidth="251.0" layoutX="30.0" layoutY="572.0" pickOnBounds="true"
+                                   preserveRatio="true">
                             <image>
-                                <Image url="@../../../img/pro.png" />
+                                <Image url="@../../../img/pro.png"/>
                             </image>
                             <cursor>
-                                <Cursor fx:constant="HAND" />
+                                <Cursor fx:constant="HAND"/>
                             </cursor>
                         </ImageView>
-                        <ImageView fitHeight="50.0" fitWidth="250.0" layoutX="31.0" layoutY="615.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="50.0" fitWidth="250.0" layoutX="31.0" layoutY="615.0" pickOnBounds="true"
+                                   preserveRatio="true">
                             <image>
-                                <Image url="@../../../img/logout.png" />
+                                <Image url="@../../../img/logout.png"/>
                             </image>
                             <cursor>
-                                <Cursor fx:constant="HAND" />
+                                <Cursor fx:constant="HAND"/>
                             </cursor>
                         </ImageView>
-                        <Label fx:id="labelXoahoithoai" layoutX="74.0" layoutY="537.0" onMouseClicked="#deleteall" text="Xóa tất cả các cuộc hội thoại" textFill="WHITE">
+                        <Label fx:id="labelXoahoithoai" layoutX="74.0" layoutY="537.0" onMouseClicked="#deleteall"
+                               text="Xóa tất cả các cuộc hội thoại" textFill="WHITE">
                             <font>
-                                <Font size="14.0" />
+                                <Font size="14.0"/>
                             </font>
                             <cursor>
-                                <Cursor fx:constant="HAND" />
+                                <Cursor fx:constant="HAND"/>
                             </cursor>
                         </Label>
-                        <Label fx:id="labelNangcap" layoutX="75.0" layoutY="582.0" onMouseClicked="#openUpgradePlan" text="Nâng cấp lên Node Plus " textFill="WHITE">
+                        <Label fx:id="labelNangcap" layoutX="75.0" layoutY="582.0" onMouseClicked="#openUpgradePlan"
+                               text="Nâng cấp lên Node Plus " textFill="WHITE">
                             <font>
-                                <Font size="14.0" />
+                                <Font size="14.0"/>
                             </font>
                         </Label>
-                        <Label fx:id="labelLogout" layoutX="74.0" layoutY="626.0" onMouseClicked="#handleLogout" text="Log out" textFill="#d45454">
+                        <Label fx:id="labelLogout" layoutX="74.0" layoutY="626.0" onMouseClicked="#handleLogout"
+                               text="Log out" textFill="#d45454">
                             <font>
-                                <Font size="14.0" />
+                                <Font size="14.0"/>
                             </font>
                         </Label>
-                        <Label layoutX="96.0" layoutY="415.0" prefHeight="26.0" prefWidth="174.0" text="Cuộc trò chuyện mới" textFill="WHITE">
+                        <Label layoutX="96.0" layoutY="415.0" prefHeight="26.0" prefWidth="174.0"
+                               text="Cuộc trò chuyện mới" textFill="WHITE">
                             <font>
-                                <Font name="SansSerif Regular" size="17.0" />
+                                <Font name="SansSerif Regular" size="17.0"/>
                             </font>
                             <cursor>
-                                <Cursor fx:constant="HAND" />
+                                <Cursor fx:constant="HAND"/>
                             </cursor>
                         </Label>
-                        <ImageView fitHeight="24.0" fitWidth="23.0" layoutX="62.0" layoutY="418.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="24.0" fitWidth="23.0" layoutX="62.0" layoutY="418.0" pickOnBounds="true"
+                                   preserveRatio="true">
                             <image>
-                                <Image url="@../../../img/add.png" />
+                                <Image url="@../../../img/add.png"/>
                             </image>
                             <cursor>
-                                <Cursor fx:constant="HAND" />
+                                <Cursor fx:constant="HAND"/>
                             </cursor>
                         </ImageView>
-                        <ScrollPane layoutX="40.0" layoutY="89.0" prefHeight="296.0" prefWidth="280.0" styleClass="inputField">
+                        <ScrollPane layoutX="40.0" layoutY="89.0" prefHeight="296.0" prefWidth="280.0"
+                                    styleClass="inputField">
                             <content>
-                                <VBox fx:id="conversationCon" prefHeight="265.0" prefWidth="246.0" />
+                                <VBox fx:id="conversationCon" prefHeight="265.0" prefWidth="246.0"/>
                             </content>
                         </ScrollPane>
-                  <ImageView fitHeight="24.0" fitWidth="18.0" layoutX="47.0" layoutY="484.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../img/delete1.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="31.0" fitWidth="30.0" layoutX="148.0" layoutY="479.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../img/Pen.png" />
-                     </image>
-                  </ImageView>
-                  <Label layoutX="84.0" layoutY="485.0" onMouseClicked="#deleteConversation" text="Xóa" textFill="#ed3737" fx:id="xoa" />
-                  <Label fx:id="doiten" layoutX="192.0" layoutY="485.0" onMouseClicked="#RenameConversation" text="Đổi tên" textFill="WHITE" />
+                        <ImageView fitHeight="24.0" fitWidth="18.0" layoutX="47.0" layoutY="484.0" pickOnBounds="true"
+                                   preserveRatio="true">
+                            <image>
+                                <Image url="@../../../img/delete1.png"/>
+                            </image>
+                        </ImageView>
+                        <ImageView fitHeight="31.0" fitWidth="30.0" layoutX="148.0" layoutY="479.0" pickOnBounds="true"
+                                   preserveRatio="true">
+                            <image>
+                                <Image url="@../../../img/Pen.png"/>
+                            </image>
+                        </ImageView>
+                        <Label layoutX="84.0" layoutY="485.0" onMouseClicked="#deleteConversation" text="Xóa"
+                               textFill="#ed3737" fx:id="xoa"/>
+                        <Label fx:id="doiten" layoutX="192.0" layoutY="485.0" onMouseClicked="#RenameConversation"
+                               text="Đổi tên" textFill="WHITE"/>
                     </children>
                 </AnchorPane>
 

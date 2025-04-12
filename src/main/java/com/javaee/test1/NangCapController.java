@@ -29,10 +29,10 @@ public class NangCapController {
     private UserSession userSessịon;
 
     public void setUserSession(UserSession userSession) {
-    this.userSessịon = userSession;
-    this.userDAO = new UserDAO(); // ← KHỞI TẠO ở đây là đủ
-}
-    
+        this.userSessịon = userSession;
+        this.userDAO = new UserDAO(); // ← KHỞI TẠO ở đây là đủ
+    }
+
     @FXML
     public void setData() {
         userSessịon.getUsername();

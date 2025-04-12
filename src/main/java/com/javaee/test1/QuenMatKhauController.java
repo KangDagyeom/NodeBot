@@ -12,11 +12,16 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.IOException;
 
 /**
  * @author xinch
@@ -102,7 +107,17 @@ public class QuenMatKhauController {
 //    }
     @FXML
     private void requestOTP() {
-        String email = txtEmail.getText();
+        String email = txtEmail.getText().trim();
+
+        if (email.isEmpty() || !email.contains("@")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Lỗi");
+            alert.setHeaderText(null);
+            alert.setContentText("Vui lòng nhập email hợp lệ trước khi nhận OTP!");
+            alert.show();
+            return;
+        }
+
         String otp = EmailService.sendOtp(email);
         if (otp != null) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -116,6 +131,7 @@ public class QuenMatKhauController {
             System.out.println("Lỗi khi gửi OTP!");
         }
     }
+
 
     @FXML
     private void sendOTP() {
@@ -152,4 +168,36 @@ public class QuenMatKhauController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void goToLogin() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("login2.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            // Lấy stage hiện tại từ bất kỳ node nào (mainContainer chẳng hạn)
+            Stage stage = (Stage) mainContainer.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @FXML
+    private void goToSignUp() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("DangKy2.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            Stage stage = (Stage) mainContainer.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

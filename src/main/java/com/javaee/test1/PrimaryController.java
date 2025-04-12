@@ -1,7 +1,7 @@
 package com.javaee.test1;
 
+import com.javaee.test1.controllers.ChatHistorySession;
 import com.javaee.test1.controllers.ChatMessageDAO;
-import com.javaee.test1.controllers.MessageHolder;
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.controllers.UserSession;
 import com.javaee.test1.models.ChatMessage;
@@ -48,7 +48,6 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javafx.stage.Modality;
 
 public class PrimaryController {
 
@@ -93,11 +92,12 @@ public class PrimaryController {
     private String saveTitle;
     private AsyncHttpClient client = new DefaultAsyncHttpClient();
     private String currentConversationId;
-    
+
     @FXML
     private Label doiten;
     @FXML
     private Label xoa;
+
     public void savedTitle(String currentTitle) {
         saveTitle = currentTitle;
     }
@@ -140,33 +140,33 @@ public class PrimaryController {
         chatBox.setMinHeight(Region.USE_PREF_SIZE);
         chatBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
         chatBox.setFillWidth(true);
-        themCuocHoiThoaiMoi();
-        String timestamp = new SimpleDateFormat("HH:mm").format(new Date());
-        String message = MessageHolder.getInstance().getLastMessage();
-        chatMessageDAO.saveMessageToDB(userDAO.getConversationIdByTitle(saveTitle), // conversationId
-                userDAO.getUserIdByUsername(session.getUsername()), // senderId
-                "user", // senderType
-                message // Nội dung tin nhắn
-        );
-        addMessageToChat(message, timestamp, true, false);
-        sendResponse(message);
-        System.out.println("User đã nhập: " + message);
+//        themCuocHoiThoaiMoi();
+//        String timestamp = new SimpleDateFormat("HH:mm").format(new Date());
+//        String message = MessageHolder.getInstance().getLastMessage();
+//        chatMessageDAO.saveMessageToDB(userDAO.getConversationIdByTitle(saveTitle), // conversationId
+//                userDAO.getUserIdByUsername(session.getUsername()), // senderId
+//                "user", // senderType
+//                message // Nội dung tin nhắn
+//        );
+//        addMessageToChat(message, timestamp, true, false);
+//        sendResponse(message);
+//        System.out.println("User đã nhập: " + message);
 
         chatBox.heightProperty().addListener((obs, oldVal, newVal) -> {
             Platform.runLater(() -> {
                 scrollPane.setVvalue(1.0); // Cuộn xuống dòng cuối cùng
             });
         });
-        
+
         labelNangcap.setOnMouseClicked(event -> openUpgradePlan());
 
         //gán sự kiện cho xóa hết cuộc hội thoại
         labelXoahoithoai.setOnMouseClicked(event -> deleteall());
 
         labelLogout.setOnMouseClicked(event -> handleLogout(event));
-        
+
         doiten.setOnMouseClicked(event -> RenameConversation());
-        
+
         xoa.setOnMouseClicked(event -> deleteConversation());
     }
 
@@ -531,13 +531,22 @@ public class PrimaryController {
 
             conversationLabel.setOnMouseClicked(event -> {
                 savedTitle(conversationLabel.getText());
-                loadChatHistory(userDAO.getConversationIdByTitle(saveTitle));
-
+                ChatHistorySession chatHistorySession = ChatHistorySession.getInstance();
+                chatHistorySession.setChatHistoryInfo(
+                        userDAO.getConversationIdByTitle(saveTitle),
+                        userDAO.getUserIdByUsername(session.getUsername()),
+                        saveTitle
+                );
                 System.out.println(saveTitle);
             });
 
             conversationCon.getChildren().add(conversationLabel);
+            FadeTransition ft = new FadeTransition(Duration.millis(300), conversationLabel);
+            ft.setFromValue(0.0);
+            ft.setToValue(1.0);
+            ft.play();
         }
+
 
     }
 
@@ -968,6 +977,7 @@ public class PrimaryController {
             e.printStackTrace();
         }
     }
+
     @FXML
     private void openEditProfile() {
         try {
@@ -983,7 +993,7 @@ public class PrimaryController {
             e.printStackTrace();
         }
     }
-    
+
     //==========
     //Delete
     @FXML
@@ -993,7 +1003,8 @@ public class PrimaryController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/Thongbaoxoacuoctrochuyen.fxml"));
             Parent root = loader.load();
-
+            ThongBaoXoaCuocTroChuyenController controller = loader.getController();
+            controller.setPrimaryController(this);
             Stage stage = new Stage();
             stage.setTitle("Delete");
             stage.setScene(new Scene(root));
@@ -1005,6 +1016,7 @@ public class PrimaryController {
             e.printStackTrace();
         }
     }
+
     //==========
     //Đổi tên
     @FXML
@@ -1014,7 +1026,8 @@ public class PrimaryController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/Thongbaodoiten.fxml"));
             Parent root = loader.load();
-
+            DoiTenCuocHoiThoaiController controller = loader.getController();
+            controller.setPrimaryController(this);
             Stage stage = new Stage();
             stage.setTitle("Rename");
             stage.setScene(new Scene(root));

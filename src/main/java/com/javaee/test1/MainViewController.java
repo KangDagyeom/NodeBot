@@ -323,8 +323,7 @@ public class MainViewController {
                 conversationLabel.setGraphic(imageView1);
                 conversationLabel.setContentDisplay(ContentDisplay.LEFT);
             });
-            imageView2.setOnMouseClicked(event -> {
-            });
+
             conversationLabel.setOnMouseClicked(event -> {
                 Platform.runLater(() -> {
                     try {
@@ -337,7 +336,7 @@ public class MainViewController {
                         Stage currentStage = (Stage) conversationLabel.getScene().getWindow();
                         currentStage.setScene(newScene);
                         currentStage.centerOnScreen();
-                        currentStage.setTitle("Giao Diện Chính");
+                        currentStage.setTitle("Home");
                         currentStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/Node_logo.jpg")));
                         currentStage.setResizable(false);
 

@@ -7,6 +7,7 @@ package com.javaee.test1;
 import com.javaee.test1.controllers.ChatHistorySession;
 import com.javaee.test1.controllers.UserDAO;
 import com.javaee.test1.controllers.UserSession;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -28,14 +29,14 @@ public class ThongBaoXoaCuocTroChuyenController {
     private Button btnConfirm;
     private String conversationID;
     private UserDAO chatDAO = new UserDAO(); // Vẫn giữ UserDAO như bạn yêu cầu
-    private MainViewController mainViewController;
+    private PrimaryController primaryController;
 
     public void setConversationID(String id) {
         this.conversationID = id;
     }
 
-    public void setMainViewController(MainViewController controller) {
-        this.mainViewController = controller;
+    public void setPrimaryController(PrimaryController controller) {
+        this.primaryController = controller;
     }
 
     @FXML
@@ -49,7 +50,7 @@ public class ThongBaoXoaCuocTroChuyenController {
         // Lấy ID cuộc hội thoại hiện tại
         ChatHistorySession chatHistorySession = ChatHistorySession.getInstance();
         UUID conversationId = chatHistorySession.getConversationId();
-
+        System.out.println(conversationId);
         if (conversationId == null) {
             showAlert("Lỗi", "Không tìm thấy cuộc trò chuyện!", Alert.AlertType.ERROR);
             return;
@@ -64,10 +65,17 @@ public class ThongBaoXoaCuocTroChuyenController {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             if (chatDAO.deleteConversation(conversationId)) {
-                showAlert("Thành công", "Cuộc trò chuyện đã được xóa!", Alert.AlertType.INFORMATION);
-                mainViewController.loadConversations(chatDAO.getUserIdByUsername(userSession.getUsername()));
+                Platform.runLater(() -> {
+                    try {
 
-                // Đóng cửa sổ sau khi xóa thành công
+                        primaryController.loadConversations(userSession.getUserId());
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+
+
                 Stage stage = (Stage) btnConfirm.getScene().getWindow();
                 stage.close();
             } else {

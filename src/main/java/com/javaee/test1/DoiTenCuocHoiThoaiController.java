@@ -29,7 +29,12 @@ public class DoiTenCuocHoiThoaiController {
     private UserDAO chatDAO = new UserDAO(); // Vẫn giữ UserDAO như bạn yêu cầu
     @FXML
     private VBox chatBox; // Đây là VBox chứa các hội thoại
-    private MainViewController mainViewController;
+    private PrimaryController primaryController;
+
+
+    public void setPrimaryController(PrimaryController controller) {
+        this.primaryController = controller;
+    }
 
     @FXML
     private void handleCancel() {
@@ -37,9 +42,6 @@ public class DoiTenCuocHoiThoaiController {
         stage.close();
     }
 
-    public void setMainViewController(MainViewController controller) {
-        this.mainViewController = controller;
-    }
 
     @FXML
     private void handleConfirm() {
@@ -53,12 +55,10 @@ public class DoiTenCuocHoiThoaiController {
         ChatHistorySession chatHistorySession = ChatHistorySession.getInstance();
         if (chatDAO.updateUserID(chatHistorySession.getConversationId(), newTitle)) {
             showAlert("Thành công", "Tên cuộc hội thoại đã được cập nhật thành công!", Alert.AlertType.INFORMATION);
-            mainViewController.loadConversations(chatDAO.getUserIdByUsername(userSession.getUsername()));
+            primaryController.loadConversations(chatDAO.getUserIdByUsername(userSession.getUsername()));
 
             // ✅ Gọi lại hàm loadAllData nếu controller chính đã được truyền vào
-            if (mainViewController != null) {
-                mainViewController.loadAllData();
-            }
+
 
             Stage stage = (Stage) btnConfirm.getScene().getWindow();
             stage.close();

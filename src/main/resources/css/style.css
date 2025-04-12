@@ -89,22 +89,17 @@
     -fx-background-color: #125036;
 }
 .red-button {
-    -fx-background-color: linear-gradient(to bottom, #9a0101, #7e2e09); /* Gradient từ trên xuống */
-    -fx-background-radius: 30;          /* Bo góc */
-    -fx-text-fill: white;               /* Màu chữ trắng */
-    -fx-padding: 10 20;                 /* Kích thước lề trong nút */
-    -fx-cursor: hand;                   /* Biến con trỏ thành bàn tay khi hover */
-    -fx-background-radius: 18;          /* Bo tròn viền */
-    -fx-effect: dropshadow(gaussian, rgba(150, 45, 0, 0.4), 10, 0.5, 0, 0); /* Viền mờ mặc định */
-
-    /* Thêm hiệu ứng transition mềm mại */
-    -fx-transition: all 0.2s ease-in-out;
+    -fx-background-color: #d32f2f;       /* Màu đỏ đặc trưng */
+    -fx-background-radius: 18;           /* Bo tròn viền */
+    -fx-text-fill: white;                /* Màu chữ trắng */
+    -fx-padding: 10 20;                  /* Kích thước lề trong nút */
 }
 
 /* Khi di chuyển chuột vào nút (hover) sẽ phóng to 1.1 lần */
 .red-button:hover {
     -fx-scale-x: 1.1; /* Phóng to theo chiều ngang */
     -fx-scale-y: 1.1; /* Phóng to theo chiều dọc */
+    -fx-background-color: #b71c1c;
 }
 
 /* Khi bấm vào nút (trạng thái pressed) sẽ phóng to 1.1 lần */
@@ -144,5 +139,19 @@
         -fx-border-color: transparent;
         -fx-text-fill: white; /* Giữ màu chữ trắng để dễ đọc */
 }
+.transparent-button4 {
+     -fx-background-color: transparent; /* Nền trong suốt */
+     -fx-background-radius: 50;          /* Bo góc */
+     -fx-background-radius: 50;          /* Bo tròn viền */
+     -fx-border-color: white;           /* Viền màu trắng */
+     -fx-border-width: 1px;             /* Độ dày viền */
+     -fx-text-fill: white;              /* Màu chữ */
+     -fx-transition: all 0.2s;          /* Tạo hiệu ứng mượt */
+ }
 
+ /* Khi hover: phóng to */
+ .transparent-button4:hover {
+     -fx-scale-x: 1.1; /* Phóng to theo chiều ngang */
+     -fx-scale-y: 1.1; /* Phóng to theo chiều dọc */
+ }
 
