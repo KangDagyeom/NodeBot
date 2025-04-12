@@ -6,16 +6,24 @@ package com.javaee.test1;
 
 import com.javaee.test1.controllers.EmailService;
 import com.javaee.test1.controllers.UserDAO;
+import java.io.IOException;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -29,6 +37,10 @@ public class QuenMatKhauController {
     private TextField txtMatKhauMoi;
     @FXML
     private TextField txtOTP;
+    @FXML
+    private Button buttonLogin;
+    @FXML
+    private Button buttonDangKy;
     @FXML
     private AnchorPane mainContainer;
     private String sentOTP;
@@ -150,6 +162,41 @@ public class QuenMatKhauController {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+    @FXML
+    private void handleDangKy(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("DangKy2.fxml"));
+            Parent root = loader.load();
+
+            Scene newScene = new Scene(root);
+            Stage stage = (Stage) buttonDangKy.getScene().getWindow();
+            stage.setScene(newScene);
+            stage.setTitle("Sign up");
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/img/Node_logo.jpg")));
+            stage.centerOnScreen(); // 🔹 Căn giữa màn hình
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            
+        }
+    }
+    
+    @FXML
+    private void handleLoginLabelClick(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("login2.fxml"));
+            Parent root = loader.load();
+
+            Scene newScene = new Scene(root);
+            Stage stage = (Stage) buttonLogin.getScene().getWindow(); // Lấy từ Label
+            stage.setScene(newScene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            
         }
     }
 }
