@@ -1,9 +1,6 @@
 package com.javaee.test1;
 
-import com.javaee.test1.controllers.ChatHistorySession;
-import com.javaee.test1.controllers.ChatMessageDAO;
-import com.javaee.test1.controllers.UserDAO;
-import com.javaee.test1.controllers.UserSession;
+import com.javaee.test1.controllers.*;
 import com.javaee.test1.models.ChatMessage;
 import javafx.animation.*;
 import javafx.application.Platform;
@@ -104,70 +101,134 @@ public class PrimaryController {
 
     @FXML
     public void initialize() {
-        Platform.runLater(() -> {
-            Duration delay = Duration.millis(150);
-            int index = 0;
 
-            for (Node node : mainContainer.getChildren()) {
-                // Ban đầu ẩn đi
-                node.setOpacity(0);
-                node.setTranslateY(20);
 
-                // Hiệu ứng trượt và mờ
-                TranslateTransition slide = new TranslateTransition(Duration.millis(300), node);
-                slide.setFromY(20);
-                slide.setToY(0);
-                slide.setInterpolator(Interpolator.EASE_OUT);
-
-                FadeTransition fade = new FadeTransition(Duration.millis(300), node);
-                fade.setFromValue(0);
-                fade.setToValue(1);
-
-                ParallelTransition transition = new ParallelTransition(slide, fade);
-                transition.setDelay(delay.multiply(index));
-                transition.play();
-
-                index++;
-            }
-        });
-        loadUserInfo();
-        System.out.println("Username: " + session.getUsername());
-        System.out.println("Avatar: " + session.getAvatar());
-        System.out.println("Subscription Plan: " + session.getSubscriptionPlan());
-
-        scrollPane.setFitToWidth(true);
-        loadConversations(userDAO.getUserIdByUsername(session.getUsername()));
-        chatBox.setMinHeight(Region.USE_PREF_SIZE);
-        chatBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
-        chatBox.setFillWidth(true);
-//        themCuocHoiThoaiMoi();
-//        String timestamp = new SimpleDateFormat("HH:mm").format(new Date());
-//        String message = MessageHolder.getInstance().getLastMessage();
-//        chatMessageDAO.saveMessageToDB(userDAO.getConversationIdByTitle(saveTitle), // conversationId
-//                userDAO.getUserIdByUsername(session.getUsername()), // senderId
-//                "user", // senderType
-//                message // Nội dung tin nhắn
-//        );
-//        addMessageToChat(message, timestamp, true, false);
-//        sendResponse(message);
-//        System.out.println("User đã nhập: " + message);
-
-        chatBox.heightProperty().addListener((obs, oldVal, newVal) -> {
+        String message = MessageHolder.getInstance().getLastMessage();
+        if (message == null) {
             Platform.runLater(() -> {
-                scrollPane.setVvalue(1.0); // Cuộn xuống dòng cuối cùng
+                Duration delay = Duration.millis(150);
+                int index = 0;
+
+                for (Node node : mainContainer.getChildren()) {
+                    // Ban đầu ẩn đi
+                    node.setOpacity(0);
+                    node.setTranslateY(20);
+
+                    // Hiệu ứng trượt và mờ
+                    TranslateTransition slide = new TranslateTransition(Duration.millis(300), node);
+                    slide.setFromY(20);
+                    slide.setToY(0);
+                    slide.setInterpolator(Interpolator.EASE_OUT);
+
+                    FadeTransition fade = new FadeTransition(Duration.millis(300), node);
+                    fade.setFromValue(0);
+                    fade.setToValue(1);
+
+                    ParallelTransition transition = new ParallelTransition(slide, fade);
+                    transition.setDelay(delay.multiply(index));
+                    transition.play();
+
+                    index++;
+                }
             });
-        });
+            loadUserInfo();
+            System.out.println("Username: " + session.getUsername());
+            System.out.println("Avatar: " + session.getAvatar());
+            System.out.println("Subscription Plan: " + session.getSubscriptionPlan());
 
-        labelNangcap.setOnMouseClicked(event -> openUpgradePlan());
+            scrollPane.setFitToWidth(true);
+            loadConversations(userDAO.getUserIdByUsername(session.getUsername()));
+            ChatHistorySession chatHistorySession = ChatHistorySession.getInstance();
 
-        //gán sự kiện cho xóa hết cuộc hội thoại
-        labelXoahoithoai.setOnMouseClicked(event -> deleteall());
+            loadChatHistory(chatHistorySession.getConversationId());
+            chatBox.setMinHeight(Region.USE_PREF_SIZE);
+            chatBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            chatBox.setFillWidth(true);
 
-        labelLogout.setOnMouseClicked(event -> handleLogout(event));
 
-        doiten.setOnMouseClicked(event -> RenameConversation());
+            chatBox.heightProperty().addListener((obs, oldVal, newVal) -> {
+                Platform.runLater(() -> {
+                    scrollPane.setVvalue(1.0); // Cuộn xuống dòng cuối cùng
+                });
+            });
 
-        xoa.setOnMouseClicked(event -> deleteConversation());
+            labelNangcap.setOnMouseClicked(event -> openUpgradePlan());
+
+            //gán sự kiện cho xóa hết cuộc hội thoại
+            labelXoahoithoai.setOnMouseClicked(event -> deleteall());
+
+            labelLogout.setOnMouseClicked(event -> handleLogout(event));
+
+            doiten.setOnMouseClicked(event -> RenameConversation());
+
+            xoa.setOnMouseClicked(event -> deleteConversation());
+        } else {
+            Platform.runLater(() -> {
+                Duration delay = Duration.millis(150);
+                int index = 0;
+
+                for (Node node : mainContainer.getChildren()) {
+                    // Ban đầu ẩn đi
+                    node.setOpacity(0);
+                    node.setTranslateY(20);
+
+                    // Hiệu ứng trượt và mờ
+                    TranslateTransition slide = new TranslateTransition(Duration.millis(300), node);
+                    slide.setFromY(20);
+                    slide.setToY(0);
+                    slide.setInterpolator(Interpolator.EASE_OUT);
+
+                    FadeTransition fade = new FadeTransition(Duration.millis(300), node);
+                    fade.setFromValue(0);
+                    fade.setToValue(1);
+
+                    ParallelTransition transition = new ParallelTransition(slide, fade);
+                    transition.setDelay(delay.multiply(index));
+                    transition.play();
+
+                    index++;
+                }
+            });
+            loadUserInfo();
+            System.out.println("Username: " + session.getUsername());
+            System.out.println("Avatar: " + session.getAvatar());
+            System.out.println("Subscription Plan: " + session.getSubscriptionPlan());
+
+            scrollPane.setFitToWidth(true);
+            loadConversations(userDAO.getUserIdByUsername(session.getUsername()));
+            chatBox.setMinHeight(Region.USE_PREF_SIZE);
+            chatBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            chatBox.setFillWidth(true);
+
+
+            chatBox.heightProperty().addListener((obs, oldVal, newVal) -> {
+                Platform.runLater(() -> {
+                    scrollPane.setVvalue(1.0); // Cuộn xuống dòng cuối cùng
+                });
+            });
+
+            labelNangcap.setOnMouseClicked(event -> openUpgradePlan());
+
+            //gán sự kiện cho xóa hết cuộc hội thoại
+            labelXoahoithoai.setOnMouseClicked(event -> deleteall());
+
+            labelLogout.setOnMouseClicked(event -> handleLogout(event));
+
+            doiten.setOnMouseClicked(event -> RenameConversation());
+
+            xoa.setOnMouseClicked(event -> deleteConversation());
+            themCuocHoiThoaiMoi();
+            String timestamp = new SimpleDateFormat("HH:mm").format(new Date());
+            chatMessageDAO.saveMessageToDB(userDAO.getConversationIdByTitle(saveTitle), // conversationId
+                    userDAO.getUserIdByUsername(session.getUsername()), // senderId
+                    "user", // senderType
+                    message // Nội dung tin nhắn
+            );
+            System.out.println("User đã nhập: " + message);
+            addMessageToChat(message, timestamp, true, false);
+            sendResponse(message);
+        }
+
     }
 
     @FXML
@@ -537,6 +598,7 @@ public class PrimaryController {
                         userDAO.getUserIdByUsername(session.getUsername()),
                         saveTitle
                 );
+                loadChatHistory(chatHistorySession.getConversationId());
                 System.out.println(saveTitle);
             });
 

@@ -1,123 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="668.0" maxWidth="-Infinity" minHeight="668.0" minWidth="-Infinity"
-            prefHeight="668.0" prefWidth="1202.0" stylesheets="@../../../css/style.css"
-            xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.javaee.test1.DoiThongTinCaNhan">
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="668.0" maxWidth="-Infinity" minHeight="668.0" minWidth="-Infinity" prefHeight="668.0" prefWidth="1202.0" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javaee.test1.DoiThongTinCaNhan">
     <left>
 
-        <AnchorPane fx:id="mainContainer" prefHeight="671.0" prefWidth="1209.0" styleClass="black-background"
-                    BorderPane.alignment="CENTER">
+        <AnchorPane fx:id="mainContainer" prefHeight="671.0" prefWidth="1209.0" styleClass="black-background" BorderPane.alignment="CENTER">
             <children>
-                <AnchorPane layoutX="-15.0" layoutY="3.0" maxHeight="672.0" maxWidth="342.0" minHeight="672.0"
-                            minWidth="342.0" prefHeight="672.0" prefWidth="342.0" styleClass="gray-background">
+                <AnchorPane layoutX="-15.0" layoutY="3.0" maxHeight="672.0" maxWidth="342.0" minHeight="672.0" minWidth="342.0" prefHeight="672.0" prefWidth="342.0" styleClass="gray-background">
                     <children>
-                        <ImageView fitHeight="57.0" fitWidth="281.0" layoutX="47.0" layoutY="18.0" pickOnBounds="true"
-                                   preserveRatio="true">
+                        <ImageView fitHeight="57.0" fitWidth="281.0" layoutX="47.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../../img/Account-container.png"/>
+                                <Image url="@../../../img/Account-container.png" />
                             </image>
                         </ImageView>
-                        <ImageView fx:id="imgAvatar" fitHeight="36.0" fitWidth="36.0" layoutX="67.0" layoutY="23.0"
-                                   onMouseClicked="#openEditProfile" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgAvatar" fitHeight="36.0" fitWidth="36.0" layoutX="67.0" layoutY="23.0" onMouseClicked="#openEditProfile" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../../img/avatar.png"/>
+                                <Image url="@../../../img/avatar.png" />
                             </image>
                             <cursor>
-                                <Cursor fx:constant="HAND"/>
+                                <Cursor fx:constant="HAND" />
                             </cursor>
                         </ImageView>
                         <Label fx:id="txtTenND" layoutX="111.0" layoutY="22.0" text="Node" textFill="WHITE">
                             <font>
-                                <Font size="18.0"/>
+                                <Font size="18.0" />
                             </font>
                         </Label>
-                        <Label fx:id="txtTaiKhoanND" layoutX="111.0" layoutY="47.0" text="Tài khoản miễn phí "
-                               textFill="#ffffffa8">
+                        <Label fx:id="txtTaiKhoanND" layoutX="111.0" layoutY="47.0" text="Tài khoản miễn phí " textFill="#ffffffa8">
                             <font>
-                                <Font size="14.0"/>
+                                <Font size="14.0" />
                             </font>
                         </Label>
-                        <Button layoutX="38.0" layoutY="401.0" mnemonicParsing="false" prefHeight="55.0"
-                                prefWidth="286.0" styleClass="green-button" textAlignment="RIGHT" textFill="WHITE">
+                        <Button layoutX="38.0" layoutY="401.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="286.0" styleClass="green-button" textAlignment="RIGHT" textFill="WHITE">
                             <font>
-                                <Font size="16.0"/>
+                                <Font size="16.0" />
                             </font>
                             <cursor>
-                                <Cursor fx:constant="HAND"/>
+                                <Cursor fx:constant="HAND" />
                             </cursor>
                         </Button>
-                        <ImageView fitHeight="50.0" fitWidth="250.0" layoutX="30.0" layoutY="528.0" pickOnBounds="true"
-                                   preserveRatio="true">
+                        <ImageView fitHeight="50.0" fitWidth="250.0" layoutX="30.0" layoutY="528.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../../img/delete.png"/>
+                                <Image url="@../../../img/delete.png" />
                             </image>
                         </ImageView>
-                        <Label fx:id="labelXoahoithoai" layoutX="74.0" layoutY="537.0" onMouseClicked="#handleLogout"
-                               text="Xóa tất cả các cuộc hội thoại" textFill="WHITE">
+                        <Label fx:id="labelXoahoithoai" layoutX="74.0" layoutY="537.0" onMouseClicked="#handleLogout" text="Xóa tất cả các cuộc hội thoại" textFill="WHITE">
                             <font>
-                                <Font size="14.0"/>
+                                <Font size="14.0" />
                             </font>
                             <cursor>
-                                <Cursor fx:constant="HAND"/>
+                                <Cursor fx:constant="HAND" />
                             </cursor>
                         </Label>
-                        <ImageView fitHeight="50.0" fitWidth="250.0" layoutX="30.0" layoutY="572.0" pickOnBounds="true"
-                                   preserveRatio="true">
+                        <ImageView fitHeight="50.0" fitWidth="250.0" layoutX="30.0" layoutY="572.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../../img/pro.png"/>
+                                <Image url="@../../../img/pro.png" />
                             </image>
                             <cursor>
-                                <Cursor fx:constant="HAND"/>
+                                <Cursor fx:constant="HAND" />
                             </cursor>
                         </ImageView>
-                        <ImageView fitHeight="50.0" fitWidth="250.0" layoutX="31.0" layoutY="615.0" pickOnBounds="true"
-                                   preserveRatio="true">
+                        <ImageView fitHeight="50.0" fitWidth="250.0" layoutX="31.0" layoutY="615.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../../img/logout.png"/>
+                                <Image url="@../../../img/logout.png" />
                             </image>
                             <cursor>
-                                <Cursor fx:constant="HAND"/>
+                                <Cursor fx:constant="HAND" />
                             </cursor>
                         </ImageView>
-                        <Label layoutX="96.0" layoutY="415.0" prefHeight="26.0" prefWidth="174.0"
-                               text="Cuộc trò chuyện mới" textFill="WHITE">
+                        <Label layoutX="96.0" layoutY="415.0" prefHeight="26.0" prefWidth="174.0" text="Cuộc trò chuyện mới" textFill="WHITE">
                             <font>
-                                <Font name="SansSerif Regular" size="17.0"/>
+                                <Font name="SansSerif Regular" size="17.0" />
                             </font>
                             <cursor>
-                                <Cursor fx:constant="HAND"/>
+                                <Cursor fx:constant="HAND" />
                             </cursor>
                         </Label>
-                        <ImageView fitHeight="24.0" fitWidth="23.0" layoutX="62.0" layoutY="418.0" pickOnBounds="true"
-                                   preserveRatio="true">
+                        <ImageView fitHeight="24.0" fitWidth="23.0" layoutX="62.0" layoutY="418.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../../img/add.png"/>
+                                <Image url="@../../../img/add.png" />
                             </image>
                             <cursor>
-                                <Cursor fx:constant="HAND"/>
+                                <Cursor fx:constant="HAND" />
                             </cursor>
                         </ImageView>
-                        <ScrollPane layoutX="40.0" layoutY="89.0" prefHeight="296.0" prefWidth="280.0"
-                                    styleClass="inputField">
+                        <ScrollPane layoutX="40.0" layoutY="89.0" prefHeight="296.0" prefWidth="280.0" styleClass="inputField">
                             <content>
-                                <VBox fx:id="conversationCon" prefHeight="265.0" prefWidth="246.0"/>
+                                <VBox fx:id="conversationCon" prefHeight="265.0" prefWidth="246.0" />
                             </content>
                         </ScrollPane>
-                        <Label fx:id="labelNangcap" layoutX="73.0" layoutY="583.0" onMouseClicked="#openUpgradePlan"
-                               text="Nâng cấp lên Node Plus " textFill="WHITE">
+                        <Label fx:id="labelNangcap" layoutX="73.0" layoutY="583.0" onMouseClicked="#openUpgradePlan" text="Nâng cấp lên Node Plus " textFill="WHITE">
                             <font>
-                                <Font size="14.0"/>
+                                <Font size="14.0" />
                             </font>
                         </Label>
-                        <Label fx:id="labelLogout" layoutX="73.0" layoutY="626.0" onMouseClicked="#handleLogout"
-                               text="Log out" textFill="#dc1616">
+                        <Label fx:id="labelLogout" layoutX="73.0" layoutY="626.0" onMouseClicked="#handleLogout" text="Log out" textFill="#dc1616">
                             <font>
-                                <Font size="14.0"/>
+                                <Font size="14.0" />
                             </font>
                         </Label>
                     </children>
@@ -125,95 +116,75 @@
 
                 <VBox layoutX="334.0" layoutY="1.0" prefHeight="668.0" prefWidth="872.0">
                     <children>
-                        <VBox fx:id="chatBox" prefHeight="668.0" prefWidth="865.0"/>
+                        <VBox fx:id="chatBox" prefHeight="668.0" prefWidth="865.0" />
                     </children>
                 </VBox>
 
 
-                <ImageView fitHeight="636.0" fitWidth="850.0" layoutX="342.0" layoutY="21.0" pickOnBounds="true"
-                           preserveRatio="true">
+                <ImageView fitHeight="636.0" fitWidth="850.0" layoutX="342.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../../img/Main-container.png"/>
+                        <Image url="@../../../img/Main-container.png" />
                     </image>
                 </ImageView>
-                <ImageView fitHeight="124.0" fitWidth="807.0" layoutX="365.0" layoutY="55.0" pickOnBounds="true"
-                           preserveRatio="true">
+                <ImageView fitHeight="124.0" fitWidth="807.0" layoutX="365.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../../img/thongtin1.png"/>
+                        <Image url="@../../../img/thongtin1.png" />
                     </image>
                 </ImageView>
-                <ImageView fitHeight="282.0" fitWidth="810.0" layoutX="363.0" layoutY="209.0" pickOnBounds="true"
-                           preserveRatio="true">
+                <ImageView fitHeight="282.0" fitWidth="810.0" layoutX="363.0" layoutY="209.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../../img/thongtin2.png"/>
+                        <Image url="@../../../img/thongtin2.png" />
                     </image>
                 </ImageView>
                 <Label layoutX="376.0" layoutY="60.0" text="Thông Tin Cá Nhân" textFill="WHITE">
                     <font>
-                        <Font name="System Bold" size="18.0"/>
+                        <Font name="System Bold" size="18.0" />
                     </font>
                 </Label>
-                <Label layoutX="377.0" layoutY="91.0" prefHeight="34.0" prefWidth="239.0"
-                       text="Đây là thông tin riêng tư và sẽ không được chia sẻ cho người khác." textFill="WHITE"
-                       wrapText="true"/>
+                <Label layoutX="377.0" layoutY="91.0" prefHeight="34.0" prefWidth="239.0" text="Đây là thông tin riêng tư và sẽ không được chia sẻ cho người khác." textFill="WHITE" wrapText="true" />
                 <Label layoutX="376.0" layoutY="221.0" text="Đăng nhập thông tin" textFill="WHITE">
                     <font>
-                        <Font name="System Bold" size="18.0"/>
+                        <Font name="System Bold" size="18.0" />
                     </font>
                 </Label>
-                <Label layoutX="377.0" layoutY="252.0" prefHeight="58.0" prefWidth="239.0"
-                       text="Bạn nên thay đổi mật khẩu định kỳ để giảm thiểu khả năng tài khoản bị truy cập bởi kẻ gian."
-                       textFill="WHITE" wrapText="true"/>
-                <TextField fx:id="txtEmailMoi" layoutX="644.0" layoutY="66.0" prefHeight="47.0" prefWidth="508.0"
-                           promptText=" Email@gmail.com"/>
-                <Label layoutX="653.0" layoutY="59.0" prefHeight="34.0" prefWidth="239.0" text="Địa chỉ Email"
-                       textFill="WHITE" wrapText="true">
+                <Label layoutX="377.0" layoutY="252.0" prefHeight="58.0" prefWidth="239.0" text="Bạn nên thay đổi mật khẩu định kỳ để giảm thiểu khả năng tài khoản bị truy cập bởi kẻ gian." textFill="WHITE" wrapText="true" />
+                <TextField fx:id="txtEmailCu" layoutX="644.0" layoutY="66.0" prefHeight="47.0" prefWidth="508.0" promptText=" Email@gmail.com" />
+                <Label layoutX="653.0" layoutY="59.0" prefHeight="34.0" prefWidth="239.0" text="Địa chỉ Email" textFill="WHITE" wrapText="true">
                     <font>
-                        <Font size="10.0"/>
+                        <Font size="10.0" />
                     </font>
                 </Label>
-                <TextField fx:id="txtUsername" layoutX="644.0" layoutY="220.0" prefHeight="47.0" prefWidth="507.0"
-                           promptText=" Tên người dùng"/>
-                <Label layoutX="654.0" layoutY="213.0" prefHeight="34.0" prefWidth="239.0" text="Tên người dùng"
-                       textFill="WHITE" wrapText="true">
+                <TextField fx:id="txtUsername" layoutX="644.0" layoutY="220.0" prefHeight="47.0" prefWidth="507.0" promptText=" Tên người dùng" />
+                <Label layoutX="654.0" layoutY="213.0" prefHeight="34.0" prefWidth="239.0" text="Tên người dùng" textFill="WHITE" wrapText="true">
                     <font>
-                        <Font size="10.0"/>
+                        <Font size="10.0" />
                     </font>
                 </Label>
-                <Label layoutX="645.0" layoutY="265.0" prefHeight="34.0" prefWidth="239.0" text="Đổi mật khẩu"
-                       textFill="WHITE" wrapText="true">
+                <Label layoutX="645.0" layoutY="265.0" prefHeight="34.0" prefWidth="239.0" text="Đổi mật khẩu" textFill="WHITE" wrapText="true">
                     <font>
-                        <Font size="16.0"/>
+                        <Font size="16.0" />
                     </font>
                 </Label>
-                <Button fx:id="btnLuuVaXacMinh" layoutX="1046.0" layoutY="131.0" mnemonicParsing="false"
-                        onAction="#luuVaXacMinhEmail" styleClass="transparent-button4" text="Lưu và Xác nhận">
+                <Button fx:id="btnLuuVaXacMinh" layoutX="1046.0" layoutY="131.0" mnemonicParsing="false" onAction="#luuVaXacMinhEmail" styleClass="transparent-button4" text="Lưu và Xác nhận">
                     <cursor>
-                        <Cursor fx:constant="HAND"/>
+                        <Cursor fx:constant="HAND" />
                     </cursor>
                 </Button>
-                <Button fx:id="btnLuuThayDoi" layoutX="1046.0" layoutY="454.0" mnemonicParsing="false"
-                        onAction="#luuThayDoi" styleClass="transparent-button4" text="Lưu và Xác nhận">
+                <Button fx:id="btnLuuThayDoi" layoutX="1046.0" layoutY="454.0" mnemonicParsing="false" onAction="#luuThayDoi" styleClass="transparent-button4" text="Lưu và Xác nhận">
                     <cursor>
-                        <Cursor fx:constant="HAND"/>
+                        <Cursor fx:constant="HAND" />
                     </cursor>
                 </Button>
-                <PasswordField fx:id="txtCurrentPassword" layoutX="644.0" layoutY="297.0" prefHeight="47.0"
-                               prefWidth="508.0" promptText="Mật khẩu cũ"/>
-                <PasswordField fx:id="txtNewPassword" layoutX="644.0" layoutY="349.0" prefHeight="47.0"
-                               prefWidth="508.0" promptText="Mật khẩu mới"/>
-                <PasswordField fx:id="txtConfirmPassword" layoutX="644.0" layoutY="402.0" prefHeight="47.0"
-                               prefWidth="508.0" promptText="Nhập lại mật khẩu"/>
-                <TextField fx:id="txtEmailCu" layoutX="645.0" layoutY="122.0" prefHeight="47.0" prefWidth="378.0"
-                           promptText=" Email@gmail.com"/>
-                <Button fx:id="btnXoaNguoiDungNew" layoutX="1022.0" layoutY="609.0" mnemonicParsing="false"
-                        onAction="#xoaNguoiDung" prefHeight="38.0" prefWidth="138.0" styleClass="red-button"
-                        text="Xóa tài khoản">
+                <PasswordField fx:id="txtCurrentPassword" layoutX="644.0" layoutY="297.0" prefHeight="47.0" prefWidth="508.0" promptText="Mật khẩu cũ" />
+                <PasswordField fx:id="txtNewPassword" layoutX="644.0" layoutY="349.0" prefHeight="47.0" prefWidth="508.0" promptText="Mật khẩu mới" />
+                <PasswordField fx:id="txtConfirmPassword" layoutX="644.0" layoutY="402.0" prefHeight="47.0" prefWidth="508.0" promptText="Nhập lại mật khẩu" />
+                <TextField fx:id="txtEmailMoi" layoutX="645.0" layoutY="122.0" prefHeight="47.0" prefWidth="378.0" promptText="Email mới của bạn" />
+                <Button fx:id="btnXoaNguoiDungNew" layoutX="1022.0" layoutY="609.0" mnemonicParsing="false" onAction="#xoaNguoiDung" prefHeight="38.0" prefWidth="138.0" styleClass="red-button" text="Xóa tài khoản">
                     <font>
-                        <Font name="System Bold" size="12.0"/>
+                        <Font name="System Bold" size="12.0" />
                     </font>
                     <cursor>
-                        <Cursor fx:constant="HAND"/>
+                        <Cursor fx:constant="HAND" />
                     </cursor>
                 </Button>
 

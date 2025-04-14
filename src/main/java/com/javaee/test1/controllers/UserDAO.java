@@ -132,18 +132,23 @@ public class UserDAO {
 
     // 1️⃣ Kiểm tra Email cũ có tồn tại không
     public boolean checkEmailExists(String email) {
+        System.out.println("Đang kiểm tra email: [" + email + "]");
         String query = "SELECT COUNT(*) FROM Users WHERE Email = ?";
         try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return rs.getInt(1) > 0;
+                int count = rs.getInt(1);
+                System.out.println("Số lượng kết quả: " + count);
+                return count > 0;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
+
+
 //2️⃣ Cập nhật Email
 
     public boolean updateEmail(String oldEmail, String newEmail) {

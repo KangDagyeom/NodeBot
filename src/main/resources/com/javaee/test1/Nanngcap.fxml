@@ -7,42 +7,34 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="668.0" prefWidth="1187.0" stylesheets="@../../../css/style.css"
-            xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.javaee.test1.NangCapController">
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="668.0" prefWidth="1187.0" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javaee.test1.NangCapController">
     <center>
-        <AnchorPane fx:id="mainContainer" prefHeight="750.0" prefWidth="1000.0" styleClass="gray-background"
-                    BorderPane.alignment="CENTER">
+        <AnchorPane fx:id="mainContainer" prefHeight="750.0" prefWidth="1000.0" styleClass="gray-background" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="basicPlanButton" layoutX="150.0" layoutY="595.0" mnemonicParsing="false"
-                        onAction="#chooseBasicPlan" prefHeight="58.0" prefWidth="278.0" styleClass="green-button"
-                        text="Chuyển sang gói">
+                <Button fx:id="basicPlanButton" layoutX="219.0" layoutY="486.0" mnemonicParsing="false" onAction="#chooseBasicPlan" prefHeight="58.0" prefWidth="269.0" styleClass="green-button" text="Gói hiện tại" textFill="#a8a8a8">
                     <font>
-                        <Font size="25.0"/>
+                        <Font size="25.0" />
                     </font>
                 </Button>
-                <Button fx:id="proPlanButton" layoutX="585.0" layoutY="591.0" mnemonicParsing="false"
-                        onAction="#chooseProPlan" prefHeight="65.0" prefWidth="278.0" styleClass="green-button"
-                        text="Nâng cấp gói">
+                <Button fx:id="proPlanButton" layoutX="695.0" layoutY="485.0" mnemonicParsing="false" onAction="#chooseProPlan" prefHeight="65.0" prefWidth="278.0" styleClass="green-button" text="Nâng cấp gói">
                     <font>
-                        <Font size="25.0"/>
+                        <Font size="25.0" />
                     </font>
                 </Button>
-                <ImageView fitHeight="506.0" fitWidth="442.0" layoutX="620.0" layoutY="58.0" pickOnBounds="true"
-                           preserveRatio="true">
+                <ImageView fx:id="switchToPayment" fitHeight="506.0" fitWidth="442.0" layoutX="620.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../../img/Premiumplan.png"/>
+                        <Image url="@../../../img/Premiumplan.png" />
                     </image>
                 </ImageView>
-                <ImageView fitHeight="502.0" fitWidth="535.0" layoutX="142.0" layoutY="61.0" pickOnBounds="true"
-                           preserveRatio="true">
+                <ImageView fitHeight="502.0" fitWidth="535.0" layoutX="142.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../../img/Freeplan.png"/>
+                        <Image url="@../../../img/Freeplan.png" />
                     </image>
                 </ImageView>
                 <Label layoutX="498.0" layoutY="9.0" text="Nâng cấp gói" textFill="WHITE">
                     <font>
-                        <Font name="SansSerif Regular" size="30.0"/>
+                        <Font name="SansSerif Regular" size="30.0" />
                     </font>
                 </Label>
             </children>

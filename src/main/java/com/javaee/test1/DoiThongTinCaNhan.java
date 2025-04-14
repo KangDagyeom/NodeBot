@@ -178,7 +178,8 @@ public class DoiThongTinCaNhan {
     private void luuVaXacMinhEmail() {
         String oldEmail = txtEmailCu.getText().trim();
         String newEmail = txtEmailMoi.getText().trim();
-
+        System.out.println("Email cũ người dùng nhập: [" + oldEmail + "]");
+        System.out.println("Email mới người dùng nhập: [" + newEmail + "]");
         // Kiểm tra email hợp lệ
         if (newEmail.isEmpty() || !newEmail.contains("@")) {
             showAlert("Lỗi", "Vui lòng nhập địa chỉ email mới hợp lệ!", Alert.AlertType.ERROR);

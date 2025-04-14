@@ -75,6 +75,7 @@ public class MainViewController {
     private AnchorPane mainContainer;
     private String saveTitle;
 
+
     private void loadUserInfo() {
         // Lấy thông tin từ UserSession
 
@@ -179,8 +180,9 @@ public class MainViewController {
 
         labelLogout.setOnMouseClicked(event -> handleLogout(event));
 
-        btnthemcuochoithoai.setOnAction(event -> themCuocHoiThoaiMoi());
+
     }
+
 
     public void loadAllData() {
         loadUserInfo();
@@ -332,6 +334,14 @@ public class MainViewController {
                         Parent root = fXMLLoader.load();
                         Scene newScene = new Scene(root);
 
+                        ChatHistorySession chatHistorySession = ChatHistorySession.getInstance();
+                        chatHistorySession.setChatHistoryInfo(
+                                userDAO.getConversationIdByTitle(saveTitle),
+                                userDAO.getUserIdByUsername(session.getUsername()),
+                                saveTitle
+                        );
+
+                        System.out.println(saveTitle);
                         // Lấy Stage hiện tại từ conversationLabel
                         Stage currentStage = (Stage) conversationLabel.getScene().getWindow();
                         currentStage.setScene(newScene);
