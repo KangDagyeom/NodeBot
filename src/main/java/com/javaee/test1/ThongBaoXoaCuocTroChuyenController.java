@@ -57,31 +57,45 @@ public class ThongBaoXoaCuocTroChuyenController {
         }
 
         // Hiển thị hộp thoại xác nhận trước khi xóa
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Xác nhận xóa");
-        alert.setHeaderText("Bạn có chắc chắn muốn xóa cuộc trò chuyện này?");
-        alert.setContentText("Hành động này không thể hoàn tác!");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            if (chatDAO.deleteConversation(conversationId)) {
-                Platform.runLater(() -> {
-                    try {
-
-                        primaryController.loadConversations(userSession.getUserId());
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                });
-
-
-                Stage stage = (Stage) btnConfirm.getScene().getWindow();
-                stage.close();
-            } else {
-                showAlert("Lỗi", "Không thể xóa cuộc trò chuyện. Vui lòng thử lại!", Alert.AlertType.ERROR);
-            }
+//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//        alert.setTitle("Xác nhận xóa");
+//        alert.setHeaderText("Bạn có chắc chắn muốn xóa cuộc trò chuyện này?");
+//        alert.setContentText("Hành động này không thể hoàn tác!");
+//
+//        Optional<ButtonType> result = alert.showAndWait();
+//        if (result.isPresent() && result.get() == ButtonType.OK) {  
+//            if (chatDAO.deleteConversation(conversationId)) {
+//                Platform.runLater(() -> {
+//                    try {
+//
+//                        primaryController.loadConversations(userSession.getUserId());
+//
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                });
+//
+//
+//                Stage stage = (Stage) btnConfirm.getScene().getWindow();
+//                stage.close();
+//            } else {
+//                showAlert("Lỗi", "Không thể xóa cuộc trò chuyện. Vui lòng thử lại!", Alert.AlertType.ERROR);
+//            }
+//        }
+    if (chatDAO.deleteConversation(conversationId)) {
+    Platform.runLater(() -> {
+        try {
+            primaryController.loadConversations(userSession.getUserId());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    });
+
+    Stage stage = (Stage) btnConfirm.getScene().getWindow();
+    stage.close();
+} else {
+    showAlert("Lỗi", "Không thể xóa cuộc trò chuyện. Vui lòng thử lại!", Alert.AlertType.ERROR);
+}
     }
 
     private void showAlert(String title, String content, Alert.AlertType type) {
