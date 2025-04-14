@@ -12,13 +12,19 @@ import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.IOException;
 
 /**
  * @author dokie
@@ -72,115 +78,39 @@ public class NangCapController {
         });
     }
 
-    @FXML
-    public void setData() {
-        userSessịon.getUsername();
-        currentPlanLabel.setText("Gói hiện tại: " + userSessịon.getSubscriptionPlan());
-    }
 
-    @FXML
-    private void chooseBasicPlan(ActionEvent event) {
-        updatePlan("basic"); // hoặc "free" nếu bạn thích
-    }
+    public void switchToPaymentView(MouseEvent mouseEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/Payment.fxml"));
+            Parent root = loader.load();
 
-    @FXML
-    private void chooseProPlan(ActionEvent event) {
-        updatePlan("premium"); // gói trả phí
-    }
+            Stage newStage = new Stage();
+            newStage.setScene(new Scene(root));
+            newStage.centerOnScreen();
+            newStage.show();
 
-    private void updatePlan(String plan) {
-        if (userSessịon.getUsername() == null || userSessịon.getSubscriptionPlan() == null) {
-            System.out.println("Lỗi: Chưa có dữ liệu người dùng hoặc DAO.");
-            return;
-        }
-
-        boolean success = userDAO.updateSubscriptionPlan(userSessịon.getUsername(), plan);
-        if (success) {
-            // Cập nhật giao diện
-            currentPlanLabel.setText("Gói hiện tại: " + capitalize(plan));
-            System.out.println("Đã chuyển sang gói: " + plan);
-        } else {
-            System.out.println("Lỗi khi cập nhật gói.");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    private String capitalize(String plan) {
-        return plan.substring(0, 1).toUpperCase() + plan.substring(1).toLowerCase();
+    public void switchToMainView(MouseEvent mouseEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/mainview.fxml"));
+            Parent root = loader.load();
+
+            Stage newStage = new Stage();
+            newStage.setScene(new Scene(root));
+            newStage.centerOnScreen();
+            newStage.show();
+
+            // Đóng stage cũ
+            Stage currentStage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+            currentStage.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-//    @FXML
-//    private Label currentPlanLabel;
-//
-//    @FXML
-//    private Button basicPlanButton;
-//    @FXML
-//    private Button proPlanButton;
-//
-//    private User currentUser;
-//    private UserDAO userDAO;
-//
-//    @FXML
-//    public void setData(User user, UserDAO userDAO) {
-//        this.currentUser = user;
-//        this.userDAO = userDAO;
-//        currentPlanLabel.setText("Gói hiện tại: " + user.getSubscriptionPlan());
-//    }
-//
-//    @FXML
-//    private void chooseBasicPlan(ActionEvent event) {
-//        updatePlan("Miễn phí");
-//    }
-//
-//    @FXML
-//    private void chooseProPlan(ActionEvent event) {
-//        updatePlan("Plus");
-//    }
-//
-//    private void updatePlan(String plan) {
-//        if (currentUser == null || userDAO == null) {
-//            System.out.println("Lỗi: Chưa có dữ liệu người dùng hoặc DAO.");
-//            return;
-//        }
-//
-//        boolean success = userDAO.updateSubscriptionPlan(currentUser, plan);
-//        if (success) {
-//            currentPlanLabel.setText("Gói hiện tại: " + plan);
-//            System.out.println("Đã chuyển sang gói: " + plan);
-//        } else {
-//            System.out.println("Lỗi khi cập nhật gói.");
-//        }
-//    }
-////    @FXML
-////    private Label currentPlanLabel;
-////
-////    @FXML
-////    private Button basicPlanButton, proPlanButton; // Chỉ giữ 2 nút vì giao diện bạn có 2 gói
-////
-////    private User currentUser;
-////    private UserDAO userDAO;
-////
-////
-////    @FXML
-////    public void setData(User user, UserDAO userDAO) {
-////        this.currentUser = user;
-////        this.userDAO = userDAO;
-////        currentPlanLabel.setText("Gói hiện tại: " + user.getSubscriptionPlan());
-////    }
-////
-////    @FXML
-////    private void chooseBasicPlan() {
-////        updatePlan("Miễn phí");
-////    }
-////
-////    @FXML
-////    private void chooseProPlan() {
-////        updatePlan("Plus");
-////    }
-////
-////    @FXML
-////    private void updatePlan(String plan) {
-////        userDAO.updateSubscriptionPlan(currentUser, plan);
-////        currentPlanLabel.setText("Gói hiện tại: " + currentUser.getSubscriptionPlan());
-////        System.out.println("Đã chuyển sang gói: " + plan);
-////    }
+
 }
 

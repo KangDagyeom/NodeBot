@@ -11,10 +11,8 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -82,20 +80,20 @@ public class ThongBaoXoaCuocTroChuyenController {
 //                showAlert("Lỗi", "Không thể xóa cuộc trò chuyện. Vui lòng thử lại!", Alert.AlertType.ERROR);
 //            }
 //        }
-    if (chatDAO.deleteConversation(conversationId)) {
-    Platform.runLater(() -> {
-        try {
-            primaryController.loadConversations(userSession.getUserId());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    });
+        if (chatDAO.deleteConversation(conversationId)) {
+            Platform.runLater(() -> {
+                try {
+                    primaryController.loadConversations(userSession.getUserId());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
 
-    Stage stage = (Stage) btnConfirm.getScene().getWindow();
-    stage.close();
-} else {
-    showAlert("Lỗi", "Không thể xóa cuộc trò chuyện. Vui lòng thử lại!", Alert.AlertType.ERROR);
-}
+            Stage stage = (Stage) btnConfirm.getScene().getWindow();
+            stage.close();
+        } else {
+            showAlert("Lỗi", "Không thể xóa cuộc trò chuyện. Vui lòng thử lại!", Alert.AlertType.ERROR);
+        }
     }
 
     private void showAlert(String title, String content, Alert.AlertType type) {

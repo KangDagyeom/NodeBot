@@ -101,7 +101,12 @@ public class PrimaryController {
 
     @FXML
     public void initialize() {
-
+        if (session.getSubscriptionPlan().equals("free")) {
+            btnSearch.setVisible(false);
+            btnTranslate.setVisible(false);
+            btnSearch.setManaged(false);
+            btnTranslate.setManaged(true);
+        }
 
         String message = MessageHolder.getInstance().getLastMessage();
         if (message == null) {
@@ -576,6 +581,7 @@ public class PrimaryController {
 
             conversationLabel.setTextFill(Color.WHITE);
             conversationLabel.setGraphic(imageView1);
+            conversationLabel.setCursor(Cursor.HAND);
             conversationLabel.setContentDisplay(ContentDisplay.LEFT);
             conversationLabel.setGraphicTextGap(10);
             conversationLabel.setStyle("-fx-padding: 10px; -fx-font-size: 14px;");
@@ -971,25 +977,18 @@ public class PrimaryController {
     //clik vào sẽ chuyển sang trang nâng cấp node
     @FXML
     private void openUpgradePlan() {
-        System.out.println("Label Nâng cấp đã được click!"); // Debug
+        System.out.println("Label Nâng cấp đã được click!");
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/Nanngcap.fxml"));
             Parent root = loader.load();
-
-            // Lấy controller và truyền UserSession
-            NangCapController controller = loader.getController();
-            controller.setUserSession(UserSession.getInstance()); // Truyền session
-            controller.setData(); // Cập nhật giao diện
-
-            // Tạo một cửa sổ mới (Stage)
             Stage upgradeStage = new Stage();
             upgradeStage.setTitle("Nâng cấp gói");
             upgradeStage.setScene(new Scene(root));
-            upgradeStage.setResizable(false); // Nếu bạn không muốn cho resize cửa sổ
+            upgradeStage.setResizable(false);
             upgradeStage.show();
 
-            System.out.println("Cửa sổ nâng cấp đã mở!"); // Debug
+            System.out.println("Cửa sổ nâng cấp đã mở!");
         } catch (IOException e) {
             System.out.println("Lỗi khi mở trang nâng cấp: " + e.getMessage());
             e.printStackTrace();

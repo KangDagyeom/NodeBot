@@ -15,6 +15,7 @@ import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -408,6 +409,7 @@ public class DoiThongTinCaNhan {
 
             conversationLabel.setTextFill(Color.WHITE);
             conversationLabel.setGraphic(imageView1);
+            conversationLabel.setCursor(Cursor.HAND);
             conversationLabel.setContentDisplay(ContentDisplay.LEFT);
             conversationLabel.setGraphicTextGap(10);
             conversationLabel.setStyle("-fx-padding: 10px; -fx-font-size: 14px;");
@@ -422,68 +424,72 @@ public class DoiThongTinCaNhan {
                 conversationLabel.setContentDisplay(ContentDisplay.LEFT);
             });
 
-//            conversationLabel.setOnMouseClicked(event -> {
-//
-//                saveTitle = conversationLabel.getText();
-//                Platform.runLater(() -> {
-//                    try {
-//
-//                        FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("primary.fxml"));
-//                        Parent root = fXMLLoader.load();
-//                        Scene newScene = new Scene(root, 1187, 668);
-//                        PrimaryController primaryController = fXMLLoader.getController();
-//                        primaryController.savedTitle(saveTitle);
-//                        Stage newStage = new Stage();
-//                        newStage.setScene(newScene);
-//                        newStage.centerOnScreen();
-//                        newStage.setTitle("Home");
-//                        newStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/Node_logo.jpg")));
-//                        newStage.setResizable(false);
-//
-//                        newStage.show();
-//
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//
-//                    }
-//                });
-//                System.out.println(saveTitle);
-//            });
             conversationLabel.setOnMouseClicked(event -> {
+
                 saveTitle = conversationLabel.getText();
-                ChatHistorySession chatHistorySession = ChatHistorySession.getInstance();
-                chatHistorySession.setChatHistoryInfo(userDAO.getConversationIdByTitle(saveTitle), userDAO.getUserIdByUsername(session.getUsername()), saveTitle);
                 Platform.runLater(() -> {
                     try {
-                        // Chuyển sang giao diện HanhDongCuocHoiThoai.fxml
-                        FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("hanhdongcuochoithoai.fxml"));
+                        // Load giao diện primary.fxml
+                        FXMLLoader fXMLLoader = new FXMLLoader(App.class.getResource("primary.fxml"));
                         Parent root = fXMLLoader.load();
-                        Scene newScene = new Scene(root, 125, 120);
+                        Scene newScene = new Scene(root);
 
-                        // Lấy controller của HanhDongCuocHoiThoai.fxml nếu cần truyền dữ liệu
-                        HanhDongCuocHoiThoai controller = fXMLLoader.getController();
-                        // Nếu có phương thức nào để nhận dữ liệu, ta truyền nó vào (ví dụ)
-                        // controller.setConversationTitle(saveTitle);
 
-                        Stage newStage = new Stage();
-                        newStage.setScene(newScene);
-                        newStage.centerOnScreen();
-                        newStage.setTitle("Hành Động Cuộc Hội Thoại");
-                        newStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/Node_logo.jpg")));
-                        newStage.setResizable(false);
-
-                        newStage.show();
+                        Stage currentStage = (Stage) conversationLabel.getScene().getWindow();
+                        currentStage.setScene(newScene);
+                        currentStage.centerOnScreen();
+                        currentStage.setTitle("Home");
+                        currentStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/Node_logo.jpg")));
+                        currentStage.setResizable(false);
 
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 });
-                System.out.println(saveTitle);
+
+                // Lưu tiêu đề hội thoại được click
+                saveTitle = conversationLabel.getText();
+                ChatHistorySession chatHistorySession = ChatHistorySession.getInstance();
+                chatHistorySession.setChatHistoryInfo(
+                        userDAO.getConversationIdByTitle(saveTitle),
+                        userDAO.getUserIdByUsername(session.getUsername()),
+                        saveTitle
+                );
+
+                System.out.println("Đã chọn hội thoại: " + saveTitle);
             });
 
+
             conversationCon.getChildren().add(conversationLabel);
+            FadeTransition ft = new FadeTransition(Duration.millis(300), conversationLabel);
+            ft.setFromValue(0.0);
+            ft.setToValue(1.0);
+            ft.play();
         }
 
+    }
+
+    @FXML
+    private void handleNewConversation() {
+        TextInputDialog dialog = new TextInputDialog("Cuộc trò chuyện mới");
+        dialog.setTitle("Nhập tên cuộc hội thoại");
+        dialog.setHeaderText("Nhập tiêu đề cho cuộc trò chuyện (tối đa 50 ký tự):");
+        dialog.setContentText("Tiêu đề:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(title -> {
+            title = title.trim();
+            if (title.isEmpty()) {
+                title = "Cuộc trò chuyện mới";
+            } else if (title.length() > 50) {
+                title = title.substring(0, 50);
+            }
+
+            userDAO.insertChatHistory(userDAO.getUserIdByUsername(session.getUsername()), title);
+        });
+
+
+        loadConversations(userDAO.getUserIdByUsername(session.getUsername()));
     }
 
 }

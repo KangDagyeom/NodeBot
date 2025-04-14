@@ -7,19 +7,20 @@
 <?import javafx.scene.layout.BorderPane?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity"
-            prefHeight="582.0" prefWidth="284.0" xmlns="http://javafx.com/javafx/23.0.1">
+            prefHeight="582.0" prefWidth="284.0" xmlns="http://javafx.com/javafx/23.0.1"
+            fx:controller="com.javaee.test1.NangCapController">
     <center>
         <AnchorPane prefHeight="582.0" prefWidth="281.0" BorderPane.alignment="CENTER">
             <children>
                 <ImageView fitHeight="582.0" fitWidth="337.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../Documents/NetBeansProjects/Node/src/main/resources/img/PremiumPaymentimg.jpg"/>
+                        <Image url="@../../../img/PremiumPaymentimg.jpg"/>
                     </image>
                 </ImageView>
                 <ImageView fitHeight="139.0" fitWidth="256.0" layoutX="46.0" layoutY="413.0" pickOnBounds="true"
                            preserveRatio="true">
                     <image>
-                        <Image url="@../Documents/NetBeansProjects/Node/src/main/resources/img/Attentionimg.png"/>
+                        <Image url="@../../../img/Attentionimg.png"/>
                     </image>
                 </ImageView>
             </children>

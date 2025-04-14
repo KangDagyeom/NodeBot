@@ -12,6 +12,7 @@ import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -33,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -232,25 +234,19 @@ public class MainViewController {
     //clik vào sẽ chuyển sang trang nâng cấp node
     @FXML
     private void openUpgradePlan() {
-        System.out.println("Label Nâng cấp đã được click!"); // Debug
+        System.out.println("Label Nâng cấp đã được click!");
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/Nanngcap.fxml"));
             Parent root = loader.load();
 
-            // Lấy controller và truyền UserSession
-            NangCapController controller = loader.getController();
-            controller.setUserSession(UserSession.getInstance()); // Truyền session
-            controller.setData(); // Cập nhật giao diện
-
-            // Tạo một cửa sổ mới (Stage)
             Stage upgradeStage = new Stage();
             upgradeStage.setTitle("Nâng cấp gói");
             upgradeStage.setScene(new Scene(root));
-            upgradeStage.setResizable(false); // Nếu bạn không muốn cho resize cửa sổ
+            upgradeStage.setResizable(false);
             upgradeStage.show();
 
-            System.out.println("Cửa sổ nâng cấp đã mở!"); // Debug
+            System.out.println("Cửa sổ nâng cấp đã mở!");
         } catch (IOException e) {
             System.out.println("Lỗi khi mở trang nâng cấp: " + e.getMessage());
             e.printStackTrace();
@@ -312,6 +308,7 @@ public class MainViewController {
 
             conversationLabel.setTextFill(Color.WHITE);
             conversationLabel.setGraphic(imageView1);
+            conversationLabel.setCursor(Cursor.HAND);
             conversationLabel.setContentDisplay(ContentDisplay.LEFT);
             conversationLabel.setGraphicTextGap(10);
             conversationLabel.setStyle("-fx-padding: 10px; -fx-font-size: 14px;");
@@ -334,15 +331,7 @@ public class MainViewController {
                         Parent root = fXMLLoader.load();
                         Scene newScene = new Scene(root);
 
-                        ChatHistorySession chatHistorySession = ChatHistorySession.getInstance();
-                        chatHistorySession.setChatHistoryInfo(
-                                userDAO.getConversationIdByTitle(saveTitle),
-                                userDAO.getUserIdByUsername(session.getUsername()),
-                                saveTitle
-                        );
 
-                        System.out.println(saveTitle);
-                        // Lấy Stage hiện tại từ conversationLabel
                         Stage currentStage = (Stage) conversationLabel.getScene().getWindow();
                         currentStage.setScene(newScene);
                         currentStage.centerOnScreen();
@@ -374,6 +363,29 @@ public class MainViewController {
             ft.play();
         }
 
+    }
+
+    @FXML
+    private void handleNewConversation() {
+        TextInputDialog dialog = new TextInputDialog("Cuộc trò chuyện mới");
+        dialog.setTitle("Nhập tên cuộc hội thoại");
+        dialog.setHeaderText("Nhập tiêu đề cho cuộc trò chuyện (tối đa 50 ký tự):");
+        dialog.setContentText("Tiêu đề:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(title -> {
+            title = title.trim();
+            if (title.isEmpty()) {
+                title = "Cuộc trò chuyện mới";
+            } else if (title.length() > 50) {
+                title = title.substring(0, 50);
+            }
+
+            userDAO.insertChatHistory(userDAO.getUserIdByUsername(session.getUsername()), title);
+        });
+
+
+        loadConversations(userDAO.getUserIdByUsername(session.getUsername()));
     }
 
     @FXML
