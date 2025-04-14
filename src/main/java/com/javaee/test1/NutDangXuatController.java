@@ -32,7 +32,7 @@ public class NutDangXuatController {
     @FXML
     private void handleLogout(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/javaee/test1/login2.fxml"));
             Parent root = loader.load();
 
             Stage stage = (Stage) logout.getScene().getWindow();
